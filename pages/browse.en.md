@@ -1,9 +1,7 @@
 ---
+# English version; inherits the rest of the front matter from the default page (_plugins/cb_i18n.rb)
 title: Browse
-layout: browse
 permalink: /browse.html
-# see _data/config-browse.csv for display options
-# the Browse visualization will be added below the content in this file
 lang: en
 ---
 

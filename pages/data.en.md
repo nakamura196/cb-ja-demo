@@ -1,9 +1,7 @@
 ---
+# English version; inherits the rest of the front matter from the default page (_plugins/cb_i18n.rb)
 title: Data
-layout: data
 permalink: /data.html
-# see _data/config-table.csv for table display options
-# a table visualization will be added below the content in this file
 lang: en
 ---
 

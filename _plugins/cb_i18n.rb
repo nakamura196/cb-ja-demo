@@ -12,6 +12,7 @@
 #    matches site.lang, and then replaces the page without `lang:` at the same URL.
 #    So pages/about.md (default) + pages/about.en.md (lang: en, same permalink)
 #    gives the English text in the English build and the default text otherwise.
+#    The variant inherits the default page's front matter; keys it sets win.
 #
 # 2. Config labels: _data/config-*.csv hold labels in the site's main language.
 #    _data/locale/<lang>.yml can override them under `config_labels`, keyed by the
@@ -38,9 +39,17 @@ module CollectionBuilderI18n
 
     # drop variants for other languages
     site.pages.reject! { |p| p.data['lang'] && p.data['lang'].to_s != lang }
-    # a variant for this language replaces the default page at the same URL
-    urls = site.pages.select { |p| p.data['lang'] }.map(&:url)
-    site.pages.reject! { |p| p.data['lang'].nil? && urls.include?(p.url) }
+    # a variant for this language replaces the default page at the same URL,
+    # inheriting its front matter (layout, item lists, options), so the
+    # variant only needs permalink, lang and the keys it translates
+    defaults = site.pages.select { |p| p.data['lang'].nil? }.group_by(&:url)
+    site.pages.select { |p| p.data['lang'] }.each do |v|
+      base = defaults.fetch(v.url, []).first
+      next unless base
+
+      v.data.replace(base.data.merge(v.data))
+      site.pages.delete(base)
+    end
   end
 
   def self.apply_config_labels(site)

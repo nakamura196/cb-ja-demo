@@ -6,8 +6,8 @@
 # replace their default version (see _plugins/cb_i18n.rb).
 lang: en
 baseurl: /cb-ja-demo/en
-title: Agricultural Library Rare Books
+title: East Asian Materials at the University of Tokyo
 tagline: A CJK-ready CollectionBuilder demo
-description: "34 rare books (IIIF) from the University of Tokyo Library for Agricultural and Life Sciences, published with a CollectionBuilder adapted for Japanese search and IIIF display."
-keywords: agriculture; botanical illustration; natural history; IIIF; University of Tokyo
+description: "58 items (IIIF) from the University of Tokyo Digital Archives Portal: rare books from the Agricultural Library, the Annals of the Joseon Dynasty and the Ogura Collection, published with a CollectionBuilder adapted for Japanese, Chinese and Korean search and IIIF display."
+keywords: agriculture; botanical illustration; Annals of the Joseon Dynasty; Ogura Collection; hangul; IIIF; University of Tokyo
 organization-name: "University of Tokyo Library for Agricultural and Life Sciences (images and records)"

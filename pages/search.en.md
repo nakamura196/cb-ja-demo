@@ -1,9 +1,7 @@
 ---
+# English version; inherits the rest of the front matter from the default page (_plugins/cb_i18n.rb)
 title: Search
-layout: search
 permalink: /search/
-# see _data/search-config.csv for display options
-# Lunr.js search will be added below the content in this file
 lang: en
 ---
 
