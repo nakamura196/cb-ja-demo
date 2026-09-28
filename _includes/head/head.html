@@ -1,3 +1,5 @@
+{% if jekyll.environment == "development" %}<!-- dev only: some IIIF hosts (e.g. UTokyo DA) reject http:// referers such as localhost -->
+<meta name="referrer" content="no-referrer">{% endif %}
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>{{ page.title | escape }} | {{ site.title | escape }}</title>

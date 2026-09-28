@@ -1,7 +1,7 @@
 field,display_name,btn,hidden,sort_name,facet_name
-date,Date,,,Date Created
+year,西暦,,,西暦
+creator,作者・編者,,,
+era,,true,,時代,時代
+type,,true,,,資料種別
+title_kana,,,true,よみ（五十音）,
 description,,,true,
-creator,Creator,,,
-subject,,true
-location,,true,,,Location Depicted
-identifier,,,true,Identifier

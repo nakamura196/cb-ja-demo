@@ -1,5 +1,6 @@
 field,display_name
-title,Title
-date,Date
-description,Description
-subject,Subjects
+title,資料名
+creator,作者・編者
+year,西暦
+era,時代
+type,資料種別

@@ -1,0 +1,20 @@
+---
+# IIIF item layout
+# Shows the item's IIIF manifest (`manifest` field) in Universal Viewer,
+# with links to open the same manifest elsewhere.
+layout: item/item-page-base
+---
+{%- assign t = site.data.locale[site.lang] -%}
+<div class="card mb-4 iiif-item">
+
+    {% include item/iiif-manifest-universal-viewer.html %}
+
+    <div class="card-body d-flex flex-wrap gap-2 justify-content-center">
+        <a class="btn btn-outline-dark" href="{{ page.manifest }}" target="_blank" rel="noopener">
+            <img src="https://iiif.io/img/logo-iiif-34x30.png" alt="" width="20" height="18" class="me-1"> {{ t.iiif_manifest | default: "IIIF Manifest" }}
+        </a>
+        <a class="btn btn-outline-dark" href="https://projectmirador.org/embed/?iiif-content={{ page.manifest | url_encode }}" target="_blank" rel="noopener">{{ t.open_in_mirador | default: "Open in Mirador" }}</a>
+        {% if page.source %}<a class="btn btn-outline-dark" href="{{ page.source }}" target="_blank" rel="noopener">{{ t.view_source | default: "View at source" }}</a>{% endif %}
+    </div>
+
+</div>

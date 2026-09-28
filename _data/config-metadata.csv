@@ -1,15 +1,20 @@
 field,display_name,browse_link,external_link,dc_map,schema_map
-title,Title,,,DCTERMS.title,headline
-creator,Creator,,,DCTERMS.creator,creator
-date,Date Created,,,DCTERMS.date,dateCreated
-description,Description,,,DCTERMS.description,description
-subject,Subjects,true,,DCTERMS.subject,keywords
-location,Location,,,DCTERMS.coverage,contentLocation
-latitude,Latitude,,,,
-longitude,Longitude,,,,
-source,Source,,,,
-identifier,Source Identifier,,,,
-type,Type,,,DCTERMS.type,
-format,Format,,,,encodingFormat
-language,Language,,,DCTERMS.language,
-rightsstatement,,,,DCTERMS.rights,license
+title,資料名,,,DCTERMS.title,headline
+title_kana,よみ,,,,
+alternative,別の資料名,,,DCTERMS.alternative,alternativeHeadline
+creator,作者・編者,true,,DCTERMS.creator,creator
+date,出版年（表記）,,,DCTERMS.date,
+year,西暦,,,,dateCreated
+era,時代,true,,,
+type,資料種別,true,,DCTERMS.type,
+extent,数量,,,DCTERMS.extent,
+pages,コマ数,,,,
+description,資料の解説,,,DCTERMS.description,description
+note,注記,,,,
+call_number,請求記号,,,,
+collection,コレクション,true,,DCTERMS.isPartOf,isPartOf
+holding,所蔵,,,,
+rights,利用条件,,,DCTERMS.rights,license
+rightsstatement,ライセンス,,true,,
+source,東大デジタルアーカイブ,,true,DCTERMS.source,
+manifest,IIIFマニフェスト,,true,,

@@ -1,3 +1,4 @@
+{%- assign t = site.data.locale[site.lang] -%}
 {% if site.data.theme.browse-child-objects == true %}
 {%- assign items = site.data[site.metadata] | where_exp: 'item','item.objectid' -%}
 {% else %}
@@ -7,6 +8,7 @@
 {% unless site.data.theme.faceted-search or site.data.theme.advanced-search %}
 {% include js/browse-simple-js.html %}
 {% else %}
+{% if site.data.theme.search-cjk == true %}<script src="{{ '/assets/js/cb-ja-search.js' | relative_url }}"></script>{% endif %}
 <script>
 /**
  * BROWSE PAGE JAVASCRIPT - Less Janky Version
@@ -98,7 +100,7 @@ function makeCard(obj) {
         card += `<p class="card-text"><small><a class="btn btn-sm btn-outline-secondary" href="{{ page.url | relative_url }}#display_template:${encodeURIComponent(obj.display_template)}">${obj.display_template.toUpperCase().replace("_"," ")} ${mediaIcon}</a></small></p>`;
     }
     
-    card += `<hr><a href="${itemHref}" class="btn btn-sm btn-light" title="link to ${obj.title}">View Full Record</a></div></div></div>`;
+    card += `<hr><a href="${itemHref}" class="btn btn-sm btn-light" title="link to ${obj.title}">{{ t.view_full_record | default: "View Full Record" }}</a></div></div></div>`;
     return card;
 }
 
@@ -272,11 +274,13 @@ function itemMatches(item, field, query, startDate, endDate) {
     // Text search
     if (query && query !== "") {
         const q = query.trim().toUpperCase();
+        // with search-cjk, compare normalized strings (old/new kanji, kana, full/half width)
+        const has = window.cbJa ? (v) => cbJa.includes(v, query) : (v) => v.toUpperCase().includes(q);
         
         // Search all fields 
         if (field === "all") {
             for (let k in item) {
-                if (k !== "img" && item[k] && item[k].toString().toUpperCase().includes(q)) {
+                if (k !== "img" && item[k] && has(item[k].toString())) {
                     return true;
                 }
             }
@@ -286,7 +290,7 @@ function itemMatches(item, field, query, startDate, endDate) {
         // Search specific field
         if (item[field]) {
             const fieldValues = item[field].toString().split(";");
-            return fieldValues.some(value => value.trim().toUpperCase().includes(q));
+            return fieldValues.some(value => has(value.trim()));
         }
     }
     
@@ -367,7 +371,7 @@ function updateDisplay(filteredItems, query = "", field = "", startDate = "", en
     browseItemsDiv.appendChild(fragment);
     
     // Update count
-    document.querySelector("#numberOf").innerHTML = `${filteredItems.length} of {{ items | size }} items`;
+    document.querySelector("#numberOf").innerHTML = {{ t.n_of_total | default: "%n of %total items" | jsonify }}.replace("%n", filteredItems.length).replace("%total", {{ items | size }});
     
     // Focus active input (only if needed)
     if (query || startDate || endDate) {
@@ -692,9 +696,9 @@ function displayActiveFilters(searchCriteria) {
         button.type = 'button';
         
         // Get field display name
-        let fieldName = criteria.field === 'all' ? 'All Fields' : 
-        'display_template' === criteria.field ? 'Content Type' : 
-            {% for f in fields %}'{{f.field}}' === criteria.field ? '{% if f.display_name %}{{f.display_name}}{% else %}{{f.field | capitalize }}{% endif %}' : {% endfor %}
+        let fieldName = criteria.field === 'all' ? {{ t.all_fields | default: 'All Fields' | jsonify }} : 
+        'display_template' === criteria.field ? {{ t.content_type | default: 'Content Type' | jsonify }} : 
+            {% for f in fields %}'{{f.field}}' === criteria.field ? '{% if f.display_name %}{{f.display_name}}{% elsif f.facet_name %}{{f.facet_name}}{% else %}{{f.field | capitalize }}{% endif %}' : {% endfor %}
             criteria.field.charAt(0).toUpperCase() + criteria.field.slice(1).replace(/_/g, ' ');
         
         // Format display value for dates
@@ -737,7 +741,7 @@ function displayActiveFilters(searchCriteria) {
             <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"></path>
             <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"></path>
         </svg>
-        Add Field
+        {{ t.add_field | default: "Add Field" }}
     `;
     addButton.addEventListener('click', () => {
         new bootstrap.Modal(document.getElementById('advancedSearchModal')).show();

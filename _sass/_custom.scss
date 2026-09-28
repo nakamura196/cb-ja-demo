@@ -1,4 +1,130 @@
-/* 
-    Put your custom SCSS here! 
-    This allows you to override any CollectionBuilder or Bootstrap CSS without modifying the base theme files directly.
+/*
+    Museum theme for the Japanese demo.
+    Quiet palette, serif (Mincho) headings, generous whitespace, large images.
+    Only CSS: the framework's templates and base SCSS are untouched.
 */
+
+$museum-paper: #f7f4ee;
+$museum-ink: #2b2a28;
+$museum-muted: #6f6a62;
+$museum-line: #ddd6ca;
+$museum-accent: #7a4a2a;
+$museum-serif: "Noto Serif JP", "Hiragino Mincho ProN", "Yu Mincho", serif;
+
+body {
+    background-color: $museum-paper;
+    line-height: 1.9;
+    letter-spacing: 0.02em;
+    font-feature-settings: "palt" 0;
+}
+
+h1, h2, h3, h4, .h1, .h2, .h3, .h4, .display-2, .card-header {
+    font-family: $museum-serif;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    line-height: 1.5;
+}
+
+a { text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+
+/* banner (site title) */
+#title h1 a { font-size: 1.6rem; }
+#title p { color: $museum-muted; font-size: 0.9rem; letter-spacing: 0.1em; }
+
+#home-banner {
+    background-color: #1d1b18;
+    background-position: center 30% !important;
+    min-height: 62vh;
+    display: flex;
+    align-items: flex-end;
+    #home-title-box { width: 100%; padding-bottom: 0 !important; }
+    #home-title-box > div {
+        background: linear-gradient(to top, rgba(20, 18, 15, 0.85), rgba(20, 18, 15, 0)) !important;
+        text-align: left !important;
+        padding: 6rem max(1.5rem, calc((100vw - 1296px) / 2 + 0.75rem)) 2.5rem !important;
+    }
+    h1 { font-size: clamp(2rem, 5vw, 3.6rem); letter-spacing: 0.08em; }
+    p { letter-spacing: 0.15em; opacity: 0.85; }
+}
+
+/* navigation */
+.navbar {
+    border-bottom: 1px solid $museum-line;
+    background-color: $museum-paper !important;
+    .nav-link { letter-spacing: 0.08em; font-size: 0.95rem; }
+    .nav-link.active { color: $museum-accent !important; }
+}
+
+/* home */
+.museum-home { padding-top: 3.5rem; padding-bottom: 4rem; }
+.museum-home section { margin-bottom: 4.5rem; }
+.museum-h2 {
+    font-size: 1.35rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid $museum-line;
+}
+.museum-count { font-family: sans-serif; font-size: 0.9rem; color: $museum-muted; margin-left: 0.5rem; }
+.museum-intro { color: $museum-muted; font-size: 0.95rem; }
+.museum-chip {
+    display: inline-block;
+    padding: 0.25rem 0.9rem;
+    border: 1px solid $museum-line;
+    border-radius: 999px;
+    background: #fff;
+    color: $museum-ink;
+    text-decoration: none;
+    font-size: 0.95rem;
+    &:hover { border-color: $museum-accent; color: $museum-accent; }
+    span { color: $museum-muted; font-size: 0.8em; margin-left: 0.35rem; }
+}
+.museum-chip-lg { padding: 0.45rem 1.2rem; font-family: $museum-serif; }
+
+.museum-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 2.5rem 1.75rem;
+}
+.museum-card {
+    color: $museum-ink;
+    text-decoration: none;
+    &:hover .museum-card-img img { transform: scale(1.03); }
+    &:hover .museum-card-title { color: $museum-accent; }
+}
+.museum-card-img {
+    aspect-ratio: 4 / 5;
+    background: #ebe6dc;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    img { width: 100%; height: 100%; object-fit: contain; transition: transform 0.4s ease; }
+}
+.museum-card-title { font-size: 1rem; margin: 0.8rem 0 0.2rem; line-height: 1.6; }
+.museum-card-meta { font-size: 0.8rem; color: $museum-muted; margin: 0; letter-spacing: 0.08em; }
+
+/* item pages */
+.iiif-item { border: none; background: transparent; }
+.iiif-item .uv { background: #1d1b18; }
+.breadcrumb { font-size: 0.85rem; }
+#metadata dt, #metadata .field { color: $museum-muted; font-weight: 500; }
+.card { border-color: $museum-line; }
+.card-header { background-color: transparent; border-bottom-color: $museum-line; font-size: 1rem; }
+
+/* browse cards */
+#browseItems .card { background: transparent; border: none; }
+#browseItems .card-title, #browseItems h3 { font-family: $museum-serif; font-size: 1.05rem; }
+
+/* search comparison */
+.compare-table {
+    background: #fff;
+    th[scope="row"] { font-family: $museum-serif; font-weight: 500; }
+    .compare-count { font-size: 1.4rem; font-variant-numeric: tabular-nums; width: 9rem; }
+    .is-zero { color: #a33; }
+    .is-hit { color: #2d6a3e; font-weight: 700; }
+}
+
+/* footer */
+footer.bg-black { background-color: #24211d !important; }
+
+.btn { white-space: nowrap; }

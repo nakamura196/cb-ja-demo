@@ -1,3 +1,4 @@
+{%- assign t = site.data.locale[site.lang] -%}
 <footer class="bg-black pt-4 mt-auto container-fluid">
 
     <div class="row border-bottom border-white pb-4 mb-2">
@@ -45,7 +46,7 @@
     </div>
 
     <div class="col-md-12 text-center pt-3 pb-1">
-        <p class="text-white">Last updated {{ site.time | date: '%Y' }}</p>
+        <p class="text-white">{{ t.last_updated | default: "Last updated" }} {{ site.time | date: '%Y' }}</p>
     </div>
 
 </footer>

@@ -1,3 +1,4 @@
+{%- assign t = site.data.locale[site.lang] -%}
 {% comment %}
 
     Default Collection Banner include. 
@@ -63,7 +64,7 @@
         </div>
     </div>
     {% if jumboLink != '' %}
-    <a class="text-white fs-6 position-absolute bottom-0 end-0 px-2 bg-dark bg-opacity-75" href="{{ jumboLink }}" title="Visit background image record">Featured Image</a>{% endif %}
+    <a class="text-white fs-6 position-absolute bottom-0 end-0 px-2 bg-dark bg-opacity-75" href="{{ jumboLink }}" title="Visit background image record">{{ t.featured_image | default: "Featured Image" }}</a>{% endif %}
 </div>
 {%- else -%}
 <div class="container">

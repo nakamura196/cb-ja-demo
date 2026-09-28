@@ -1,0 +1,115 @@
+#!/usr/bin/env python3
+"""Replace hard-coded English UI strings with locale lookups.
+
+Each replacement becomes {{ t.<key> | default: "<English>" }}, so a site
+without _data/locale/<lang>.yml renders exactly as before. The file also
+gets `{%- assign t = site.data.locale[site.lang] -%}` at its top.
+Idempotent: strings already replaced are skipped.
+"""
+import os
+import re
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ASSIGN = '{%- assign t = site.data.locale[site.lang] -%}\n'
+
+# file -> list of (exact old text, key, English default, kind)
+# kind "html": text node/attribute in Liquid-rendered HTML
+# kind "js": inside a JS string; the default is emitted via jsonify-free quoting
+R = {
+    '_layouts/search.html': [
+        ('>Search Options<', 'search_options', 'Search Options'),
+        ('>Lunr Search Options<', 'search_options', 'Search Options'),
+        ('placeholder="Enter your search term..."', 'search_placeholder', 'Enter your search term...'),
+        ('aria-label="Search terms"', 'search_terms', 'Search terms'),
+    ],
+    '_includes/nav-search-lunr.html': [
+        ('placeholder="Search"', 'search', 'Search'),
+        ('aria-label="Search collection items"', 'search_collection_items', 'Search collection items'),
+    ],
+    '_includes/item/breadcrumbs.html': [
+        ('>Home<', 'home', 'Home'),
+        ('>Items<', 'items', 'Items'),
+    ],
+    '_includes/item/citation-box.html': [
+        ('>Attribution<', 'attribution', 'Attribution'),
+        ('<dt>Citation:</dt>', 'citation', 'Citation:'),
+    ],
+    '_includes/item/rights-box.html': [
+        ('>Rights<', 'rights', 'Rights'),
+        ('>Rights:<', 'rights_label', 'Rights:'),
+        ('>Standardized Rights:<', 'rights_standardized', 'Standardized Rights:'),
+    ],
+    '_includes/item/browse-buttons.html': [
+        ('>&laquo; Previous<', 'previous', '&laquo; Previous'),
+        ('>Back to Browse<', 'back_to_browse', 'Back to Browse'),
+        ('>Next &raquo;<', 'next', 'Next &raquo;'),
+    ],
+    '_layouts/item/item-page-base.html': [
+        ('>Item Info \n', 'item_info', 'Item Info'),
+        ('aria-label="Jump to Item Info"', 'jump_to_item_info', 'Jump to Item Info'),
+    ],
+    '_layouts/browse.html': [
+        ('placeholder="Filter ... "', 'filter_placeholder', 'Filter ... '),
+        ('>All Fields<', 'all_fields', 'All Fields'),
+        ('>Title<', 'title', 'Title'),
+        ('>Content Type<', 'content_type', 'Content Type'),
+        ('>Advanced Search...<', 'advanced_search', 'Advanced Search...'),
+        ('>Search<', 'search', 'Search'),
+        ('>Reset<', 'reset', 'Reset'),
+        ('>Random<', 'random', 'Random'),
+        ('placeholder="Start Date"', 'start_date', 'Start Date'),
+        ('placeholder="End Date"', 'end_date', 'End Date'),
+        ('>Loading...<', 'loading', 'Loading...'),
+    ],
+    '_includes/footer.html': [
+        ('>Last updated ', 'last_updated', 'Last updated'),
+    ],
+    '_includes/advanced-search-modal.html': [
+        ('>Advanced Search<', 'advanced_search_title', 'Advanced Search'),
+        ('>Close<', 'close', 'Close'),
+        ('>Search<', 'search', 'Search'),
+        ('>All Fields<', 'all_fields', 'All Fields'),
+        ('>Title<', 'title', 'Title'),
+        ('aria-label="Remove condition"', 'remove_condition', 'Remove condition'),
+    ],
+    '_includes/collection-banner.html': [
+        ('>Featured Image<', 'featured_image', 'Featured Image'),
+    ],
+    '_includes/js/browse-js.html': [
+        ('>View Full Record<', 'view_full_record', 'View Full Record'),
+    ],
+}
+
+
+def sub(old, key, default):
+    lookup = '{{ t.%s | default: "%s" }}' % (key, default.replace('"', '&quot;'))
+    if old.startswith('>') and old.endswith('<'):
+        return '>' + lookup + '<'
+    if old.startswith('>') and old.endswith(' \n'):
+        return '>' + lookup + ' \n'
+    if old.startswith('>') and old.endswith(' '):
+        return '>' + lookup + ' '
+    if old.startswith('<dt>'):
+        return '<dt>' + lookup + '</dt>'
+    m = re.match(r'^([\w-]+)="', old)
+    if m:
+        return '%s="%s"' % (m.group(1), lookup)
+    raise ValueError(old)
+
+
+for path, reps in R.items():
+    p = os.path.join(ROOT, path)
+    s = open(p, encoding='utf-8').read()
+    n = 0
+    for old, key, default in reps:
+        if old in s:
+            s = s.replace(old, sub(old, key, default))
+            n += 1
+    if n and ASSIGN.strip() not in s:
+        if s.startswith('---\n'):
+            end = s.index('\n---\n', 4) + 5
+            s = s[:end] + ASSIGN + s[end:]
+        else:
+            s = ASSIGN + s
+    open(p, 'w', encoding='utf-8').write(s)
+    print(f'{path}: {n} replaced')

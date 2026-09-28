@@ -1,8 +1,8 @@
 ---
-title: Timeline
+title: 年表
 layout: timeline
 permalink: /timeline.html
 # a timeline visualization will be added below the content in this file
 ---
 
-## Collection Timeline
+## 刊行年でたどる

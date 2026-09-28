@@ -1,11 +1,12 @@
+{%- assign t = site.data.locale[site.lang] -%}
 <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#advancedSearchModal">
-  Advanced<span class="d-none d-md-inline"> Search</span>
+  {% if t.advanced_search_title %}{{ t.advanced_search_title }}{% else %}Advanced<span class="d-none d-md-inline"> Search</span>{% endif %}
 </button>
 <div class="modal fade" id="advancedSearchModal" tabindex="-1">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title h4" id="advancedSearchModalLabel">Advanced Search</h1>
+        <h1 class="modal-title h4" id="advancedSearchModalLabel">{{ t.advanced_search_title | default: "Advanced Search" }}</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -25,8 +26,8 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" onclick="submitAdvancedSearch()">Search</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ t.close | default: "Close" }}</button>
+        <button type="button" class="btn btn-primary" onclick="submitAdvancedSearch()">{{ t.search | default: "Search" }}</button>
       </div>
     </div>
   </div>
@@ -45,8 +46,8 @@
             </div>
             <div class="col-5 col-md-3">
                 <select class="form-select form-select-sm field-select" aria-label="Metadata Field">
-                    <option value="all">All Fields</option>
-                    <option value="title">Title</option>
+                    <option value="all">{{ t.all_fields | default: "All Fields" }}</option>
+                    <option value="title">{{ t.title | default: "Title" }}</option>
                     {% for f in site.data.config-browse %}{% assign cap-field = f.field | capitalize %}
                     <option value="{{ f.field }}">{{ f.facet_name | default: f.display_name | default: cap-field }}</option>
                     {% endfor %}
@@ -63,7 +64,7 @@
                 </div>
             </div>
             <div class="col-2 col-md-1">
-                <button type="button" class="btn btn-outline-danger btn-sm remove-row" aria-label="Remove condition"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="btn btn-outline-danger btn-sm remove-row" aria-label="{{ t.remove_condition | default: "Remove condition" }}"><span aria-hidden="true">&times;</span></button>
             </div>
         </div>
     </div>

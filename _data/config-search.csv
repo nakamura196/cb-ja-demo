@@ -1,7 +1,9 @@
 field,index,display
 title,true,true
+title_kana,true,false
+alternative,true,false
 date,true,true
-creator,true,false
+creator,true,true
 description,true,true
-subject,true,true
-location,true,false
+note,true,false
+era,true,false
