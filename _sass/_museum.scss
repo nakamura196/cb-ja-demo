@@ -561,3 +561,19 @@ table.dataTable thead th.dt-ordering-asc .dt-column-order, table.dataTable thead
     .compare-table td.small::before { display: block; margin-bottom: 0.2rem; }
     #scroll-to-top { bottom: 5rem !important; }
 }
+
+/* ========== pass 3 ========== */
+/* grid items must be allowed to shrink, or one long URL widens the page */
+#metadata dl { grid-template-columns: minmax(8em, 12em) minmax(0, 1fr); }
+#metadata dt, #metadata dd { min-width: 0; }
+@media (max-width: 575.98px) { #metadata dl { grid-template-columns: minmax(0, 1fr); } }
+
+/* CJK hero titles: break at spaces, not inside words (falls back if too long) */
+:lang(ja) #home-banner h1, :lang(ko) #home-banner h1, :lang(ja) #about-title-box h1 { word-break: keep-all; overflow-wrap: anywhere; }
+#home-banner #home-title-box > div { padding-bottom: 3rem !important; }
+
+/* "jump to item info" button: small outlined pill */
+h2 > a.btn-outline-dark[href="#metadata"] {
+    border-radius: 999px; font-size: 0.8rem !important; padding: 0.15rem 0.8rem; margin-left: 1rem !important;
+    vertical-align: middle; font-family: var(--museum-sans); letter-spacing: 0.06em;
+}

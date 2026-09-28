@@ -3,7 +3,8 @@
 # example queries, era shortcuts, and an image grid of all items.
 # Options (front matter of the page using this layout):
 #   search-examples: list of example queries shown under the search box
-#   intro: short paragraph (markdown) shown beside the search box
+#   grid-items: list of objectids to feature in the image grid (default: all items)
+#   (the page content is shown beside the search box)
 layout: default
 ---
 {%- assign t = site.data.locale[site.lang] -%}
@@ -43,11 +44,12 @@ layout: default
 
     <section class="museum-grid-section">
         <div class="d-flex justify-content-between align-items-baseline">
-            <h2 class="museum-h2">{{ t.all_items | default: "All items" }} <span class="museum-count">{{ items | size }}</span></h2>
+            <h2 class="museum-h2">{% if page.grid-items %}{{ t.featured_items | default: "Selected items" }}{% else %}{{ t.all_items | default: "All items" }}{% endif %} <span class="museum-count">{{ items | size }}</span></h2>
             <a href="{{ '/browse.html' | relative_url }}">{{ t.browse_all | default: "Browse all" }} →</a>
         </div>
         <div class="museum-grid">
-            {% for item in items %}
+            {%- if page.grid-items -%}{%- assign grid_items = "" | split: "" -%}{%- for id in page.grid-items -%}{%- assign found = items | where: 'objectid', id | first -%}{%- if found -%}{%- assign grid_items = grid_items | push: found -%}{%- endif -%}{%- endfor -%}{%- else -%}{%- assign grid_items = items -%}{%- endif -%}
+            {% for item in grid_items %}
             <a class="museum-card" href="{{ '/items/' | append: item.objectid | append: '.html' | relative_url }}">
                 <div class="museum-card-img"><img class="lazyload" data-src="{{ item.image_thumb | relative_url }}" alt="{{ item.image_alt_text | default: item.title | escape }}"></div>
                 <h3 class="museum-card-title">{{ item.title }}</h3>
