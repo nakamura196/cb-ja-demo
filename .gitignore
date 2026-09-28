@@ -31,5 +31,8 @@ objects/iiif/*
 !objects/iiif/3/
 objects/iiif/3/*
 !objects/iiif/3/local_*
+!objects/iiif/2/
+objects/iiif/2/*
+!objects/iiif/2/local_*
 _tools/cache/
 .dev-iiif.yml

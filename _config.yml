@@ -71,6 +71,15 @@ page_gen:
     extension: 'json'
     permalink: '/iiif/3/:name/manifest.json'
     filter_condition: '!record["parentid"] && record["manifest"].to_s.strip.empty?'
+  # The same manifests in Presentation 2 at /iiif/2/<objectid>/manifest.json, for
+  # viewers and tools that read only version 2 (images from objects/iiif/2/).
+  - data: 'utokyo-agri'
+    template: 'manifest-v2'
+    template_override: true
+    dir: 'iiif/2'
+    extension: 'json'
+    permalink: '/iiif/2/:name/manifest.json'
+    filter_condition: '!record["parentid"] && record["manifest"].to_s.strip.empty?'
 
 ##########
 # ORGANIZATION SETTINGS
