@@ -18,11 +18,15 @@
         // add options here!
     };
     var iiif_viewer = UV.init("uv", uvOptions);
-{%- assign uvLocale = site.data.uv_locale[site.lang] -%}
-{%- if uvLocale %}
+{%- assign uvLocale = site.data.uv_locale[site.lang] %}
     // UV has no built-in locale for this site language: override its UI strings
+    var uvConfig = {{ uvLocale | default: nil | jsonify }} || {};
+    // Start one image at a time. UV 4.0.0 shows two canvases side by side
+    // whenever its pagingEnabled setting is on (the default), even when the
+    // manifest says "individuals" or nothing; it only hides the toggle.
+    // Manifests marked "paged" still get the two-up button.
+    uvConfig.options = Object.assign({}, uvConfig.options, { pagingEnabled: false });
     iiif_viewer.on("configure", function ({ config, cb }) {
-        cb(Promise.resolve({{ uvLocale | jsonify }}));
+        cb(Promise.resolve(uvConfig));
     });
-{%- endif %}
 </script>
