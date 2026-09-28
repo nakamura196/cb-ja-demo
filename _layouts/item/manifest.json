@@ -57,8 +57,9 @@
     "label": { "none": [ {{ page.title | jsonify }} ] },
     "format": "text/html"
   } ],
-  {%- if page.image_thumb %}
-  "thumbnail": [ { "id": {{ page.image_thumb | absolute_url | jsonify }}, "type": "Image", "format": "image/jpeg" } ],
+  {%- assign th = page.image_thumb | iiif_image -%}
+  {%- if th %}
+  "thumbnail": [ { "id": {{ th.id | jsonify }}, "type": "Image", "format": {{ th.format | jsonify }}, "width": {{ th.width }}, "height": {{ th.height }} } ],
   {%- endif %}
   "provider": [ {
     "id": {{ '/' | absolute_url | jsonify }},
@@ -80,8 +81,9 @@
       "label": { "none": [ {{ child.title | default: n | append: '' | jsonify }} ] },
       "width": {{ img.width }},
       "height": {{ img.height }},
-      {%- if child.image_thumb %}
-      "thumbnail": [ { "id": {{ child.image_thumb | absolute_url | jsonify }}, "type": "Image", "format": "image/jpeg" } ],
+      {%- assign th = child.image_thumb | iiif_image -%}
+      {%- if th %}
+      "thumbnail": [ { "id": {{ th.id | jsonify }}, "type": "Image", "format": {{ th.format | jsonify }}, "width": {{ th.width }}, "height": {{ th.height }} } ],
       {%- endif %}
       "items": [ {
         "id": {{ canvas_id | append: '/page' | jsonify }},

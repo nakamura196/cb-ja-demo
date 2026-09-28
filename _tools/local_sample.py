@@ -74,7 +74,7 @@ def main():
     for src_id, oid, template, images in SAMPLES:
         src = by_id[src_id]
         base = {k: src.get(k, '') for k in fields}
-        base.update(objectid=oid, parentid='', manifest='', viewing_direction='', format='image/jpeg',
+        base.update(objectid=oid, parentid='', manifest='', format='image/jpeg',
                     display_template=template, pages=str(len(images)),
                     title=src['title'] + '（手元の画像から配信）')
         children = []
