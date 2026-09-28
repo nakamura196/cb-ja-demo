@@ -19,17 +19,22 @@ grid-items: # a varied selection; the full list is on the browse page
   - agri_d9115c2c
   - agri_b6e42779
   - agri_8d83cc45
+  - jitsu_b9892ce3
+  - jitsu_bd881fb8
+  - ogura_5f1ba74f
+  - ogura_6bc72db8
 search-examples:
   - 鳥瞰図
   - 図譜
-  - 写生
   - 東京帝国大学
-  - 竹
-  - ぐんぽう
+  - 实录
+  - 소학
+  - 諺解
 ---
 
-東京大学農学生命科学図書館が[東京大学デジタルアーカイブポータル](https://da.dl.itc.u-tokyo.ac.jp/portal/collection/agriculture)で公開している貴重書のうち、IIIF で画像が提供されている 34 点を収めています。
+[東京大学デジタルアーカイブポータル](https://da.dl.itc.u-tokyo.ac.jp/portal/)で公開されている資料から、日本語・漢文・ハングルの題名を持つ 58 点を収めています。
+農学生命科学図書館の貴重書 34 点、朝鮮王朝実録 12 冊、小倉文庫（文学部言語学研究室）の朝鮮語資料 12 点です。
 
-題名の多くは「圖」「學」などの旧字で書かれています。
-このサイトでは新字の「図」「学」で検索しても見つかります。
+旧字の「圖」は新字の「図」で、繁体字の「實錄」は簡体字の「实录」でも見つかります。
+ハングルの題名も、途中の文字だけで検索できます。
 元の CollectionBuilder との違いは[検索の比較](compare.html)をご覧ください。

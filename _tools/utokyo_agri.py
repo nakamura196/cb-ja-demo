@@ -1,9 +1,14 @@
 #!/usr/bin/env python3
-"""Build the collection CSV from the UTokyo Digital Archive (Agri. Library).
+"""Build the collection CSV from the UTokyo Digital Archive: East Asian materials.
+
+Three groups, chosen to show search in Japanese, Chinese (kanbun) and Korean:
+  agri      東京大学農学生命科学図書館 — all items with UTokyo images (34)
+  jitsuroku 朝鮮王朝実録 (総合図書館旧蔵、現 ソウル大学校奎章閣) — four volumes per reign
+  ogura     小倉文庫 [文学部言語学研究室] — hangul titles, then Korean-language books
 
 What it does:
-  1. Lists items held by 東京大学農学生命科学図書館 via the Japan Search API
-     (the portal's own search pages refuse scripted access).
+  1. Lists items via the Japan Search API (the portal's own search pages
+     refuse scripted access).
   2. Fetches each item's metadata (?_format=json, DC-NDL) and IIIF manifest
      from da.dl.itc.u-tokyo.ac.jp, one request per second, cached in
      _tools/cache/ (git-ignored).
@@ -11,6 +16,8 @@ What it does:
      Items digitised by NIJL have an empty UTokyo manifest; pass --with-nijl
      to include them as metadata-only records.
   4. Writes _data/utokyo-agri.csv in CollectionBuilder's column layout.
+     (The file keeps its first name although it now holds all three groups.)
+     Run _tools/local_sample.py afterwards to add the locally hosted rows.
 
 Usage:
   python3 _tools/utokyo_agri.py            # uses cache, fetches what's missing
@@ -29,7 +36,14 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CACHE = os.path.join(ROOT, '_tools', 'cache')
 OUT = os.path.join(ROOT, '_data', 'utokyo-agri.csv')
 UA = {'User-Agent': 'collectionbuilder-ja-demo (research; github.com/nakamura196)'}
-PROVIDER = '東京大学農学生命科学図書館'
+HANGUL = re.compile('[\uac00-\ud7af]')
+
+# key: (objectid prefix, group label, Japan Search keyword, how many to keep)
+SOURCES = {
+    'agri': ('agri', '農学生命科学図書館', '東京大学農学生命科学図書館', None),
+    'jitsuroku': ('jitsu', '朝鮮王朝実録', '朝鮮王朝実録', 12),
+    'ogura': ('ogura', '小倉文庫（言語学研究室）', '小倉文庫', 12),
+}
 PORTAL = 'https://da.dl.itc.u-tokyo.ac.jp/portal'
 
 MATERIAL = {
@@ -39,6 +53,7 @@ MATERIAL = {
 }
 LICENSE = {
     'http://creativecommons.org/licenses/by/4.0/': 'CC BY 4.0',
+    'https://creativecommons.org/publicdomain/zero/1.0/': 'CC0 1.0',
 }
 
 # Which canvas (0-based) to use as the item's representative image. The first
@@ -61,7 +76,7 @@ FIELDS = [
     'era', 'type', 'extent', 'call_number', 'description', 'note', 'collection',
     'holding', 'digitizer', 'pages', 'rights', 'rightsstatement', 'source',
     'manifest', 'viewing_direction', 'image_small', 'image_thumb',
-    'object_location', 'image_alt_text', 'format', 'display_template',
+    'object_location', 'image_alt_text', 'format', 'display_template', 'group',
 ]
 
 
@@ -82,15 +97,43 @@ def fetch(url, path, refresh=False, delay=1.0):
     raise RuntimeError('failed: ' + url)
 
 
-def list_uuids(refresh):
-    q = urllib.parse.urlencode({'keyword': PROVIDER, 'size': 500})
+def list_uuids(key, refresh):
+    """UUIDs of UTokyo Digital Archive items found by the source's keyword."""
+    keyword = SOURCES[key][2]
+    q = urllib.parse.urlencode({'keyword': keyword, 'size': 500})
     data = fetch('https://jpsearch.go.jp/api/item/search/jps-cross?' + q,
-                 os.path.join(CACHE, 'jpsearch.json'), refresh)
-    ids = []
+                 os.path.join(CACHE, 'jpsearch.json' if key == 'agri' else f'jpsearch-{key}.json'), refresh)
+    items = []
     for it in data['list']:
-        if it['id'].startswith('utokyo_da-') and PROVIDER in (it['common'].get('provider') or ''):
-            ids.append(it['id'][len('utokyo_da-'):].replace('_', '-'))
-    return ids
+        if not it['id'].startswith('utokyo_da-'):
+            continue
+        if key == 'agri' and keyword not in (it['common'].get('provider') or ''):
+            continue
+        title = it['common'].get('title') or ''
+        items.append((it['id'][len('utokyo_da-'):].replace('_', '-'), title if isinstance(title, str) else ' '.join(title)))
+    # Narrow the larger groups by title before fetching anything per item.
+    if key == 'ogura':
+        # hangul titles first, then Korean-language books by their kanji titles
+        # (諺解 = vernacular annotation, 諺文 = hangul, 韓語 / 朝鮮語)
+        korean = re.compile('諺|韓語|朝鮮語')
+        items = ([i for i in items if HANGUL.search(i[1])] +
+                 sorted((i for i in items if not HANGUL.search(i[1]) and korean.search(i[1])), key=lambda i: i[1]))
+    elif key == 'jitsuroku':
+        per_reign = {}
+        for uuid, title in sorted(items, key=lambda i: i[1]):
+            reign = title.split(' ')[0]
+            if len(per_reign.setdefault(reign, [])) < 4:  # four volumes per reign
+                per_reign[reign].append((uuid, title))
+        items = [i for vols in per_reign.values() for i in vols]
+    return [uuid for uuid, _ in items]
+
+
+def select(key, rows):
+    """Keep a readable sample of the larger groups (already narrowed by title)."""
+    limit = SOURCES[key][3]
+    if key == 'ogura':
+        rows = sorted(rows, key=lambda r: (not HANGUL.search(r['title']), r['title']))
+    return rows[:limit] if limit else rows
 
 
 def vals(meta, key, lang='ja'):
@@ -114,7 +157,9 @@ def vals(meta, key, lang='ja'):
     return out
 
 
-def era_of(year):
+def era_of(year, key):
+    if key != 'agri':
+        return '朝鮮時代'
     if not year:
         return '年代不明'
     y = int(year)
@@ -129,7 +174,7 @@ def era_of(year):
     return '平成以降'
 
 
-def row_for(uuid, meta, manifest):
+def row_for(key, uuid, meta, manifest):
     canvases = (manifest.get('sequences') or [{}])[0].get('canvases', [])
     title = vals(meta, 'dcterms:title')[0]
     issued = vals(meta, 'dcterms:issued')
@@ -159,14 +204,14 @@ def row_for(uuid, meta, manifest):
 
     rights = vals(meta, 'dcterms:license') or vals(meta, 'dcterms:rights')
     return {
-        'objectid': 'agri_' + uuid.split('-')[0],
+        'objectid': SOURCES[key][0] + '_' + uuid.split('-')[0],
         'title': title,
         'title_kana': ';'.join(vals(meta, 'dcndl:titleTranscription')),
         'alternative': ';'.join(a for a in vals(meta, 'dcndl:alternative') if a != title),
         'creator': ';'.join(vals(meta, 'dc:creator')),
         'date': ';'.join(date),
         'year': year,
-        'era': era_of(year),
+        'era': era_of(year, key),
         'type': MATERIAL.get(meta.get('dcndl:materialType', {}).get('@id'), ''),
         'extent': ';'.join(vals(meta, 'dcterms:extent')),
         'call_number': call_number,
@@ -187,6 +232,7 @@ def row_for(uuid, meta, manifest):
         'image_alt_text': f'「{title}」の図版（{pick + 1}コマ目）' if small else '',
         'format': 'image/jpeg' if small else '',
         'display_template': 'iiif' if canvases else 'record',
+        'group': SOURCES[key][1],
     }
 
 
@@ -199,18 +245,24 @@ def main():
     os.makedirs(CACHE, exist_ok=True)
 
     rows = []
-    for i, uuid in enumerate(list_uuids(args.refresh)):
-        meta = fetch(f'{PORTAL}/assets/{uuid}?_format=json',
-                     os.path.join(CACHE, uuid + '.meta.json'), args.refresh)
-        manifest = fetch(f'{PORTAL}/repo/iiif/{uuid}/manifest',
-                         os.path.join(CACHE, uuid + '.manifest.json'), args.refresh)
-        row = row_for(uuid, meta, manifest)
-        if row['display_template'] == 'iiif' or args.with_nijl:
-            rows.append(row)
+    for key in SOURCES:
+        found = []
+        for uuid in list_uuids(key, args.refresh):
+            meta = fetch(f'{PORTAL}/assets/{uuid}?_format=json',
+                         os.path.join(CACHE, uuid + '.meta.json'), args.refresh)
+            manifest = fetch(f'{PORTAL}/repo/iiif/{uuid}/manifest',
+                             os.path.join(CACHE, uuid + '.manifest.json'), args.refresh)
+            row = row_for(key, uuid, meta, manifest)
+            if row['display_template'] == 'iiif' or (key == 'agri' and args.with_nijl):
+                found.append(row)
+        kept = select(key, found)
+        print(f'{key}: {len(found)} with images, kept {len(kept)}')
+        rows.extend(kept)
 
     ids = [r['objectid'] for r in rows]
     assert len(ids) == len(set(ids)), 'objectid collision'
-    rows.sort(key=lambda r: (r['year'] or '9999', r['title_kana']))
+    order = {v[1]: i for i, v in enumerate(SOURCES.values())}
+    rows.sort(key=lambda r: (order[r['group']], r['year'] or '9999', r['title_kana'] or r['title']))
     with open(OUT, 'w', newline='', encoding='utf-8') as f:
         w = csv.DictWriter(f, fieldnames=FIELDS)
         w.writeheader()

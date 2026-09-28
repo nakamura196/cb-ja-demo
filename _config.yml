@@ -20,14 +20,14 @@ source-code: https://github.com/nakamura196/cb-ja-demo
 # language of the site (html lang attribute, UI strings in _data/locale/<lang>.yml)
 lang: ja
 # title of site appears in banner
-title: 農学図書館 貴重書コレクション
+title: 東京大学の東アジア資料
 # tagline, a short phrase that will appear throughout the site in the top banner
-tagline: CollectionBuilder 日本語対応デモ
+tagline: CollectionBuilder 日中韓対応デモ
 # description appears in meta tags and other locations
 # this description might appear in search result lists, keep around 160 characters max
-description: "東京大学農学生命科学図書館の貴重書34点（IIIF）を、日本語検索とIIIF表示に対応させたCollectionBuilderで公開するデモです。"
+description: "東京大学デジタルアーカイブポータルの資料58点（農学生命科学図書館の貴重書、朝鮮王朝実録、小倉文庫）を、日本語・中国語・韓国語の検索とIIIF表示に対応させたCollectionBuilderで公開するデモです。"
 # keywords, a short list of subjects describing the collection, separated by semicolon, to appear in rich markup
-keywords: 農学; 植物図譜; 博物学; IIIF; 東京大学
+keywords: 農学; 植物図譜; 朝鮮王朝実録; 小倉文庫; 한글; IIIF; 東京大学
 # creator of the digital collection, to appear in meta tags; we typically use our GitHub usernames but feel free to just use your name
 author: nakamura196
 
@@ -100,6 +100,7 @@ sass:
 # The collectionbuilder preset reads the same fields as the default search
 # (_data/config-search.csv, index = true). Used when search-cjk is true in _data/theme.yml.
 cjk_index:
+  variants: [ja, zh] # ja: old/new kanji; zh: Traditional/Simplified Chinese (so 实录 finds 実録)
   indexes:
     - name: search
       preset: collectionbuilder

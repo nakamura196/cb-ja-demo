@@ -22,5 +22,5 @@ end
 # Japanese/Chinese/Korean search index, built at build time (see cjk_index in _config.yml)
 group :jekyll_plugins do
   # pinned to a commit: Gemfile.lock is not committed in this repo
-  gem 'cjk_index', git: 'https://github.com/nakamura196/cjk_index.git', ref: '825092c66019164596dad6cee6ad25651f493674', require: 'cjk_index/jekyll'
+  gem 'cjk_index', git: 'https://github.com/nakamura196/cjk_index.git', ref: 'd59f4baeb41334c3873c1a3335406140e4001e91', require: 'cjk_index/jekyll'
 end
