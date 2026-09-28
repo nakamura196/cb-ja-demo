@@ -372,6 +372,13 @@ function updateDisplay(filteredItems, query = "", field = "", startDate = "", en
     
     // Update count
     document.querySelector("#numberOf").innerHTML = {{ t.n_of_total | default: "%n of %total items" | jsonify }}.replace("%n", filteredItems.length).replace("%total", {{ items | size }});
+    // closing line under the grid, so a short last row reads as the end of the list
+    const browseEnd = document.querySelector("#browseEnd");
+    if (browseEnd) {
+        browseEnd.textContent = {{ t.browse_end | default: "End of list (%n items)" | jsonify }}.replace("%n", filteredItems.length);
+        // only for lists long enough to scroll; a short result is already summed up by the count above
+        browseEnd.classList.toggle("d-none", filteredItems.length <= 6);
+    }
     
     // Focus active input (only if needed)
     if (query || startDate || endDate) {

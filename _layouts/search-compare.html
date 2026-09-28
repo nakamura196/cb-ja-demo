@@ -61,7 +61,7 @@ layout: page
         tr.innerHTML = '<th scope="row"><a href="' + searchUrl + '?q=' + encodeURIComponent(q) + '">' + esc(q) + '</a></th>' +
             '<td data-label="' + labels[0] + '" class="text-end compare-count' + (a.length ? '' : ' is-zero') + '">' + a.length + '</td>' +
             '<td data-label="' + labels[1] + '" class="text-end compare-count' + (b.length ? ' is-hit' : ' is-zero') + '">' + b.length + '</td>' +
-            '<td data-label="' + labels[2] + '" class="small">' + titles + '</td>';
+            '<td data-label="' + labels[2] + '" class="small"><span class="compare-titles">' + titles + '</span></td>';
         if (prepend) rows.insertBefore(tr, rows.firstChild); else rows.appendChild(tr);
     }
     {{ page.compare-queries | jsonify }}.forEach(function (q) { run(q); });

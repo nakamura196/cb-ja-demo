@@ -577,3 +577,72 @@ h2 > a.btn-outline-dark[href="#metadata"] {
     border-radius: 999px; font-size: 0.8rem !important; padding: 0.15rem 0.8rem; margin-left: 1rem !important;
     vertical-align: middle; font-family: var(--museum-sans); letter-spacing: 0.06em;
 }
+
+/* ========== pass 4 ========== */
+/* header search: magnifier inside the box */
+#nav-search { position: relative; }
+#nav-search .nav-search-icon { position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%); color: var(--museum-muted); pointer-events: none; }
+#nav-search-box { padding-left: 2.25rem; }
+/* phone menu: the search box already leads to the search page, so drop the duplicate link */
+@media (max-width: 991.98px) {
+    #page-nav .nav-link[href$="/search.html"] { display: none; }
+    #nav-search { margin: 0.5rem 0 0.75rem; }
+}
+
+/* item: bibliographic record as one framed surface with ruled rows */
+#metadata { border-top: none; padding-top: 0; }
+#item-metadata {
+    background: var(--museum-surface);
+    border: 1px solid var(--museum-line);
+    padding: 0.5rem 2rem;
+}
+#item-metadata dl { gap: 0; margin: 0; }
+#item-metadata dt, #item-metadata dd { padding: 0.8rem 0; border-top: 1px solid var(--museum-line); }
+#item-metadata dt:first-of-type, #item-metadata dt:first-of-type + dd { border-top: none; }
+#item-metadata dt { padding-right: 1.5rem; }
+@media (max-width: 575.98px) {
+    #item-metadata { padding: 0.25rem 1rem; }
+    #item-metadata dd { border-top: none; padding-top: 0; }
+    #item-metadata dt { padding-bottom: 0.2rem; }
+}
+
+/* search comparison: calmer rows — ink text, smaller counts, titles clamped to two lines */
+.compare-table {
+    th[scope="row"] a { color: var(--museum-ink); text-decoration: none; }
+    th[scope="row"] a:hover { color: var(--museum-accent); text-decoration: underline; }
+    td, th { padding-top: 0.85rem; padding-bottom: 0.85rem; }
+    .compare-count { font-size: 1.15rem; font-weight: 500; }
+    .is-hit { font-weight: 600; }
+    td.small { color: var(--museum-muted); line-height: 1.6; }
+    td.small a { color: var(--museum-muted); text-decoration: none; }
+    td.small a:hover { color: var(--museum-accent); text-decoration: underline; }
+}
+@media (min-width: 576px) {
+    .compare-table .compare-titles { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+}
+
+/* browse: a closing line under the grid, so a short last row reads as the end */
+.browse-end {
+    display: flex; align-items: center; gap: 1rem;
+    color: var(--museum-muted); font-size: 0.85rem; letter-spacing: 0.1em;
+    margin: 0.5rem 0 3rem;
+    &::before, &::after { content: ""; flex: 1; border-top: 1px solid var(--museum-line); }
+}
+
+/* Universal Viewer: keep our heading face and caps out of its panels */
+.uv h1, .uv h2, .uv h3, .uv .title { font-family: var(--museum-sans) !important; }
+:lang(ja) .uv .title, :lang(ja) .uv h2 { text-transform: none; letter-spacing: 0.08em; }
+/* UV sizes its page box for English; let it fit the label, number, total and button on one line */
+.uv .headerPanel .centerOptions .search { width: auto; white-space: nowrap; }
+.uv .headerPanel .centerOptions .mode label { white-space: nowrap; }
+/* phone menu: the active page is shown by colour alone (a full-width underline reads as a divider) */
+@media (max-width: 991.98px) { .navbar .navbar-collapse .nav-link.active { box-shadow: none; } }
+/* text fields: a visible halo on focus, not just a 1px colour change */
+.form-control:focus, .form-select:focus { border-color: var(--museum-accent); box-shadow: 0 0 0 3px rgba(var(--museum-accent-rgb), 0.2) !important; }
+/* UV's collapsed side tab rotates its label 90° (made for Latin text); CJK reads upright in vertical writing */
+:lang(ja) .uv .closed a.title, :lang(zh) .uv .closed a.title, :lang(ko) .uv .closed a.title {
+    transform: none !important; writing-mode: vertical-rl; text-orientation: upright;
+    width: auto !important; height: auto !important; letter-spacing: 0.2em; margin: 0.5rem auto 0 !important; position: static !important;
+}
+/* comparison: query terms stay links (dotted underline), without the accent colour */
+.compare-table th[scope="row"] a { text-decoration: underline dotted; text-decoration-color: var(--museum-line); text-underline-offset: 0.3em; }

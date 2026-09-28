@@ -18,4 +18,11 @@
         // add options here!
     };
     var iiif_viewer = UV.init("uv", uvOptions);
+{%- assign uvLocale = site.data.uv_locale[site.lang] -%}
+{%- if uvLocale %}
+    // UV has no built-in locale for this site language: override its UI strings
+    iiif_viewer.on("configure", function ({ config, cb }) {
+        cb(Promise.resolve({{ uvLocale | jsonify }}));
+    });
+{%- endif %}
 </script>

@@ -29,6 +29,8 @@ start_date: 開始年
 end_date: 終了年
 loading: 読み込み中…
 n_of_total: "%total 件中 %n 件"
+label_suffix: ""   # 項目名の後ろの「:」を付けない（表の形で区切りが見えるため）
+browse_end: "以上 %n 件"
 view_full_record: 詳しく見る
 item_info: 書誌情報
 jump_to_item_info: 書誌情報へ移動
