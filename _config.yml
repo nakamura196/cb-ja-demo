@@ -45,7 +45,19 @@ metadata: utokyo-agri
 #     name: 'objectid'
 #     dir: 'items'
 #     extension: 'html' 
-#     filter: 'objectid'  
+#     filter: 'objectid'
+page_gen:
+  # item pages (the default)
+  - data: 'utokyo-agri'
+  # IIIF manifests at /manifests/<objectid>.json for items whose images are in objects/
+  # (items with an external `manifest` already have one, so they are skipped).
+  # Run `rake generate_iiif` to add level 0 image services (sizes, tiles for large images).
+  - data: 'utokyo-agri'
+    template: 'manifest'
+    template_override: true
+    dir: 'manifests'
+    extension: 'json'
+    filter_condition: '!record["parentid"] && record["manifest"].to_s.strip.empty?'
 
 ##########
 # ORGANIZATION SETTINGS
