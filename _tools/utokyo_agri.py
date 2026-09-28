@@ -69,6 +69,15 @@ CANVAS = {
     'c9f1ab4e': 2, '05fc859e': 3, 'e443b3ea': 3, '2da73342': 10, '30c60644': 3,
     '0717b584': 3, 'a2af6812': 4, '97a6ecb3': 2, '6d032fb5': 3, '187cc82d': 1,
     'df8094b2': 3, 'b4814f58': 3, '7a3e0c92': 3, 'b6e42779': 3,
+    # Annals and Ogura: all 24 checked on 2026-09-28. The Annals are text
+    # throughout, so most keep n // 4; the seal leaves near the front are half
+    # blank. Ogura covers are used where the title is written large on them.
+    '8edec05c': 0, '0316e957': 8, '6d9db582': 3, '7eccfbd6': 4, 'bd881fb8': 16,
+    'cbdf5a5b': 18, 'c19e66ca': 19, 'bec028c0': 20, 'b9892ce3': 9, '51ed985b': 8,
+    'c37579e6': 12, '81c23003': 6,
+    '4e4d1e44': 1, '6bc72db8': 0, '5f1ba74f': 12, '719c92aa': 1, '31e0f815': 0,
+    '83a81497': 8, '60df1b75': 16, '5c1cb83b': 1, '0318bc68': 20, '5973c9c6': 19,
+    'a02c8a34': 6, '42888882': 17,
 }
 
 FIELDS = [
