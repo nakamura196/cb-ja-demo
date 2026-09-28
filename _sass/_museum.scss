@@ -1,0 +1,208 @@
+/*
+    Museum theme for CollectionBuilder
+    ----------------------------------
+    Quiet palette, serif headings, generous whitespace, large images.
+    Language-neutral: fonts are picked by the page language (<html lang>, set
+    from `lang` in _config.yml), so the same theme serves English, Japanese,
+    Chinese and Korean collections. CSS only; no template changes needed.
+
+    Use: add `@use "museum";` to _sass/_custom.scss.
+    Customise by overriding the CSS variables below in _custom.scss, e.g.
+        :root { --museum-accent: #2a4f7a; --museum-heading-font: var(--museum-sans); }
+    Load the web fonts you need with `font-cdn` in _data/theme.yml
+    (fonts not loaded fall back to the system fonts in each stack).
+*/
+
+:root {
+    --museum-paper: #f7f4ee;
+    --museum-surface: #ffffff;
+    --museum-ink: #2b2a28;
+    --museum-muted: #6f6a62;
+    --museum-line: #ddd6ca;
+    --museum-accent: #7a4a2a;
+    --museum-dark: #24211d;
+
+    /* Latin defaults */
+    --museum-serif: "Source Serif 4", "Iowan Old Style", Georgia, serif;
+    --museum-sans: "Source Sans 3", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --museum-heading-font: var(--museum-serif);
+    --museum-body-font: var(--museum-sans);
+    --museum-heading-tracking: 0.01em;
+    --museum-body-leading: 1.7;
+}
+
+/* CJK: Mincho / Song / Myeongjo headings, Gothic / Hei / Dotum body.
+   A serif heading font is the convention for museum and rare-book sites in
+   all three languages; body text stays sans for screen legibility. */
+:lang(ja) {
+    --museum-serif: "Noto Serif JP", "Hiragino Mincho ProN", "Yu Mincho", serif;
+    --museum-sans: "Noto Sans JP", "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
+    --museum-heading-tracking: 0.05em;
+    --museum-body-leading: 1.9;
+}
+:lang(zh-Hans), :lang(zh-CN), :lang(zh) {
+    --museum-serif: "Noto Serif SC", "Songti SC", "SimSun", serif;
+    --museum-sans: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+    --museum-heading-tracking: 0.05em;
+    --museum-body-leading: 1.9;
+}
+:lang(zh-Hant), :lang(zh-TW), :lang(zh-HK) {
+    --museum-serif: "Noto Serif TC", "Songti TC", "PMingLiU", serif;
+    --museum-sans: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+    --museum-heading-tracking: 0.05em;
+    --museum-body-leading: 1.9;
+}
+:lang(ko) {
+    --museum-serif: "Noto Serif KR", "AppleMyungjo", "Batang", serif;
+    --museum-sans: "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    --museum-heading-tracking: 0.02em;
+    --museum-body-leading: 1.8;
+}
+
+/* ---------- base ---------- */
+body {
+    background-color: var(--museum-paper);
+    color: var(--museum-ink);
+    font-family: var(--museum-body-font);
+    line-height: var(--museum-body-leading);
+}
+h1, h2, h3, h4, h5, .h1, .h2, .h3, .h4, .h5, .display-2, .card-header, .modal-title {
+    font-family: var(--museum-heading-font);
+    font-weight: 600;
+    letter-spacing: var(--museum-heading-tracking);
+    line-height: 1.45;
+}
+a { color: var(--museum-accent); text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+.btn { white-space: nowrap; }
+/* long URLs and identifiers must not push the page sideways on phones */
+dd, .field-value, #searchResults p, .card-text, .museum-intro { overflow-wrap: anywhere; }
+
+/* ---------- banner and navigation ---------- */
+#title h1 a { font-size: 1.5rem; }
+#title p { color: var(--museum-muted); font-size: 0.9rem; letter-spacing: 0.08em; margin-bottom: 0.5rem; }
+
+#home-banner {
+    background-color: var(--museum-dark);
+    min-height: min(62vh, 640px);
+    display: flex;
+    align-items: flex-end;
+    #home-title-box { width: 100%; padding-bottom: 0 !important; }
+    #home-title-box > div {
+        background: linear-gradient(to top, rgba(20, 18, 15, 0.85), rgba(20, 18, 15, 0)) !important;
+        text-align: left !important;
+        padding: 6rem max(1rem, calc((100vw - 1296px) / 2 + 0.75rem)) 2.25rem !important;
+    }
+    h1 { font-size: clamp(1.9rem, 5vw, 3.6rem); }
+    p { letter-spacing: 0.12em; opacity: 0.85; }
+}
+
+.navbar {
+    border-bottom: 1px solid var(--museum-line);
+    background-color: var(--museum-paper) !important;
+    .nav-link { letter-spacing: 0.06em; }
+    .nav-link.active { color: var(--museum-accent) !important; font-weight: 600; }
+    .navbar-toggler { border-color: var(--museum-line); }
+}
+
+/* ---------- home ---------- */
+.museum-home { padding-top: 3rem; padding-bottom: 4rem; }
+.museum-home section { margin-bottom: 4rem; }
+.museum-h2 {
+    font-size: 1.3rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--museum-line);
+}
+.museum-count { font-family: var(--museum-sans); font-size: 0.9rem; color: var(--museum-muted); margin-left: 0.5rem; }
+.museum-intro { color: var(--museum-muted); font-size: 0.95rem; }
+.museum-chip {
+    display: inline-block;
+    padding: 0.25rem 0.9rem;
+    border: 1px solid var(--museum-line);
+    border-radius: 999px;
+    background: var(--museum-surface);
+    color: var(--museum-ink);
+    text-decoration: none;
+    font-size: 0.95rem;
+    &:hover, &:focus-visible { border-color: var(--museum-accent); color: var(--museum-accent); }
+    span { color: var(--museum-muted); font-size: 0.8em; margin-left: 0.35rem; }
+}
+.museum-chip-lg { padding: 0.45rem 1.2rem; font-family: var(--museum-heading-font); }
+
+.museum-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    gap: 2.5rem 1.75rem;
+}
+.museum-card {
+    color: var(--museum-ink);
+    text-decoration: none;
+    &:hover .museum-card-img img { transform: scale(1.03); }
+    &:hover .museum-card-title { color: var(--museum-accent); }
+}
+.museum-card-img {
+    aspect-ratio: 4 / 3;
+    background: var(--museum-line);
+    overflow: hidden;
+    img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+}
+.museum-card-title { font-size: 1rem; margin: 0.75rem 0 0.15rem; line-height: 1.55; }
+.museum-card-meta { font-size: 0.8rem; color: var(--museum-muted); margin: 0; letter-spacing: 0.06em; }
+
+/* ---------- browse ---------- */
+#browseItems {
+    .item { margin-bottom: 2.25rem !important; }
+    .card { background: transparent; border: none; border-radius: 0; }
+    .card-img-top { aspect-ratio: 4 / 3; object-fit: cover; border-radius: 0; background: var(--museum-line); }
+    .card-body { text-align: left !important; padding: 0.75rem 0 0; }
+    .card-title { font-size: 1.05rem; margin-bottom: 0.3rem; }
+    .card-title a { color: var(--museum-ink) !important; text-decoration: none; }
+    .card-text { font-size: 0.85rem; color: var(--museum-muted); margin-bottom: 0.4rem; }
+    .card-text strong { font-weight: 500; }
+    .card-text .btn-secondary {
+        background: transparent; color: var(--museum-muted); border: 1px solid var(--museum-line);
+        border-radius: 999px; padding: 0 0.6rem; margin: 0.15rem 0.25rem 0 0 !important; font-size: 0.78rem;
+    }
+    .card-text .btn-outline-secondary { display: none; } /* media-type badge */
+    hr, .card-body > .btn-light { display: none; }
+}
+#numberOf { font-size: 1rem; font-family: var(--museum-sans); color: var(--museum-muted); text-align: left !important; margin-top: 1rem; }
+
+/* ---------- item pages ---------- */
+.breadcrumb { font-size: 0.85rem; background: transparent !important; padding-left: 0 !important; }
+.iiif-item { border: none; background: transparent; }
+.iiif-item .uv { background: var(--museum-dark); height: min(668px, 78vh) !important; }
+#metadata {
+    dl { display: grid; grid-template-columns: minmax(8em, 12em) 1fr; gap: 0.6rem 1.5rem; }
+    dt { color: var(--museum-muted); font-weight: 500; margin: 0; }
+    dd { margin: 0; }
+}
+.card { border-color: var(--museum-line); }
+.card-header { background-color: transparent; border-bottom-color: var(--museum-line); font-size: 1rem; }
+
+/* ---------- search comparison ---------- */
+.compare-table {
+    background: var(--museum-surface);
+    th[scope="row"] { font-family: var(--museum-heading-font); font-weight: 500; }
+    .compare-count { font-size: 1.4rem; font-variant-numeric: tabular-nums; width: 8rem; }
+    .is-zero { color: #a33; }
+    .is-hit { color: #2d6a3e; font-weight: 700; }
+}
+
+/* ---------- footer ---------- */
+footer.bg-black { background-color: var(--museum-dark) !important; }
+
+/* ---------- small screens ---------- */
+@media (max-width: 575.98px) {
+    .museum-home { padding-top: 2rem; }
+    .museum-home section { margin-bottom: 2.75rem; }
+    .museum-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem 0.9rem; }
+    .museum-card-title { font-size: 0.9rem; }
+    #browseItems .item { width: 50%; padding-left: 0.45rem; padding-right: 0.45rem; margin-bottom: 1.5rem !important; }
+    #browseItems .card-title { font-size: 0.95rem; }
+    #browseItems .card-text strong { display: none; }
+    #metadata dl { grid-template-columns: 1fr; gap: 0.1rem; }
+    #metadata dd { margin-bottom: 0.8rem; }
+    .compare-table .compare-count { width: auto; font-size: 1.1rem; }
+    #home-banner { min-height: 48vh; }
+}

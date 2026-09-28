@@ -10,7 +10,7 @@ layout: default
 {%- assign items = site.data[site.metadata] | where_exp: 'item','item.objectid and item.parentid == nil' -%}
 <div class="container museum-home">
 
-    <section class="museum-search row g-5 align-items-start">
+    <section class="museum-search row gx-4 gx-lg-5 gy-4 align-items-start">
         <div class="col-lg-7">
             <h2 class="museum-h2">{{ t.search_heading | default: "Search the collection" }}</h2>
             <form action="{{ '/search/' | relative_url }}" method="get" class="d-flex gap-2 mb-3" role="search">
