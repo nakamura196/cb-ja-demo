@@ -1,0 +1,46 @@
+# English UI. Template strings already default to English, so this file only
+# overrides the labels that _data/config-*.csv give in Japanese
+# (applied by _plugins/cb_i18n.rb), plus strings written for this demo.
+config_labels:
+  config-nav:
+    /: Home
+    /browse.html: Browse
+    /search/: Search
+    /timeline.html: Timeline
+    /data.html: Data
+    /about.html: About
+  config-metadata:
+    title: Title
+    title_kana: Reading
+    alternative: Alternative title
+    creator: Creator
+    date: Date (as printed)
+    year: Year
+    era: Period
+    type: Type
+    extent: Extent
+    pages: Images
+    description: Description
+    note: Note
+    call_number: Call number
+    collection: Collection
+    holding: Holding library
+    rights: Rights
+    rightsstatement: License
+    source: UTokyo Digital Archives
+    manifest: IIIF manifest
+  config-browse:
+    year: { display_name: Year, sort_name: Year }
+    creator: Creator
+    era: { facet_name: Period, sort_name: Period }
+    type: { facet_name: Type }
+    title_kana: { display_name: Reading, sort_name: Reading (gojūon order) }
+    description: Description
+  config-table:
+    title: Title
+    creator: Creator
+    year: Year
+    era: Period
+    type: Type
+template_labels:
+  iiif: IIIF image

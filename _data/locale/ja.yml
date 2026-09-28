@@ -121,3 +121,4 @@ dl_metadata_csv: CSV
 dl_metadata_json: JSON
 dl_facets_json: JSON
 dl_timeline_json: JSON
+language: 言語

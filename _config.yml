@@ -19,6 +19,16 @@ source-code: https://github.com/nakamura196/cb-ja-demo
 #
 # language of the site (html lang attribute, UI strings in _data/locale/<lang>.yml)
 lang: ja
+# interface languages built from this repository, one build per language
+# (the English build adds _config.en.yml). Used for the language switch
+# link and hreflang alternates; leave out for a single-language site.
+languages:
+  - code: ja
+    label: 日本語
+    baseurl: /cb-ja-demo
+  - code: en
+    label: English
+    baseurl: /cb-ja-demo/en
 # title of site appears in banner
 title: 東京大学の東アジア資料
 # tagline, a short phrase that will appear throughout the site in the top banner

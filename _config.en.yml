@@ -1,0 +1,13 @@
+# English build of the same site. Build with:
+#   bundle exec jekyll build --config _config.yml,_config.en.yml -d _site/en
+# Only the keys that differ from _config.yml. UI strings fall back to the
+# English defaults in the templates; labels from _data/config-*.csv are
+# overridden in _data/locale/en.yml (config_labels). Pages with `lang: en`
+# replace their default version (see _plugins/cb_i18n.rb).
+lang: en
+baseurl: /cb-ja-demo/en
+title: Agricultural Library Rare Books
+tagline: A CJK-ready CollectionBuilder demo
+description: "34 rare books (IIIF) from the University of Tokyo Library for Agricultural and Life Sciences, published with a CollectionBuilder adapted for Japanese search and IIIF display."
+keywords: agriculture; botanical illustration; natural history; IIIF; University of Tokyo
+organization-name: "University of Tokyo Library for Agricultural and Life Sciences (images and records)"

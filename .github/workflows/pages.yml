@@ -31,6 +31,11 @@ jobs:
       - run: bundle exec jekyll build
         env:
           JEKYLL_ENV: production
+      # English interface: same repository, second build into /en/ (see _config.en.yml).
+      # Must run after the main build, which empties _site.
+      - run: bundle exec jekyll build --config _config.yml,_config.en.yml -d _site/en
+        env:
+          JEKYLL_ENV: production
       - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
 
   deploy:
