@@ -1,6 +1,6 @@
 ---
 # Side-by-side comparison of lunr's default search and the CJK-aware search
-# (assets/js/cb-ja-search.js) over the same search store.
+# (prebuilt by the cjk_index gem: assets/cjk-index/search.json) over the same items.
 # Front matter: compare-queries: list of queries to run on page load.
 layout: page
 ---
@@ -29,9 +29,9 @@ layout: page
 
 <script src="{{ site.lib-assets | default: '/assets/lib' | relative_url }}/lunr.min.js"></script>
 <script src="{{ '/assets/js/lunr-store.js' | relative_url }}"></script>
-<script src="{{ '/assets/js/cb-ja-search.js' | relative_url }}"></script>
+<script src="{{ '/assets/cjk-index/cjk-index.js' | relative_url }}"></script>
 <script>
-(function () {
+CJKIndex.load({{ '/assets/cjk-index/search.json' | relative_url | jsonify }}).then(function (cjkIdx) {
     var fields = {{ index_fields | jsonify }};
     // lunr exactly as in CollectionBuilder's _includes/js/lunr-js.html
     var lunrIdx = lunr(function () {
@@ -43,7 +43,8 @@ layout: page
             this.add(d);
         }
     });
-    var cjkIdx = cbJa.buildIndex(fields, store);
+    var storePosition = {};
+    store.forEach(function (s, i) { storePosition[s.id] = i; });
     var rows = document.getElementById('compareRows');
     var labels = {{ t.engine_lunr | default: "CollectionBuilder (default)" | jsonify }} ? [{{ t.engine_lunr | default: "CollectionBuilder (default)" | jsonify }}, {{ t.engine_cjk | default: "CJK-aware search" | jsonify }}, {{ t.matched_items | default: "Matched items" | jsonify }}] : [];
     var base = {{ '/items/' | relative_url | jsonify }};
@@ -53,7 +54,7 @@ layout: page
     function run(q, prepend) {
         var a = [], b = [];
         try { a = lunrIdx.search(q); } catch (e) { a = []; }
-        b = cbJa.search(cjkIdx, q);
+        b = cjkIdx.search(q).map(function (r) { return { ref: storePosition[r.ref] }; });
         var titles = b.slice(0, 4).map(function (r) {
             return '<a href="' + base + store[r.ref].id + '">' + esc(store[r.ref].title) + '</a>';
         }).join('、') + (b.length > 4 ? ' …' : '');
@@ -70,5 +71,5 @@ layout: page
         var q = document.getElementById('compareBox').value.trim();
         if (q) run(q, true);
     });
-})();
+});
 </script>

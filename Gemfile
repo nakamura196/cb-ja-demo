@@ -18,3 +18,8 @@ unless Gem.win_platform?
   gem 'image_optim'
   gem 'image_optim_pack'
 end
+
+# Japanese/Chinese/Korean search index, built at build time (see cjk_index in _config.yml)
+group :jekyll_plugins do
+  gem 'cjk_index', path: '../../cjk_index', require: 'cjk_index/jekyll'
+end

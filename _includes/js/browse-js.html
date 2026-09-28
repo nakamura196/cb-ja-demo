@@ -8,7 +8,7 @@
 {% unless site.data.theme.faceted-search or site.data.theme.advanced-search %}
 {% include js/browse-simple-js.html %}
 {% else %}
-{% if site.data.theme.search-cjk == true %}<script src="{{ '/assets/js/cb-ja-search.js' | relative_url }}"></script>{% endif %}
+{% if site.data.theme.search-cjk == true %}<script src="{{ '/assets/cjk-index/cjk-index.js' | relative_url }}"></script>{% endif %}
 <script>
 /**
  * BROWSE PAGE JAVASCRIPT - Less Janky Version
@@ -275,7 +275,7 @@ function itemMatches(item, field, query, startDate, endDate) {
     if (query && query !== "") {
         const q = query.trim().toUpperCase();
         // with search-cjk, compare normalized strings (old/new kanji, kana, full/half width)
-        const has = window.cbJa ? (v) => cbJa.includes(v, query) : (v) => v.toUpperCase().includes(q);
+        const has = window.CJKIndex ? (v) => CJKIndex.includes(v, query) : (v) => v.toUpperCase().includes(q);
         
         // Search all fields 
         if (field === "all") {

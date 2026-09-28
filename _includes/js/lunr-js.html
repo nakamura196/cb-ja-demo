@@ -4,17 +4,22 @@
 <script src="{{ site.lib-assets | default: '/assets/lib' | relative_url }}/lunr.min.js"></script>
 <script src="{{ '/assets/js/lunr-store.js' | relative_url }}"></script>
 {%- if site.data.theme.search-cjk == true %}
-<script src="{{ '/assets/js/cb-ja-search.js' | relative_url }}"></script>
+<script src="{{ '/assets/cjk-index/cjk-index.js' | relative_url }}"></script>
 {%- endif %}
 <script>
 
-/* search engine: "cjk" (bigram + normalization, cb-ja-search.js) or "lunr" (lunr defaults).
+/* search engine: "cjk" (index prebuilt at build time by the cjk_index gem,
+   assets/cjk-index/search.json) or "lunr" (lunr defaults).
    ?engine=lunr forces the original behaviour, for comparison. */
 var searchEngine = {% if site.data.theme.search-cjk == true %}"cjk"{% else %}"lunr"{% endif %};
 if (new URLSearchParams(window.location.search).get('engine') === 'lunr') { searchEngine = "lunr"; }
 
 /* initialize lunr */
-var idx = searchEngine === "cjk" ? cbJa.buildIndex({{ index_fields | map: 'field' | jsonify }}, store) : lunr(function () {
+/* cjk_index returns the store "id" of each hit; map it back to the store position */
+var storePosition = {};
+store.forEach(function (s, i) { storePosition[s.id] = i; });
+var cjkReady = searchEngine === "cjk" ? CJKIndex.load({{ '/assets/cjk-index/search.json' | relative_url | jsonify }}) : null;
+var idx = searchEngine === "cjk" ? null : lunr(function () {
     /* uncomment the line below to turn off the default Lunr stopword list */
     //this.pipeline.remove(lunr.stopWordFilter)
     /* add index fields from config */
@@ -34,9 +39,12 @@ var idx = searchEngine === "cjk" ? cbJa.buildIndex({{ index_fields | map: 'field
 
 /* search function */
 function lunr_search () {
-    var query = searchbox.value;
+    if (cjkReady) { cjkReady.then(function (cjkIdx) { show_results(cjkIdx.search(searchbox.value).map(function (r) { return { ref: storePosition[r.ref] }; })); }); }
     /* basic search that supports operators */
-    var results = searchEngine === "cjk" ? cbJa.search(idx, query) : idx.search(query);
+    else { show_results(idx.search(searchbox.value)); }
+}
+
+function show_results (results) {
     resultsdiv.innerHTML = "";
     var newresults = "";
     for (var item in results) {

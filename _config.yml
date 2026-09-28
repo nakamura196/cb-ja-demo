@@ -79,3 +79,15 @@ exclude: [vendor/, docs/, Rakefile, rakelib/, README.md, LICENSE, CITATION.cff, 
 # compress CSS output
 sass:
   style: compressed
+
+##########
+# CJK SEARCH (cjk_index gem)
+#
+# Builds assets/cjk-index/search.json (the search index) and
+# assets/cjk-index/cjk-index.js (the browser runtime) at build time.
+# The collectionbuilder preset reads the same fields as the default search
+# (_data/config-search.csv, index = true). Used when search-cjk is true in _data/theme.yml.
+cjk_index:
+  indexes:
+    - name: search
+      preset: collectionbuilder
