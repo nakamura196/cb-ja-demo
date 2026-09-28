@@ -5,7 +5,7 @@
 # so they can be served from any static host (no image server)
 ###############################################################################
 #
-# For each image, writes objects/iiif/<name>/ with:
+# For each image, writes objects/iiif/3/<name>/ (Image API 3) with:
 #   full/max/0/default.jpg        the full image
 #   full/<w>,<h>/0/default.jpg    a few fixed sizes (the `sizes` argument)
 #   <region>/<w>,<h>/0/default.jpg  tiles, only for images whose long side
@@ -57,7 +57,7 @@ task :generate_iiif, [:input_dir, :sizes, :tile_threshold, :tile_size, :missing]
   widths = args.sizes.split(',').map(&:to_i).reject(&:zero?).sort
   threshold = args.tile_threshold.to_i
   tile_size = args.tile_size.to_i
-  out_root = File.join(args.input_dir, 'iiif')
+  out_root = File.join(args.input_dir, 'iiif', '3') # Image API 3
 
   images = Dir.glob(File.join(args.input_dir, '*')).select { |f| File.file?(f) && f =~ /\.(jpe?g|png|tiff?)$/i }
   puts "generate_iiif: #{images.size} images in #{args.input_dir}"

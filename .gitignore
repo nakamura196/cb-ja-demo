@@ -28,6 +28,8 @@ objects/thumbs/*
 !objects/thumbs/local_*
 !objects/iiif/
 objects/iiif/*
-!objects/iiif/local_*
+!objects/iiif/3/
+objects/iiif/3/*
+!objects/iiif/3/local_*
 _tools/cache/
 .dev-iiif.yml

@@ -9,14 +9,15 @@
 #    Width and height are read from the file header, so no extra metadata
 #    columns are needed. Returns nil for external URLs and missing files.
 #
-# 2. Generator: for every objects/iiif/<name>/_level0.json made by
-#    `rake generate_iiif`, writes objects/iiif/<name>/info.json with this
+# 2. Generator: for every objects/iiif/3/<name>/_level0.json made by
+#    `rake generate_iiif`, writes objects/iiif/3/<name>/info.json with this
 #    site's URL, so the same files work in development and production.
 
 require 'json'
 
 module CollectionBuilderIIIF
-  IIIF_DIR = 'objects/iiif'
+  # Image API version in the path, so a v2 service could sit beside it (objects/iiif/2/...)
+  IIIF_DIR = 'objects/iiif/3'
 
   # Pixel size from a JPEG or PNG header, without image libraries.
   def self.image_size(file)

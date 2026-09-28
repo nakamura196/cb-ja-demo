@@ -52,6 +52,7 @@ module CollectionBuilderPageGenerator
         template = template_location + (data_config['template'] || template_default)
         display_template = data_config['display_template'] || display_template_default
         template_override = data_config['template_override'] || false
+        permalink = data_config['permalink'] # optional output path pattern, ':name' is replaced by the filename, e.g. '/iiif/3/:name/manifest.json'
         name = data_config['name'] || name_default
         dir = data_config['dir'] || dir_default
         extension = data_config['extension'] || extension_default
@@ -177,6 +178,9 @@ module CollectionBuilderPageGenerator
             puts color_text("Error cb_page_gen: Could not find layout '#{page_data['layout']}'. Please check configuration or add the layout. Item page NOT generated for record '#{index}' in '#{data_file}'!", :red)
             next
           end
+
+          # custom output path
+          page_data['permalink'] = permalink.gsub(':name', page_data['base_filename']) if permalink
 
           # Pass the page data to the ItemPage generator
           site.pages << ItemPage.new(site, page_data, dir, extension)

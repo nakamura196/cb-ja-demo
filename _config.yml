@@ -49,14 +49,17 @@ metadata: utokyo-agri
 page_gen:
   # item pages (the default)
   - data: 'utokyo-agri'
-  # IIIF manifests at /manifests/<objectid>.json for items whose images are in objects/
-  # (items with an external `manifest` already have one, so they are skipped).
+  # IIIF Presentation 3 manifests at /iiif/3/<objectid>/manifest.json for items whose
+  # images are in objects/ (items with an external `manifest` already have one, so they
+  # are skipped). The version is part of the URL, as in Omeka S IIIF Server, so a v2
+  # (or later v4) output can be served alongside without changing these links.
   # Run `rake generate_iiif` to add level 0 image services (sizes, tiles for large images).
   - data: 'utokyo-agri'
     template: 'manifest'
     template_override: true
-    dir: 'manifests'
+    dir: 'iiif/3'
     extension: 'json'
+    permalink: '/iiif/3/:name/manifest.json'
     filter_condition: '!record["parentid"] && record["manifest"].to_s.strip.empty?'
 
 ##########
