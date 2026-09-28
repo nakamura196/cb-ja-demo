@@ -12,9 +12,10 @@ import re
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ASSIGN = '{%- assign t = site.data.locale[site.lang] -%}\n'
 
-# file -> list of (exact old text, key, English default, kind)
-# kind "html": text node/attribute in Liquid-rendered HTML
-# kind "js": inside a JS string; the default is emitted via jsonify-free quoting
+# file -> list of (exact old text, key, English default)
+# - ">Text<" text nodes and attr="Text" attributes become {{ t.key | default: "Text" }}
+# - RAW entries (key, exact HTML) become {% if t.key %}{{ t.key }}{% else %}HTML{% endif %},
+#   for text containing markup or quotes
 R = {
     '_layouts/search.html': [
         ('>Search Options<', 'search_options', 'Search Options'),
@@ -71,12 +72,45 @@ R = {
         ('>All Fields<', 'all_fields', 'All Fields'),
         ('>Title<', 'title', 'Title'),
         ('aria-label="Remove condition"', 'remove_condition', 'Remove condition'),
+        ('placeholder="Enter search term"', 'enter_search_term', 'Enter search term'),
+        ('aria-label="Search term"', 'search_terms', 'Search term'),
+    ],
+    '_includes/data-download-modal.html': [
+        ('>Download Data<', 'download_data', 'Download Data'),
+        ('>Collection Data<', 'collection_data', 'Collection Data'),
+        ('>Complete Metadata<', 'dl_complete', 'Complete Metadata'),
+        ('>Metadata Facets<', 'dl_facets', 'Metadata Facets'),
+        ('>Timeline<', 'timeline', 'Timeline'),
+        ('>Website Source Code<', 'dl_source', 'Website Source Code'),
+        ('>Source Code<', 'source_code', 'Source Code'),
+        ('aria-label="Close"', 'close', 'Close'),
+    ],
+    '_includes/scroll-to-top.html': [
+        ('title="Back to Top"', 'back_to_top', 'Back to Top'),
+        ('>Back to top<', 'back_to_top', 'Back to Top'),
     ],
     '_includes/collection-banner.html': [
         ('>Featured Image<', 'featured_image', 'Featured Image'),
     ],
     '_includes/js/browse-js.html': [
         ('>View Full Record<', 'view_full_record', 'View Full Record'),
+    ],
+}
+
+
+RAW = {
+    '_includes/data-download-modal.html': [
+        ('dl_complete_desc', 'All metadata fields for all collection items, available as a CSV spreadsheet (usable in Excel, Google Sheets, and similar programs) or JSON file (often used with web applications).'),
+        ('dl_facets_desc', 'List of unique values and their count for specific metadata fields, useful for understanding content of the fields.'),
+        ('dl_timeline_desc', 'A time-focused JSON data export designed for use with <a href="https://timeline.knightlab.com/">TimelineJS</a>.'),
+        ('dl_source_desc', 'GitHub repository containing source code for this project built with <a href="https://github.com/CollectionBuilder/collectionbuilder-csv">CollectionBuilder-CSV</a>.'),
+        ('dl_intro', "Download this collection's data in a variety of reusable formats."),
+    ],
+    '_includes/advanced-search-modal.html': [
+        ('add_another_field', 'Add Another Field'),
+    ],
+    '_layouts/about.html': [
+        ('toc_title', '\n                    Contents\n'),
     ],
 }
 
@@ -97,10 +131,16 @@ def sub(old, key, default):
     raise ValueError(old)
 
 
-for path, reps in R.items():
+for path in sorted(set(R) | set(RAW)):
+    reps = R.get(path, [])
     p = os.path.join(ROOT, path)
     s = open(p, encoding='utf-8').read()
     n = 0
+    for key, html in RAW.get(path, []):
+        wrapped = '{%% if t.%s %%}{{ t.%s }}{%% else %%}%s{%% endif %%}' % (key, key, html)
+        if wrapped not in s and html in s:
+            s = s.replace(html, wrapped)
+            n += 1
     for old, key, default in reps:
         if old in s:
             s = s.replace(old, sub(old, key, default))

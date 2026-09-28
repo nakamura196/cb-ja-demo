@@ -42,12 +42,14 @@ function lunr_search () {
     for (var item in results) {
         var ref = results[item].ref;
         var searchitem =
-            '<li class="border-bottom mb-3">'+
+            '<li class="border-bottom mb-3 search-result">'+
+            (store[ref].image_thumb ? '<a class="search-thumb" href="{{ "/items/" | relative_url }}' + store[ref].id + '" tabindex="-1" aria-hidden="true"><img class="lazyload" data-src="' + store[ref].image_thumb + '" alt=""></a>' : '') +
+            '<div class="search-text">' +
             {% assign display = fields | where: 'display','true' %}{% for d in display %}{% if forloop.first %}
             '<h4><a href="{{ "/items/" | relative_url }}' + store[ref].id + '">' + store[ref][{{ fields[0].field | jsonify }}]  + '</a></h4>' +
             '<p class="ms-3">';{% else %}
             if(store[ref][{{ d.field | jsonify }}]) { searchitem += store[ref][{{ d.field | jsonify }}] + '<br> '; }{% endif %}{% endfor %}
-        searchitem += '</p></li>';
+        searchitem += '</p></div></li>';
         newresults += searchitem;
     }
     var resultslist = `<h3 class="border-bottom mb-3 h5"><small>${ {{ t.results_found | default: '%n Results found' | jsonify }}.replace('%n', results.length) }</small></h3>

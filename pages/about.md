@@ -3,7 +3,7 @@ title: このサイトについて
 layout: about
 permalink: /about.html
 # include CollectionBuilder info at bottom
-credits: true
+credits: false
 about-featured-image: agri_2c310bb0
 position: center
 heading: このサイトについて
@@ -58,3 +58,8 @@ Mirador で開くボタンも付けています。
 - 中国語・韓国語での確認
 - 本体に取り込んでもらうための提案（プルリクエスト）
 - 利用者向けの手引き（日本語・英語）
+
+## クレジット
+
+このサイトは [CollectionBuilder-CSV](https://collectionbuilder.github.io/)（University of Idaho Library, Center for Digital Inquiry and Learning）をもとに作っています。
+画像と書誌は東京大学農学生命科学図書館・東京大学デジタルアーカイブポータルによるものです。

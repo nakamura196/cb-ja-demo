@@ -8,6 +8,6 @@ permalink: /data.html
 
 ## 目録データ
 
-The table below provides sorting and basic search of the collection contents. 
-Use the "CSV" button below to download the filtered metadata you see on the page. 
-Alternatively, click the "Download" button at the top right to view the full collection metadata in various formats. 
+収録資料の目録を表で見られます。
+列の名前を押すと並べ替え、右上の欄で絞り込みができます。
+目録全体は、右上の「ダウンロード」から CSV や JSON で取り出せます。

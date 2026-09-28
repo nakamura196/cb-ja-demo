@@ -50,3 +50,40 @@ close: 閉じる
 remove_condition: 条件を削除
 add_field: 条件を追加
 sort_by: 並べ替え：
+add_another_field: 条件を追加
+enter_search_term: 検索語を入力
+download_data: ダウンロード
+collection_data: 目録データのダウンロード
+dl_intro: 目録データを、再利用しやすい形式で取り出せます。
+dl_complete: 目録の全項目
+dl_complete_desc: すべての資料の全項目です。CSV（Excel・Google スプレッドシートで開けます）と JSON（ウェブアプリ向け）があります。
+dl_facets: 項目ごとの値の一覧
+dl_facets_desc: 時代・資料種別・作者などの項目について、値とその件数をまとめたものです。
+timeline: 年表
+dl_timeline_desc: 年表用の JSON です。<a href="https://timeline.knightlab.com/">TimelineJS</a> で使えます。
+dl_source: サイトのソースコード
+dl_source_desc: このサイトのソースコードです。<a href="https://github.com/CollectionBuilder/collectionbuilder-csv">CollectionBuilder-CSV</a> をもとに作っています。
+source_code: ソースコード
+back_to_top: ページの先頭へ
+link: リンク
+all: すべて
+# DataTables (data page table) — passed as its `language` option
+datatables:
+  search: "表内を検索："
+  lengthMenu: "_MENU_ 件ずつ表示"
+  info: "全 _TOTAL_ 件中 _START_〜_END_ 件"
+  infoEmpty: "0 件"
+  infoFiltered: "（全 _MAX_ 件から絞り込み）"
+  zeroRecords: "該当する資料はありません"
+  emptyTable: "データがありません"
+  loadingRecords: "読み込み中…"
+  paginate:
+    first: "最初"
+    last: "最後"
+    next: "次へ"
+    previous: "前へ"
+  buttons:
+    csv: "CSV"
+    excel: "Excel"
+toc_title: 目次
+to: 〜

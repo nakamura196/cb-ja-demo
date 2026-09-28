@@ -35,7 +35,7 @@ custom-foot: js/timeline-js.html
 
 {{ content }}
 
-<h3><a href="#y{{ uniqueYears | first }}">{{ uniqueYears | first }}</a> to <a href="#y{{ uniqueYears | last }}">{{ uniqueYears | last }}</a></h3>
+<h3><a href="#y{{ uniqueYears | first }}">{{ uniqueYears | first }}</a> {{ site.data.locale[site.lang].to | default: "to" }} <a href="#y{{ uniqueYears | last }}">{{ uniqueYears | last }}</a></h3>
 
 <table id="timeline" class="table table-striped">
     <tbody>

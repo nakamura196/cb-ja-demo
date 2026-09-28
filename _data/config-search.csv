@@ -7,3 +7,4 @@ creator,true,true
 description,true,true
 note,true,false
 era,true,false
+image_thumb,false,false
