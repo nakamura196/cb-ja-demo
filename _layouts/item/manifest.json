@@ -10,6 +10,9 @@
     gets its level 0 Image API service (fixed sizes, plus tiles for large images).
 
     Metadata fields and labels come from _data/config-metadata.csv.
+    Language maps: labels from the site (field names, site title) are tagged with
+    site.lang; values from the metadata are "none", since the items' own language
+    can differ from the interface language (the /en/ build shows Japanese records).
 {%- endcomment -%}
 {%- assign lang = site.lang | default: 'en' -%}
 {%- assign t = site.data.locale[site.lang] -%}
@@ -22,9 +25,9 @@
   "@context": "http://iiif.io/api/presentation/3/context.json",
   "id": {{ manifest_id | jsonify }},
   "type": "Manifest",
-  "label": { {{ lang | jsonify }}: [ {{ page.title | jsonify }} ] },
+  "label": { "none": [ {{ page.title | jsonify }} ] },
   {%- if page.description %}
-  "summary": { {{ lang | jsonify }}: [ {{ page.description | strip_html | jsonify }} ] },
+  "summary": { "none": [ {{ page.description | strip_html | jsonify }} ] },
   {%- endif %}
   "metadata": [
     {%- assign first = true -%}
@@ -51,7 +54,7 @@
   "homepage": [ {
     "id": {{ '/items/' | append: page.base_filename | append: '.html' | absolute_url | jsonify }},
     "type": "Text",
-    "label": { {{ lang | jsonify }}: [ {{ page.title | jsonify }} ] },
+    "label": { "none": [ {{ page.title | jsonify }} ] },
     "format": "text/html"
   } ],
   {%- if page.image_thumb %}
