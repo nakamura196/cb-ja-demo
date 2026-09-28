@@ -500,3 +500,64 @@ table.dataTable thead > tr > th.sorting_asc::before, table.dataTable thead > tr 
 footer.bg-black > .row > div { padding-left: 0.75rem !important; padding-right: 0.75rem !important; }
 .dt-buttons .btn { background: transparent !important; color: var(--museum-ink) !important; border: 1px solid var(--museum-line) !important; }
 .dt-buttons .btn:hover { color: var(--museum-accent) !important; border-color: var(--museum-accent) !important; }
+
+/* ========== pass 2 (second review round) ========== */
+/* hero: light overall veil + bottom scrim */
+#home-banner::before { content: ""; position: absolute; inset: 0; background: rgba(24, 22, 19, 0.16); pointer-events: none; }
+#home-banner #home-title-box { position: relative; z-index: 1; }
+
+/* one "you are here" treatment in header and footer: underline */
+.navbar .nav-link.active { font-weight: 500; box-shadow: inset 0 -1px 0 currentColor; }
+
+/* quiet buttons need a visible edge */
+.btn-secondary, .btn-light, .btn-outline-secondary, .btn-outline-dark, .btn-outline-primary { --bs-btn-border-color: #c9bfae; }
+
+/* result count reads as a heading, not body text */
+#numberOf { font-family: var(--museum-heading-font); color: var(--museum-ink); font-size: 1.05rem; }
+
+/* show the current filter scope on phones too */
+#selectedField { display: inline !important; font-size: 0.85rem; }
+
+/* item: citation / rights boxes as one warm panel, no seam */
+#metadata ~ .col-md-5 .card { --bs-card-bg: var(--museum-paper-2); --bs-card-cap-bg: transparent; }
+#metadata ~ .col-md-5 .card-body, #metadata ~ .col-md-5 dl { background: transparent; }
+/* item: long URLs on one line with ellipsis */
+#metadata dd a[href^="http"] { display: inline-block; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; vertical-align: bottom; word-break: normal; }
+/* item: viewer links read as secondary text actions, not a row of slabs */
+.iiif-item .card-body { justify-content: flex-start !important; gap: 0.25rem 1.5rem !important; padding: 0.9rem 0; }
+.iiif-item .card-body .btn { border: none; padding: 0.2rem 0; font-size: 0.9rem; color: var(--museum-accent); background: none; }
+.iiif-item .card-body .btn:hover { text-decoration: underline; }
+
+/* data table (DataTables 2): sort indicators */
+table.dataTable thead th .dt-column-order { opacity: 0.35; }
+table.dataTable thead th.dt-ordering-asc .dt-column-order, table.dataTable thead th.dt-ordering-desc .dt-column-order { opacity: 1; color: var(--museum-accent); }
+
+/* scrollable tables: edge shadows show there is more to the side */
+.table-responsive {
+    background:
+        linear-gradient(to right, var(--museum-paper) 30%, rgba(247, 244, 238, 0)) left / 2.5rem 100% no-repeat local,
+        linear-gradient(to left, var(--museum-paper) 30%, rgba(247, 244, 238, 0)) right / 2.5rem 100% no-repeat local,
+        linear-gradient(to right, rgba(36, 33, 29, 0.12), rgba(36, 33, 29, 0)) left / 0.9rem 100% no-repeat scroll,
+        linear-gradient(to left, rgba(36, 33, 29, 0.12), rgba(36, 33, 29, 0)) right / 0.9rem 100% no-repeat scroll;
+}
+.table-responsive .table { --bs-table-bg: transparent; }
+
+/* search comparison: one accent; zero is muted, a hit is accent */
+.compare-table .is-zero { color: var(--museum-muted); font-weight: 400; }
+.compare-table .is-hit { color: var(--museum-accent); }
+
+/* modal and dropdown carry the heading face */
+.modal-title { font-family: var(--museum-heading-font) !important; }
+
+@media (max-width: 575.98px) {
+    /* compare table becomes stacked cards */
+    .compare-table { min-width: 0; background: transparent; }
+    .compare-table thead { display: none; }
+    .compare-table tr { display: block; background: var(--museum-surface); border: 1px solid var(--museum-line); margin-bottom: 0.9rem; padding: 0.75rem 1rem; }
+    .compare-table th[scope="row"] { display: block; border: none; padding: 0 0 0.4rem; font-size: 1.05rem; }
+    .compare-table td { display: flex; justify-content: space-between; align-items: baseline; border: none; padding: 0.15rem 0; text-align: left !important; }
+    .compare-table td::before { content: attr(data-label); font-size: 0.8rem; color: var(--museum-muted); margin-right: 1rem; }
+    .compare-table td.small { display: block; padding-top: 0.4rem; }
+    .compare-table td.small::before { display: block; margin-bottom: 0.2rem; }
+    #scroll-to-top { bottom: 5rem !important; }
+}

@@ -10,7 +10,7 @@ layout: page
 
 <form id="compareForm" class="d-flex gap-2 my-4" role="search">
     <input id="compareBox" class="form-control form-control-lg" type="search" aria-label="{{ t.search | default: 'Search' }}" placeholder="{{ t.search_placeholder | default: 'Enter your search term...' }}">
-    <button class="btn btn-dark btn-lg px-4" type="submit">{{ t.compare | default: "Compare" }}</button>
+    <button class="btn btn-primary btn-lg px-4" type="submit">{{ t.compare | default: "Compare" }}</button>
 </form>
 
 <div class="table-responsive">
@@ -45,6 +45,7 @@ layout: page
     });
     var cjkIdx = cbJa.buildIndex(fields, store);
     var rows = document.getElementById('compareRows');
+    var labels = {{ t.engine_lunr | default: "CollectionBuilder (default)" | jsonify }} ? [{{ t.engine_lunr | default: "CollectionBuilder (default)" | jsonify }}, {{ t.engine_cjk | default: "CJK-aware search" | jsonify }}, {{ t.matched_items | default: "Matched items" | jsonify }}] : [];
     var base = {{ '/items/' | relative_url | jsonify }};
     var searchUrl = {{ '/search/' | relative_url | jsonify }};
 
@@ -58,9 +59,9 @@ layout: page
         }).join('、') + (b.length > 4 ? ' …' : '');
         var tr = document.createElement('tr');
         tr.innerHTML = '<th scope="row"><a href="' + searchUrl + '?q=' + encodeURIComponent(q) + '">' + esc(q) + '</a></th>' +
-            '<td class="text-end compare-count' + (a.length ? '' : ' is-zero') + '">' + a.length + '</td>' +
-            '<td class="text-end compare-count' + (b.length ? ' is-hit' : ' is-zero') + '">' + b.length + '</td>' +
-            '<td class="small">' + titles + '</td>';
+            '<td data-label="' + labels[0] + '" class="text-end compare-count' + (a.length ? '' : ' is-zero') + '">' + a.length + '</td>' +
+            '<td data-label="' + labels[1] + '" class="text-end compare-count' + (b.length ? ' is-hit' : ' is-zero') + '">' + b.length + '</td>' +
+            '<td data-label="' + labels[2] + '" class="small">' + titles + '</td>';
         if (prepend) rows.insertBefore(tr, rows.firstChild); else rows.appendChild(tr);
     }
     {{ page.compare-queries | jsonify }}.forEach(function (q) { run(q); });

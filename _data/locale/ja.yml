@@ -87,3 +87,12 @@ datatables:
     excel: "Excel"
 toc_title: 目次
 to: 〜
+template_labels:
+  iiif: IIIF 画像
+  image: 画像
+  record: 書誌のみ
+  pdf: PDF
+  video: 動画
+  audio: 音声
+  compound_object: 複合資料
+  multiple: 複数の画像

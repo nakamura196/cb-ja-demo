@@ -2,7 +2,9 @@
 layout: home-museum
 title: ホーム
 permalink: /
-banner-featured-image: agri_627f6b5d
+# IIIF region crop of agri_627f6b5d (canvas 6): only the printed pages, no scan backdrop
+banner-featured-image: https://iiif.dl.itc.u-tokyo.ac.jp/iiif/agri_waso_re/D_yushutsuyuri/006.tif/pct:6,10,87,80/2400,/0/default.jpg
+banner-image-position: center 35%
 banner-padding: 8em
 search-examples:
   - 鳥瞰図

@@ -15,7 +15,7 @@ layout: default
             <h2 class="museum-h2">{{ t.search_heading | default: "Search the collection" }}</h2>
             <form action="{{ '/search/' | relative_url }}" method="get" class="d-flex gap-2 mb-3" role="search">
                 <input class="form-control form-control-lg" type="search" name="q" aria-label="{{ t.search | default: 'Search' }}" placeholder="{{ t.search_placeholder | default: 'Enter your search term...' }}">
-                <button class="btn btn-dark btn-lg px-4" type="submit">{{ t.search | default: "Search" }}</button>
+                <button class="btn btn-primary btn-lg px-4" type="submit">{{ t.search | default: "Search" }}</button>
             </form>
             {% if page.search-examples %}
             <p class="small text-muted mb-2">{{ t.search_examples | default: "Try:" }}</p>
