@@ -25,11 +25,13 @@ OBJ = os.path.join(ROOT, 'objects')
 REFERER = 'https://nakamura196.github.io/'  # the server refuses http:// referers
 
 # (source item, new objectid, template, [(image service, width to download)])
+# 'iiif' shows the item in Universal Viewer from the manifest this site generates,
+# like the other items; 'image' / 'compound_object' would use CB's own galleries.
 SAMPLES = [
-    ('agri_187cc82d', 'local_chokanzu', 'image', [
+    ('agri_187cc82d', 'local_chokanzu', 'iiif', [
         ('https://iiif.dl.itc.u-tokyo.ac.jp/iiif/agriculture_re/nou_tatemonochokanzu/0002.tif', 6000),
     ]),
-    ('agri_97a6ecb3', 'local_gunpo09', 'compound_object', [
+    ('agri_97a6ecb3', 'local_gunpo09', 'iiif', [
         ('https://iiif.dl.itc.u-tokyo.ac.jp/iiif/agri_waso20201006_re/13_gunbozuhu_09/%03d.tif' % i, 2400)
         for i in range(1, 10)
     ]),
@@ -89,6 +91,8 @@ def main():
                 child.update(loc, objectid=name, parentid=oid, title=f'{src["title"]} 第{i}コマ',
                              format='image/jpeg', display_template='image', rights=src['rights'],
                              rightsstatement=src['rightsstatement'], image_alt_text=f'{src["title"]} 第{i}コマ')
+                if 'group' in fields:  # holding-library group used by the browse facets
+                    child['group'] = src.get('group', '')
                 children.append(child)
         if children:  # the parent uses its first page as the representative image
             base.update(image_small=children[0]['image_small'], image_thumb=children[0]['image_thumb'],
