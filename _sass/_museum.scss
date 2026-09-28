@@ -585,7 +585,7 @@ h2 > a.btn-outline-dark[href="#metadata"] {
 #nav-search-box { padding-left: 2.25rem; }
 /* phone menu: the search box already leads to the search page, so drop the duplicate link */
 @media (max-width: 991.98px) {
-    #page-nav .nav-link[href$="/search.html"] { display: none; }
+    #page-nav .nav-link[href$="/search/"], #page-nav .nav-link[href$="/search.html"] { display: none; }
     #nav-search { margin: 0.5rem 0 0.75rem; }
 }
 
