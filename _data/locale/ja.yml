@@ -84,6 +84,12 @@ datatables:
     last: "最後"
     next: "次へ"
     previous: "前へ"
+  aria:
+    paginate:
+      first: "最初のページ"
+      previous: "前のページ"
+      next: "次のページ"
+      last: "最後のページ"
   buttons:
     csv: "CSV"
     excel: "Excel"
@@ -99,3 +105,19 @@ template_labels:
   compound_object: 複合資料
   multiple: 複数の画像
 featured_items: 収録資料から
+skip_to_content: 本文へ移動
+toggle_navigation: メニューを開く
+built_with: 使用ツール
+up_arrow: 上向きの矢印
+boolean_option: 条件のつなぎ方
+op_and: かつ
+op_or: または
+op_not: 除く
+metadata_field: 検索する項目
+select_filter_field: 絞り込む項目を選ぶ
+filter_options: 絞り込む項目
+filter_items: 絞り込む
+dl_metadata_csv: CSV
+dl_metadata_json: JSON
+dl_facets_json: JSON
+dl_timeline_json: JSON

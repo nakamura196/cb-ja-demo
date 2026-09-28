@@ -3,5 +3,5 @@ year,西暦,,,西暦
 creator,作者・編者,,,
 era,,true,,時代,時代
 type,,true,,,資料種別
-title_kana,,,true,よみ（五十音）,
-description,,,true,
+title_kana,よみ,,true,よみ（五十音）,
+description,資料の解説,,true,

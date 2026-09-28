@@ -44,7 +44,8 @@
         "wholeImagesHighRes": "画像全体 ({0})",
         "wholeImageHighResExplanation": "新しいウィンドウで開きます。",
         "wholeImageLowResAsJpgExplanation": "新しいウィンドウで開きます。",
-        "wholeImagesHighResExplanation": "2 つの新しいウィンドウで開きます。"
+        "wholeImagesHighResExplanation": "2 つの新しいウィンドウで開きます。",
+        "termsOfUse": "利用条件"
       }
     },
     "footerPanel": {
@@ -72,7 +73,8 @@
     },
     "helpDialogue": {
       "content": {
-        "title": "ヘルプ"
+        "title": "ヘルプ",
+        "text": ""
       }
     },
     "moreInfoRightPanel": {
@@ -161,7 +163,8 @@
         "pagingEnabled": "見開き表示",
         "reducedMotion": "動きを減らす（アニメーションを切る）",
         "preserveViewport": "拡大率を保つ",
-        "title": "設定"
+        "title": "設定",
+        "website": "<a href='https://github.com/universalviewer/universalviewer#contributors'>Universal Viewer について</a>"
       }
     },
     "shareDialogue": {
@@ -176,6 +179,59 @@
         "size": "大きさ:",
         "width": "幅"
       }
+    },
+    "searchFooterPanel": {
+      "content": {
+        "clearSearch": "消去",
+        "displaying": "{0} {1} / {2}",
+        "enterKeyword": "語を入力",
+        "image": "画像",
+        "imageCaps": "画像",
+        "instanceFound": "「{0}」が 1 か所見つかりました",
+        "instancesFound": "「{1}」が {0} か所見つかりました",
+        "nextResult": "次の結果",
+        "page": "ページ",
+        "pageCaps": "ページ",
+        "previousResult": "前の結果",
+        "print": "印刷",
+        "resultFoundFor": "件見つかりました：",
+        "resultsFoundFor": "件見つかりました：",
+        "searchWithin": "この資料の中を検索："
+      }
+    },
+    "authDialogue": {
+      "content": {
+        "cancel": "キャンセル",
+        "confirm": "確認"
+      }
+    },
+    "clickThroughDialogue": {
+      "content": {
+        "viewTerms": "利用条件の全文を読む"
+      }
+    },
+    "loginDialogue": {
+      "content": {
+        "login": "ログイン",
+        "logout": "ログアウト",
+        "cancel": "キャンセル"
+      }
+    },
+    "restrictedDialogue": {
+      "content": {
+        "cancel": "キャンセル"
+      }
     }
+  },
+  "content": {
+    "authCORSError": "お使いのブラウザは CORS に対応していないため、この資料を表示できません。",
+    "authorisationFailedMessage": "ログインできませんでした。もう一度お試しください。",
+    "canvasIndexOutOfRange": "指定したコマは範囲外です。",
+    "fallbackDegradedLabel": "ログイン",
+    "fallbackDegradedMessage": "高い解像度で見るにはログインしてください。",
+    "forbiddenResourceMessage": "この画像を見る権限がありません。",
+    "mediaViewer": "画像ビューア",
+    "skipToDownload": "ダウンロードと別の形式へ移動",
+    "termsOfUse": "利用条件"
   }
 }

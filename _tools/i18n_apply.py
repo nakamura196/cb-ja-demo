@@ -17,7 +17,20 @@ ASSIGN = '{%- assign t = site.data.locale[site.lang] -%}\n'
 # - RAW entries (key, exact HTML) become {% if t.key %}{{ t.key }}{% else %}HTML{% endif %},
 #   for text containing markup or quotes
 R = {
+    '_includes/feature/modal.html': [
+        ('aria-label="Close"', 'close', 'Close'),
+    ],
+    '_includes/collection-side-nav.html': [
+        ('aria-label="Close"', 'close', 'Close'),
+    ],
+    '_includes/collection-nav.html': [
+        ('aria-label="Toggle navigation"', 'toggle_navigation', 'Toggle navigation'),
+    ],
+    '_layouts/default.html': [
+        ('>Skip to main content<', 'skip_to_content', 'Skip to main content'),
+    ],
     '_layouts/search.html': [
+        ('aria-label="Close"', 'close', 'Close'),
         ('>Search Options<', 'search_options', 'Search Options'),
         ('>Lunr Search Options<', 'search_options', 'Search Options'),
         ('placeholder="Enter your search term..."', 'search_placeholder', 'Enter your search term...'),
@@ -50,6 +63,13 @@ R = {
         ('aria-label="Jump to Item Info"', 'jump_to_item_info', 'Jump to Item Info'),
     ],
     '_layouts/browse.html': [
+        ('aria-label="select search field to filter"', 'select_filter_field', 'select search field to filter'),
+        ('title="Filter options"', 'filter_options', 'Filter options'),
+        ('aria-label="Search"', 'search', 'Search'),
+        ('aria-label="Start Date"', 'start_date', 'Start Date'),
+        ('aria-label="End Date"', 'end_date', 'End Date'),
+        ('>to<', 'to', 'to'),
+        ('title="Filter items"', 'filter_items', 'Filter items'),
         ('placeholder="Filter ... "', 'filter_placeholder', 'Filter ... '),
         ('>All Fields<', 'all_fields', 'All Fields'),
         ('>Title<', 'title', 'Title'),
@@ -63,9 +83,21 @@ R = {
         ('>Loading...<', 'loading', 'Loading...'),
     ],
     '_includes/footer.html': [
+        ('>built with<', 'built_with', 'built with'),
         ('>Last updated ', 'last_updated', 'Last updated'),
     ],
     '_includes/advanced-search-modal.html': [
+        ('aria-label="Close"', 'close', 'Close'),
+        ('aria-label="Boolean option"', 'boolean_option', 'Boolean option'),
+        ('>AND<', 'op_and', 'AND'),
+        ('>OR<', 'op_or', 'OR'),
+        ('>NOT<', 'op_not', 'NOT'),
+        ('aria-label="Metadata Field"', 'metadata_field', 'Metadata Field'),
+        ('aria-label="Start Date"', 'start_date', 'Start Date'),
+        ('placeholder="Start Date"', 'start_date', 'Start Date'),
+        ('aria-label="End Date"', 'end_date', 'End Date'),
+        ('placeholder="End Date"', 'end_date', 'End Date'),
+        ('>to<', 'to', 'to'),
         ('>Advanced Search<', 'advanced_search_title', 'Advanced Search'),
         ('>Close<', 'close', 'Close'),
         ('>Search<', 'search', 'Search'),
@@ -76,6 +108,10 @@ R = {
         ('aria-label="Search term"', 'search_terms', 'Search term'),
     ],
     '_includes/data-download-modal.html': [
+        ('>Metadata CSV<', 'dl_metadata_csv', 'Metadata CSV'),
+        ('>Metadata JSON<', 'dl_metadata_json', 'Metadata JSON'),
+        ('>Facets JSON<', 'dl_facets_json', 'Facets JSON'),
+        ('>TimelineJS JSON<', 'dl_timeline_json', 'TimelineJS JSON'),
         ('>Download Data<', 'download_data', 'Download Data'),
         ('>Collection Data<', 'collection_data', 'Collection Data'),
         ('>Complete Metadata<', 'dl_complete', 'Complete Metadata'),
@@ -86,6 +122,7 @@ R = {
         ('aria-label="Close"', 'close', 'Close'),
     ],
     '_includes/scroll-to-top.html': [
+        ('aria-label="Up Arrow"', 'up_arrow', 'Up Arrow'),
         ('title="Back to Top"', 'back_to_top', 'Back to Top'),
         ('>Back to top<', 'back_to_top', 'Back to Top'),
     ],

@@ -14,7 +14,7 @@ custom-foot: js/lunr-js.html
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title h4" id="modalLabel">{{ t.search_options | default: "Search Options" }}</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ t.close | default: "Close" }}"></button>
             </div>
             <div class="modal-body">
                 <p>These advanced options can be added to your query in the search box to refine your results:</p> 

@@ -644,6 +644,10 @@ h2 > a.btn-outline-dark[href="#metadata"] {
     transform: none !important; writing-mode: vertical-rl; text-orientation: upright;
     width: auto !important; height: auto !important; letter-spacing: 0.2em; margin: 0.5rem auto 0 !important; position: static !important;
 }
+/* UV's own language menu only offers its bundled European locales; picking one discards our Japanese strings */
+:lang(ja) .uv .overlay.settings .setting.locale, :lang(zh) .uv .overlay.settings .setting.locale, :lang(ko) .uv .overlay.settings .setting.locale { display: none; }
+/* footer credit: no synthetic italics for CJK text */
+:lang(ja) #footer-credits em, :lang(zh) #footer-credits em, :lang(ko) #footer-credits em { font-style: normal; }
 /* comparison: query terms stay links (dotted underline), without the accent colour */
 .compare-table th[scope="row"] a { text-decoration: underline dotted; text-decoration-color: var(--museum-line); text-underline-offset: 0.3em; }
 

@@ -7,7 +7,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title h4" id="advancedSearchModalLabel">{{ t.advanced_search_title | default: "Advanced Search" }}</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ t.close | default: "Close" }}"></button>
       </div>
       <div class="modal-body">
         <form id="advancedSearchForm">
@@ -38,14 +38,14 @@
     <div class="search-row mb-4">
         <div class="row align-items-center">
             <div class="col-4 col-md-2">
-                <select class="form-select form-select-sm boolean-operator" aria-label="Boolean option">
-                    <option value="AND">AND</option>
-                    <option value="OR">OR</option>
-                    <option value="NOT">NOT</option>
+                <select class="form-select form-select-sm boolean-operator" aria-label="{{ t.boolean_option | default: "Boolean option" }}">
+                    <option value="AND">{{ t.op_and | default: "AND" }}</option>
+                    <option value="OR">{{ t.op_or | default: "OR" }}</option>
+                    <option value="NOT">{{ t.op_not | default: "NOT" }}</option>
                 </select>
             </div>
             <div class="col-5 col-md-3">
-                <select class="form-select form-select-sm field-select" aria-label="Metadata Field">
+                <select class="form-select form-select-sm field-select" aria-label="{{ t.metadata_field | default: "Metadata Field" }}">
                     <option value="all">{{ t.all_fields | default: "All Fields" }}</option>
                     <option value="title">{{ t.title | default: "Title" }}</option>
                     {% for f in site.data.config-browse %}{% assign cap-field = f.field | capitalize %}
@@ -57,9 +57,9 @@
                 <input type="text" class="form-control form-control-sm search-input" aria-label="{{ t.search_terms | default: "Search term" }}" placeholder="{{ t.enter_search_term | default: "Enter search term" }}">
                 <div class="date-range-inputs">
                     <div class="date-input-group">
-                        <input type="text" class="form-control form-control-sm start-date" aria-label="Start Date" placeholder="Start Date">
-                        <span class="date-separator">to</span>
-                        <input type="text" class="form-control form-control-sm end-date" aria-label="End Date" placeholder="End Date">
+                        <input type="text" class="form-control form-control-sm start-date" aria-label="{{ t.start_date | default: "Start Date" }}" placeholder="{{ t.start_date | default: "Start Date" }}">
+                        <span class="date-separator">{{ t.to | default: "to" }}</span>
+                        <input type="text" class="form-control form-control-sm end-date" aria-label="{{ t.end_date | default: "End Date" }}" placeholder="{{ t.end_date | default: "End Date" }}">
                     </div>
                 </div>
             </div>
