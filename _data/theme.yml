@@ -132,3 +132,5 @@ font-cdn: '<link rel="preconnect" href="https://fonts.googleapis.com"><link rel=
 #   icon-multiple: postcard
 #   icon-default: file-earmark # fall back icon
 #   icon-back-to-top: arrow-up-square
+icons:
+  icon-back-to-top: arrow-up # plain arrow: the museum theme draws the round button itself

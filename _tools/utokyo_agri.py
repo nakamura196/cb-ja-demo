@@ -44,13 +44,15 @@ LICENSE = {
 # Which canvas (0-based) to use as the item's representative image. The first
 # canvas is usually the cover with a colour chart, so pick a plate instead.
 # Chosen by eye from a contact sheet; anything not listed uses n // 4.
+# All 34 checked frame by frame on 2026-09-28 (text-only volumes use the title
+# page where there is one; the scroll and maps keep their colour charts).
 CANVAS = {
-    'd9115c2c': 0, '29d63e58': 12, '5bfde8bf': 11, '87c1c4a4': 3, '7844f0c7': 11,
-    'bb4b00b5': 2, '42dfe305': 2, '6041ed83': 2, '627f6b5d': 5, '2c310bb0': 25,
+    'd9115c2c': 11, '29d63e58': 12, '5bfde8bf': 11, '87c1c4a4': 1, '7844f0c7': 11,
+    'bb4b00b5': 1, '42dfe305': 2, '6041ed83': 2, '627f6b5d': 5, '2c310bb0': 25,
     '70f02bc2': 21, 'f9dbea50': 22, 'c2466a42': 3, '9c79a3bb': 2, '58f3ea6c': 2,
     '3e6f484d': 42, 'a09fc5f4': 2, 'f3bfde97': 2, '4e17a945': 5, '8d83cc45': 3,
     'c9f1ab4e': 2, '05fc859e': 3, 'e443b3ea': 3, '2da73342': 10, '30c60644': 3,
-    '0717b584': 3, 'a2af6812': 5, '97a6ecb3': 2, '6d032fb5': 7, '187cc82d': 1,
+    '0717b584': 3, 'a2af6812': 4, '97a6ecb3': 2, '6d032fb5': 3, '187cc82d': 1,
     'df8094b2': 3, 'b4814f58': 3, '7a3e0c92': 3, 'b6e42779': 3,
 }
 

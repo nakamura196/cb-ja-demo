@@ -209,7 +209,7 @@ a:focus:not(:focus-visible), .btn:focus:not(:focus-visible), .nav-link:focus:not
         /* scrim covers the whole text block, so the title reads on any image */
         background: linear-gradient(180deg, rgba(36, 33, 29, 0) 0%, rgba(36, 33, 29, 0.55) 40%, rgba(36, 33, 29, 0.88) 100%) !important;
         text-align: left !important;
-        padding: 9rem max(1rem, calc((100vw - 1296px) / 2 + 0.75rem)) 2.5rem !important;
+        padding: 9rem var(--museum-gutter) 2.5rem !important;
     }
     h1 { font-size: clamp(1.9rem, 5vw, 3.6rem); margin-bottom: 0.5rem; text-shadow: 0 1px 12px rgba(0, 0, 0, 0.35); }
     p { letter-spacing: 0.12em; opacity: 0.85; }
@@ -646,3 +646,58 @@ h2 > a.btn-outline-dark[href="#metadata"] {
 }
 /* comparison: query terms stay links (dotted underline), without the accent colour */
 .compare-table th[scope="row"] a { text-decoration: underline dotted; text-decoration-color: var(--museum-line); text-underline-offset: 0.3em; }
+
+/* ========== pass 5 ========== */
+/* full-bleed banners: text starts on the same line as the navbar and page
+   content, i.e. the Bootstrap .container edge at each breakpoint */
+#home-banner, #about-feature { --museum-container: 100%; --museum-gutter: calc((100% - var(--museum-container)) / 2 + 0.75rem); }
+@media (min-width: 576px) { #home-banner, #about-feature { --museum-container: 540px; } }
+@media (min-width: 768px) { #home-banner, #about-feature { --museum-container: 720px; } }
+@media (min-width: 992px) { #home-banner, #about-feature { --museum-container: 960px; } }
+@media (min-width: 1200px) { #home-banner, #about-feature { --museum-container: 1140px; } }
+@media (min-width: 1400px) { #home-banner, #about-feature { --museum-container: 1320px; } }
+/* hero: the banner include adds `padding: 4rem 0`, which left a strip of bare
+   image under the scrim. The title box now sits on the image's bottom edge. */
+#home-banner { padding: 0 !important; }
+#home-banner #home-title-box { align-self: stretch; display: flex; flex-direction: column; justify-content: flex-end; }
+/* round icon buttons: the base theme sets font-size 40px on the link, so the
+   icon sat on a 40px text line and drifted off-centre. Centre it geometrically. */
+#scroll-to-top { font-size: 1rem; line-height: 1; }
+/* about page banner: same treatment as the home hero (the layout's own
+   `padding: 4rem 0` left bare image above and below a floating dark band) */
+#about-feature {
+    position: relative;
+    padding: 0 !important;
+    min-height: min(40vh, 380px);
+    display: flex;
+    align-items: flex-end;
+    background-color: var(--museum-dark);
+}
+#about-feature::before { content: ""; position: absolute; inset: 0; background: rgba(24, 22, 19, 0.16); pointer-events: none; }
+#about-feature #about-title-box { position: relative; z-index: 1; width: 100%; padding: 0 !important; }
+#about-feature .about-title {
+    background: linear-gradient(180deg, rgba(36, 33, 29, 0) 0%, rgba(36, 33, 29, 0.55) 40%, rgba(36, 33, 29, 0.88) 100%) !important;
+    padding: 6rem var(--museum-gutter) 2.25rem !important;
+    h2 { margin: 0; font-size: clamp(1.8rem, 5vw, 3rem); text-shadow: 0 1px 12px rgba(0, 0, 0, 0.35); }
+}
+/* about page body: contents column and TOC sit inside the page container, like
+   every other page (the base layout runs edge to edge, so the TOC started at 32px) */
+.jekyll-toc-list { font-style: normal; }
+@media (min-width: 992px) {
+    #about-wrapper { max-width: 960px; margin: 0 auto; padding: 0 0.75rem; grid-template-columns: 13rem minmax(0, 1fr); column-gap: 3rem; }
+    #about-toc-list { padding: 2.6rem 0 1rem; }
+    .jekyll-toc-list { font-size: 0.9rem; border-left: 1px solid var(--museum-line); padding-left: 1rem; }
+    .jekyll-toc-list a { color: var(--museum-muted); text-decoration: none; }
+    .jekyll-toc-list a:hover { color: var(--museum-accent); text-decoration: underline; }
+    #about-contents-wrapper { padding: 2rem 0 0; }
+}
+@media (max-width: 991.98px) {
+    #about-contents-wrapper, #credits-contents-wrapper { margin: 0 auto; padding: 1rem 0.75rem; }
+}
+/* phones/tablets: the about TOC is a bar fixed to the bottom; keep the footer's last line clear of it */
+@media (max-width: 991.98px) { body:has(#about-toc-wrapper) footer { padding-bottom: 3.5rem !important; } }
+@media (min-width: 576px) and (max-width: 767.98px) { #about-contents-wrapper, #credits-contents-wrapper { max-width: 540px; } }
+@media (min-width: 768px) and (max-width: 991.98px) { #about-contents-wrapper, #credits-contents-wrapper { max-width: 720px; } }
+@media (min-width: 1200px) { #about-wrapper { max-width: 1140px; } }
+@media (min-width: 1400px) { #about-wrapper { max-width: 1320px; } }
+#scroll-to-top svg { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); vertical-align: 0; }
