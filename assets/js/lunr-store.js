@@ -10,7 +10,7 @@
 var store = [ 
 {%- for item in items -%} 
 {  
-{% for f in fields %}{% if item[f.field] %}{{ f.field | jsonify }}: {{ item[f.field] | normalize_whitespace | replace: '""','"' | jsonify }},{% endif %}{% endfor %} 
+{% for f in fields %}{% if item[f.field] %}{{ f.field | jsonify }}: {% if f.field == 'image_thumb' %}{{ item[f.field] | relative_url | jsonify }}{% else %}{{ item[f.field] | normalize_whitespace | replace: '""','"' | jsonify }}{% endif %},{% endif %}{% endfor %} 
 "id": {% if item.parentid %}{{ item.parentid | append: '.html#' | append: item.objectid | jsonify }}{% else %}{{item.objectid | append: '.html' | jsonify }}{% endif %}
 
 }{%- unless forloop.last -%},{%- endunless -%}
