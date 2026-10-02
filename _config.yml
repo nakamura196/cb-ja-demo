@@ -81,6 +81,17 @@ page_gen:
     permalink: '/iiif/2/:name/manifest.json'
     filter_condition: '!record["parentid"] && record["manifest"].to_s.strip.empty?'
 
+# How viewers lay out an item's images, in the manifests generated above
+# (`behavior` in Presentation 3, `viewingHint` in 2) and in Universal Viewer:
+#   individuals  one image at a time. Use this when each image is already a whole
+#                opening, as in the University of Tokyo Digital Archives
+#   paged        two images side by side, as a book. Only when each image is one page
+#   continuous   one long strip (scrolls)
+# An item can differ from this with an `iiif_behavior` column in the metadata CSV.
+# Items with an external `manifest` keep that manifest's own setting; for those the
+# column (not this default) tells Universal Viewer to show two pages side by side.
+iiif-behavior: individuals
+
 ##########
 # ORGANIZATION SETTINGS
 #

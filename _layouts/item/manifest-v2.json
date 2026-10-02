@@ -10,13 +10,16 @@
 
     Version 2 has no language maps here: labels and values are plain strings.
     rights → license (a URI), requiredStatement → attribution,
-    homepage → related. There is no provider in version 2.
+    homepage → related, behavior (`iiif_behavior` column, else `iiif-behavior`
+    in _config.yml) → the sequence's viewingHint. There is no provider in version 2.
 {%- endcomment -%}
 {%- assign manifest_id = page.permalink | default: page.url | absolute_url -%}
 {%- assign manifest_base = manifest_id | split: '/' | pop | join: '/' -%}
 {%- assign children = site.data[site.metadata] | where_exp: 'item', 'item.parentid == page.objectid' -%}
 {%- if children.size == 0 -%}{%- assign children = site.data[site.metadata] | where_exp: 'item', 'item.objectid == page.objectid' -%}{%- endif -%}
 {%- assign fields = site.data.config-metadata -%}
+{%- assign behavior = page.iiif_behavior | default: site['iiif-behavior'] | strip -%}
+{%- unless behavior == "individuals" or behavior == "paged" or behavior == "continuous" %}{% assign behavior = nil %}{% endunless -%}
 {
   "@context": "http://iiif.io/api/presentation/2/context.json",
   "@id": {{ manifest_id | jsonify }},
@@ -51,6 +54,9 @@
   "sequences": [ {
     "@id": {{ manifest_base | append: '/sequence/normal' | jsonify }},
     "@type": "sc:Sequence",
+    {%- if behavior %}
+    "viewingHint": {{ behavior | jsonify }},
+    {%- endif %}
     "canvases": [
       {%- assign n = 0 -%}
       {%- for child in children -%}
