@@ -29,7 +29,7 @@
 
            {% if site.organization-logo-nav %}<p class="text-md-end">
                 <a href="{{ site.organization-link }}">
-                    <img id="footer-logo" class="img-fluid" src="{{ site.organization-logo-nav | relative_url }}" alt="{{ site.organization-name | escape }} home">
+                    <img id="footer-logo" class="img-fluid" src="{{ site.organization-logo-nav | relative_url }}" alt="{{ site.organization-name | escape }}{{ t.org_home_suffix | default: " home" }}">
                 </a>
             </p>
             {% endif %}

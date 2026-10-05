@@ -1,3 +1,4 @@
+{%- assign t = site.data.locale[site.lang] -%}
 {% capture tocWorkspace %}
     {% comment %}
         Copyright (c) 2017 Vladimir "allejo" Jimenez
@@ -166,7 +167,7 @@
 
     {% for i in (1..repeatCount) %}
         {% if i == repeatCount and include.credits == true %}
-            {% capture jekyll_toc %}{{ jekyll_toc }}<li><a href="#technical">Technical</a>{% endcapture %}
+            {% capture jekyll_toc %}{{ jekyll_toc }}<li><a href="#technical">{{ t.technical | default: "Technical" }}</a>{% endcapture %}
         {% endif %}
         {% capture jekyll_toc %}{{ jekyll_toc }}</li></{{ listModifier }}>{% endcapture %}
     {% endfor %}

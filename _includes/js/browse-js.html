@@ -97,10 +97,10 @@ function makeCard(obj) {
     // Media type badge
     if(obj.display_template) {
         const mediaIcon = getIcon(obj.display_template, obj.format, "hidden");
-        card += `<p class="card-text"><small><a class="btn btn-sm btn-outline-secondary" href="{{ page.url | relative_url }}#display_template:${encodeURIComponent(obj.display_template)}">${obj.display_template.toUpperCase().replace("_"," ")} ${mediaIcon}</a></small></p>`;
+        card += `<p class="card-text"><small><a class="btn btn-sm btn-outline-secondary" href="{{ page.url | relative_url }}#display_template:${encodeURIComponent(obj.display_template)}">${((({{ t.template_labels | jsonify }}) || {})[obj.display_template] || obj.display_template).toUpperCase().replace("_"," ")} ${mediaIcon}</a></small></p>`;
     }
     
-    card += `<hr><a href="${itemHref}" class="btn btn-sm btn-light" title="link to ${obj.title}">{{ t.view_full_record | default: "View Full Record" }}</a></div></div></div>`;
+    card += `<hr><a href="${itemHref}" class="btn btn-sm btn-light" title="{{ t.link_to | default: "link to" }} ${obj.title}">{{ t.view_full_record | default: "View Full Record" }}</a></div></div></div>`;
     return card;
 }
 
@@ -712,11 +712,11 @@ function displayActiveFilters(searchCriteria) {
         let displayValue = criteria.value;
         if (isDateField(criteria.field) && (criteria.startDate || criteria.endDate)) {
             if (criteria.startDate && criteria.endDate) {
-                displayValue = `${criteria.startDate} to ${criteria.endDate}`;
+                displayValue = {{ t.date_range | default: "%s to %e" | jsonify }}.replace("%s", criteria.startDate).replace("%e", criteria.endDate);
             } else if (criteria.startDate) {
-                displayValue = `from ${criteria.startDate}`;
+                displayValue = {{ t.date_from | default: "from %s" | jsonify }}.replace("%s", criteria.startDate);
             } else if (criteria.endDate) {
-                displayValue = `until ${criteria.endDate}`;
+                displayValue = {{ t.date_until | default: "until %e" | jsonify }}.replace("%e", criteria.endDate);
             }
         }
         

@@ -1,6 +1,6 @@
 {%- assign t = site.data.locale[site.lang] -%}
 <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#advancedSearchModal">
-  {% if t.advanced_search_title %}{{ t.advanced_search_title }}{% else %}Advanced<span class="d-none d-md-inline"> Search</span>{% endif %}
+  {% if t.advanced_search_title %}{{ t.advanced_search_title }}{% else %}{{ t.advanced_short | default: "Advanced" }}<span class="d-none d-md-inline">{{ t.advanced_short_suffix | default: " Search" }}</span>{% endif %}
 </button>
 <div class="modal fade" id="advancedSearchModal" tabindex="-1">
   <div class="modal-dialog modal-lg">

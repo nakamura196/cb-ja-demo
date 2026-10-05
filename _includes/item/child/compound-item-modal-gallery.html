@@ -1,3 +1,4 @@
+{%- assign t = site.data.locale[site.lang] -%}
 {% comment %}
 
     Creates a gallery of thumbnails images or icons for each child item in a compound object. The thumb defaults to image_thumb or image_small, otherwise an icon is added based on the display_template or format of the child item.
@@ -35,7 +36,7 @@
                         href="#{{ child.objectid }}"
                         onclick="window.location.hash='{{ child.objectid }}'"
                         class="btn btn-sm btn-outline-secondary small stretched-link">
-                        {{ child.display_template | upcase | default: "Item" }} <svg class="bi icon-sprite" fill="currentColor" aria-hidden="true"><use href="{{ '/assets/css/cb-icons.svg' | relative_url }}#icon-{{ child.display_template | default: 'file'}}"/></svg>
+                        {{ t.template_labels[child.display_template] | default: child.display_template | default: "Item" | upcase }} <svg class="bi icon-sprite" fill="currentColor" aria-hidden="true"><use href="{{ '/assets/css/cb-icons.svg' | relative_url }}#icon-{{ child.display_template | default: 'file'}}"/></svg>
                     </a> 
 
                     <!-- child object modal -->
@@ -59,22 +60,22 @@
                                             {% capture prev_item_id %}{{ children[prev_index].objectid }}{% endcapture %}
                                             <div class="col-1 col-md-2">
                                                 <button data-bs-target="#{{ prev_item_id }}" data-bs-toggle="modal" onclick="{% if stopMedia != '' %}stopMedia('{{ child.objectid }}','{{ stopMedia }}');{% endif %}window.location.hash='{{ prev_item_id }}'" class="btn btn-outline-dark btn-sm prev-child-button" >
-                                                    <svg class="bi icon-sprite" role="img" aria-label="Previous Item">
+                                                    <svg class="bi icon-sprite" role="img" aria-label="{{ t.previous_item | default: "Previous Item" }}">
                                                         <use href="{{ '/assets/css/cb-icons.svg' | relative_url }}#arrow-left"/>
                                                     </svg>
-                                                    <span class="d-none d-md-inline">Previous Item</span>
+                                                    <span class="d-none d-md-inline">{{ t.previous_item | default: "Previous Item" }}</span>
                                                 </button>
                                             </div>
                                             <div class="col-9 col-md-8 text-center">
                                                 <h3 class="h5">{{ page.title }} 
                                                     <span class="d-none d-md-inline">-</span><span class="d-md-none"><br></span>
-                                                    Item {{ forloop.index }} of {{ children | size }}
+                                                    {{ t.item_n_of | default: "Item %n of %total" | replace: "%n", forloop.index | replace: "%total", children.size }}
                                                 </h3>
                                             </div>
                                             <div class="col-1 col-md-2 text-end">
                                                 <button  data-bs-target="#{{ next_item_id }}" data-bs-toggle="modal" onclick="{% if stopMedia != '' %}stopMedia('{{ child.objectid }}','{{ stopMedia }}');{% endif %}window.location.hash='{{ next_item_id }}'" class="ms-md-5 btn btn-outline-dark btn-sm next-child-button">
-                                                    <span class="d-none d-md-inline">Next Item</span>
-                                                    <svg class="bi icon-sprite" role="img" aria-label="Next Item">
+                                                    <span class="d-none d-md-inline">{{ t.next_item | default: "Next Item" }}</span>
+                                                    <svg class="bi icon-sprite" role="img" aria-label="{{ t.next_item | default: "Next Item" }}">
                                                         <use href="{{ '/assets/css/cb-icons.svg' | relative_url }}#arrow-right"/>
                                                     </svg>
                                                 </button>

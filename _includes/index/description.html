@@ -1,3 +1,4 @@
+{%- assign t = site.data.locale[site.lang] -%}
 {% comment %} 
 
     Collection Description card.
@@ -13,9 +14,9 @@
 {%- endcomment -%}
 <div class="card mb-3">
     <div class="card-body">
-        <{{ include.heading_level | default: 'h2' | strip }} class="card-title h5">Description</{{ include.heading_level | default: 'h2' | strip }}>
+        <{{ include.heading_level | default: 'h2' | strip }} class="card-title h5">{{ t.description | default: "Description" }}</{{ include.heading_level | default: 'h2' | strip }}>
         <p class="card-text">{{ site.description }}</p>
         {%- assign about = site.data.config-nav | where: "stub","/about.html" | size -%}{% if about > 0 %}
-        <a class="btn btn-{{ include.btn-color | default: 'primary' }}" href="{{ '/about.html' | relative_url }}" >Learn More &raquo;</a>{% endif %}
+        <a class="btn btn-{{ include.btn-color | default: 'primary' }}" href="{{ '/about.html' | relative_url }}" >{{ t.learn_more | default: "Learn More &raquo;" }}</a>{% endif %}
     </div>
 </div>

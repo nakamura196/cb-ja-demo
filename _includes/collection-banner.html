@@ -57,14 +57,14 @@
         <div class="p-2 text-center text-white bg-dark bg-opacity-75">
             {% if site.organization-logo-nav %}
             <a class="d-none d-md-block" href="{{ site.organization-link }}">
-                <img id="home-banner-logo" src="{{ site.organization-logo-nav | relative_url }}" alt="{{ site.organization-name | escape }} home" >
+                <img id="home-banner-logo" src="{{ site.organization-logo-nav | relative_url }}" alt="{{ site.organization-name | escape }}{{ t.org_home_suffix | default: " home" }}" >
             </a>{% endif %}
             <h1 class="display-2">{{ page.banner-heading | default: site.title }}</h1>
             {% if page.banner-sub-heading != false and page.banner-sub-heading or site.tagline %}<p class="mb-0">{{ page.banner-sub-heading | default: site.tagline }}</p>{% endif %}
         </div>
     </div>
     {% if jumboLink != '' %}
-    <a class="text-white fs-6 position-absolute bottom-0 end-0 px-2 bg-dark bg-opacity-75" href="{{ jumboLink }}" title="Visit background image record">{{ t.featured_image | default: "Featured Image" }}</a>{% endif %}
+    <a class="text-white fs-6 position-absolute bottom-0 end-0 px-2 bg-dark bg-opacity-75" href="{{ jumboLink }}" title="{{ t.visit_banner_record | default: "Visit background image record" }}">{{ t.featured_image | default: "Featured Image" }}</a>{% endif %}
 </div>
 {%- else -%}
 <div class="container">
@@ -76,7 +76,7 @@
         {% if site.organization-logo-banner %}
         <div class="col-md-3 d-none d-lg-block text-end">
             <a class="btn btn-outline-light" href="{{ site.organization-link }}">
-                <img class="img-fluid" src="{{ site.organization-logo-banner | relative_url }}" title="{{ site.organization-name }}" alt="{{ site.organization-name | escape }} home" >
+                <img class="img-fluid" src="{{ site.organization-logo-banner | relative_url }}" title="{{ site.organization-name }}" alt="{{ site.organization-name | escape }}{{ t.org_home_suffix | default: " home" }}" >
             </a>
         </div>
         {% endif %}

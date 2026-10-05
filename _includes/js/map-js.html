@@ -1,3 +1,4 @@
+{%- assign t = site.data.locale[site.lang] -%}
 {% if site.data.theme.map-child-objects == true %}
 {%- assign items = site.data[site.metadata] | where_exp: 'item','item.objectid' -%}
 {% else %}
@@ -70,8 +71,8 @@
     {% if site.data.theme.map-search == true %}
     /* add search, https://github.com/naomap/leaflet-fusesearch */
     var options = {
-        title: 'Search Map Items',
-        placeholder: 'Search map items...',
+        title: {{ t.map_search_title | default: "Search Map Items" | jsonify }},
+        placeholder: {{ t.map_search_placeholder | default: "Search map items..." | jsonify }},
         threshold: {{ site.data.theme.map-search-fuzziness | default: 0.35 }},
         showResultFct: function(feature, container) {
             var result = `<strong>${feature.properties.title}</strong><br>`;
@@ -136,7 +137,7 @@
             popupTemplate += '<strong>{{ f.display_name }}:</strong> ' + feature.properties[{{ f.field | escape | jsonify }}] + '<br>'; 
         }
         {% endif %}{% endfor %}
-        popupTemplate += '</p><div class="text-center"><a class="btn btn-light" href="' + itemHref + '" >View Item</a></div>';
+        popupTemplate += '</p><div class="text-center"><a class="btn btn-light" href="' + itemHref + '" >' + {{ t.view_item | default: "View Item" | jsonify }} + '</a></div>';
         layer.bindPopup(popupTemplate);
     }
     function objectMarkers(feature,latlng) {

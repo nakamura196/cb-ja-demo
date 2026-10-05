@@ -1,3 +1,4 @@
+{%- assign t = site.data.locale[site.lang] -%}
 <script>
 
 /* add items */
@@ -67,10 +68,10 @@ function makeCard(obj) {
     if(obj.template && obj.template != "") {
         mediaIcon = getIcon(obj.template,obj.format,"hidden");
         card += '<p class="card-text"><small><a class="btn btn-sm btn-outline-secondary" href="{{ page.url | relative_url }}#' + encodeURIComponent(obj.template) + '">' + 
-        obj.template.toUpperCase().replace("_"," ") + ' ' + mediaIcon + '</a></small></p>';
+        ((({{ t.template_labels | jsonify }}) || {})[obj.template] || obj.template).toUpperCase().replace("_"," ") + ' ' + mediaIcon + '</a></small></p>';
     }
     // view button
-    card += '<hr><a href="' + itemHref + '" class="btn btn-sm btn-light" title="link to ' + obj.title + '">View Full Record</a>';
+    card += '<hr><a href="' + itemHref + '" class="btn btn-sm btn-light" title="{{ t.link_to | default: "link to" }} ' + obj.title + '">{{ t.view_full_record | default: "View Full Record" }}</a>';
     // close divs
     card += '</div></div></div>';
     // send back big string
@@ -105,7 +106,7 @@ function filterItems(arr,q,field) {
         }
     }
     // add number 
-    document.querySelector("#numberOf").innerHTML = filteredItems.length + " of {{ items | size }} items";
+    document.querySelector("#numberOf").innerHTML = {{ t.n_of_total | default: "%n of %total items" | jsonify }}.replace("%n", filteredItems.length).replace("%total", {{ items | size }});
     
     // add stuff, make cards first in giant var, then add all at once to speed things up
     var cards = "";

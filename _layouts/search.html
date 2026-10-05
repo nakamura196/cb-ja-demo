@@ -17,12 +17,12 @@ custom-foot: js/lunr-js.html
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ t.close | default: "Close" }}"></button>
             </div>
             <div class="modal-body">
-                <p>These advanced options can be added to your query in the search box to refine your results:</p> 
+                <p>{% if t.search_help_intro %}{{ t.search_help_intro }}{% else %}These advanced options can be added to your query in the search box to refine your results:{% endif %}</p> 
                 <ul>
-                    <li>Search a specific field: use the field name, colon, then your query, e.g. <code>title:foo</code>, <code>date:1911</code>, <code>subject:tree</code>. In this collection you can use {{ fields | join: ", " }}.</li>
-                    <li>Wildcards: add <code>*</code> to match any character(s), e.g. <code>foo*</code>, <code>*oo</code>. This is helpful for using a root to find words with all related endings.</li>
-                    <li>Fuzzy match: add <code>~</code> plus a number at the end of your query to specify a higher level of fuzziness in search, e.g. <code>foo~1</code>. This can help with misspellings.</li>
-                    <li>Boost term: add <code>^</code> plus a number to boost the relevance of a term in your query, e.g. <code>foo^10</code>. This can help reduce clutter of unrelated results if one of your terms is most important.</li>
+                    <li>{% if t.search_op_field %}{{ t.search_op_field }}{% else %}Search a specific field: use the field name, colon, then your query, e.g. <code>title:foo</code>, <code>date:1911</code>, <code>subject:tree</code>. In this collection you can use {% endif %}{{ fields | join: ", " }}{{ t.search_op_field_end | default: "." }}</li>
+                    <li>{% if t.search_op_wildcard %}{{ t.search_op_wildcard }}{% else %}Wildcards: add <code>*</code> to match any character(s), e.g. <code>foo*</code>, <code>*oo</code>. This is helpful for using a root to find words with all related endings.{% endif %}</li>
+                    <li>{% if t.search_op_fuzzy %}{{ t.search_op_fuzzy }}{% else %}Fuzzy match: add <code>~</code> plus a number at the end of your query to specify a higher level of fuzziness in search, e.g. <code>foo~1</code>. This can help with misspellings.{% endif %}</li>
+                    <li>{% if t.search_op_boost %}{{ t.search_op_boost }}{% else %}Boost term: add <code>^</code> plus a number to boost the relevance of a term in your query, e.g. <code>foo^10</code>. This can help reduce clutter of unrelated results if one of your terms is most important.{% endif %}</li>
                 </ul>
             </div>
         </div>

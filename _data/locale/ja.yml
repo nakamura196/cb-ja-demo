@@ -73,6 +73,8 @@ all: すべて
 datatables:
   search: "表内を検索："
   lengthMenu: "_MENU_ 件ずつ表示"
+  lengthLabels:
+    "-1": "すべて"
   info: "全 _TOTAL_ 件中 _START_〜_END_ 件"
   infoEmpty: "0 件"
   infoFiltered: "（全 _MAX_ 件から絞り込み）"
@@ -123,3 +125,75 @@ dl_facets_json: JSON
 dl_timeline_json: JSON
 language: 言語
 year_nav: 年へ移動
+# --- upstream template as of 2026-09 (item buttons, home cards, data page, search help, credits)
+item_options: 資料の操作
+view_transcript: 書き起こしを見る
+view_on_timeline: 年表で見る
+view_on_map: 地図で見る
+view_on_full_map: 大きな地図で見る
+view_on_vimeo: Vimeoで見る
+view_on_youtube: YouTubeで見る
+link_to_object: 資料へのリンク
+download: ダウンロード
+click_full_screen: クリックで全画面表示
+previous_item: 前の資料
+next_item: 次の資料
+item_n_of: "%total 点中 %n 点目"
+item_n: "資料 %n"
+items_unit: 点
+visit_banner_record: 背景画像の資料を見る
+org_home_suffix: のホームページ
+map_heading: 資料の地図
+map_search_title: 地図上の資料を検索
+map_search_placeholder: 地図上の資料を検索…
+view_item: 資料を見る
+link_to: "リンク先："
+date_range: "%s〜%e"
+date_from: "%s以降"
+date_until: "%e以前"
+locations: 地名
+dl_subjects: 主題の一覧
+dl_subjects_desc: 主題の値とその件数をまとめたものです。この目録の内容を分析するときに使えます。
+dl_subjects_csv: 主題 CSV
+dl_subjects_json: 主題 JSON
+dl_locations_desc: 地名の値とその件数をまとめたものです。地名の可視化や分析に使えます。
+dl_locations_csv: 地名 CSV
+dl_locations_json: 地名 JSON
+dl_geo_desc: 緯度経度のある資料の情報を <a href="https://ja.wikipedia.org/wiki/GeoJSON">GeoJSON</a> 形式でまとめたものです。地理的な分析に使えます。
+dl_geodata_json: 位置情報 JSON
+search_help_intro: "検索語の後ろに次の書き方を足すと、結果を絞り込めます。"
+search_op_field: "項目を指定する：項目名、コロン、検索語の順に書きます。例：<code>title:foo</code>、<code>date:1911</code>、<code>subject:tree</code>。この目録で使える項目は "
+search_op_field_end: "。"
+search_op_wildcard: "ワイルドカード：<code>*</code> は任意の文字列を表します。例：<code>foo*</code>、<code>*oo</code>。語の前半や後半だけで探すときに便利です。"
+search_op_fuzzy: "あいまい検索：検索語の後ろに <code>~</code> と数字を付けます。例：<code>foo~1</code>。数字が大きいほど、ゆれを許します。表記ゆれの吸収に使えます。"
+search_op_boost: "重み付け：語の後ろに <code>^</code> と数字を付けると、その語を重視します。例：<code>foo^10</code>。複数の語のうち、特に大事な語があるときに使います。"
+technical: 技術情報
+technical_credits: 技術情報（CollectionBuilder）
+credits_p1: このデジタルコレクションは、オープンソースのフレームワーク <a href="https://collectionbuilder.github.io/">CollectionBuilder</a> で作っています。CollectionBuilder は、アイダホ大学図書館のライブラリアンが <a href="https://lib-static.github.io">Lib-Static</a> の考え方に沿って開発しています。
+credits_p2: テンプレートは <a href="https://github.com/CollectionBuilder/collectionbuilder-csv">CollectionBuilder-CSV</a>、静的サイトの生成には <a href="https://jekyllrb.com/">Jekyll</a> を使っています。
+collection_as_data: データとして公開
+collection_as_data_desc: この目録のメタデータを、再利用しやすい形式で取り出せます。
+dli_metadata_csv: 目録 CSV
+dli_metadata_json: 目録 JSON
+dli_subjects_csv: 主題 CSV
+dli_subjects_json: 主題 JSON
+dli_geodata_json: 位置情報 JSON
+dli_locations_csv: 地名 CSV
+dli_locations_json: 地名 JSON
+dli_timeline_json: 年表 JSON
+dli_facets_json: 項目別集計 JSON
+description: 説明
+learn_more: 詳しくはこちら &raquo;
+time_span: 収録期間
+view_timeline: 年表を見る
+content: 収録内容
+other: その他
+total_items: 件（合計）
+view_table: 一覧表を見る
+sample_items: 資料の例
+top_subjects: 主な主題
+carousel_prev: 前へ
+carousel_next: 次へ
+slide: スライド
+advanced_short: 詳細
+advanced_short_suffix: 検索

@@ -42,20 +42,20 @@
                 {% if stubs contains "subject" %}
                 <div class="card my-3">
                     <div class="card-body">
-                        <h2 class="card-title h4">Subject Metadata</h2>
-                        <p class="card-text">Unique values and counts of subject metadata, useful for further analyzing the content of this collection.</p>
-                        <a href="{{ '/assets/data/subjects.csv' | relative_url }}" class="btn btn-outline-dark" download>Subjects CSV</a>
-                        <a href="{{ '/assets/data/subjects.json' | relative_url }}" class="btn btn-outline-dark" target="_blank">Subjects JSON</a>
+                        <h2 class="card-title h4">{{ t.dl_subjects | default: "Subject Metadata" }}</h2>
+                        <p class="card-text">{% if t.dl_subjects_desc %}{{ t.dl_subjects_desc }}{% else %}Unique values and counts of subject metadata, useful for further analyzing the content of this collection.{% endif %}</p>
+                        <a href="{{ '/assets/data/subjects.csv' | relative_url }}" class="btn btn-outline-dark" download>{{ t.dl_subjects_csv | default: "Subjects CSV" }}</a>
+                        <a href="{{ '/assets/data/subjects.json' | relative_url }}" class="btn btn-outline-dark" target="_blank">{{ t.dl_subjects_json | default: "Subjects JSON" }}</a>
                     </div>
                 </div>
                 {% endif %}
                 {% if stubs contains "location" %}
                 <div class="card my-3">
                     <div class="card-body">
-                        <h2 class="card-title h4">Locations</h2>
-                        <p class="card-text">Unique values and counts of location metadata, useful for further visualization and analysis of this collection's place names.</p>
-                        <a href="{{ '/assets/data/locations.csv' | relative_url }}" class="btn btn-outline-dark" download>Locations CSV</a>
-                        <a href="{{ '/assets/data/locations.json' | relative_url }}" class="btn btn-outline-dark" target="_blank">Locations JSON</a>
+                        <h2 class="card-title h4">{{ t.locations | default: "Locations" }}</h2>
+                        <p class="card-text">{% if t.dl_locations_desc %}{{ t.dl_locations_desc }}{% else %}Unique values and counts of location metadata, useful for further visualization and analysis of this collection's place names.{% endif %}</p>
+                        <a href="{{ '/assets/data/locations.csv' | relative_url }}" class="btn btn-outline-dark" download>{{ t.dl_locations_csv | default: "Locations CSV" }}</a>
+                        <a href="{{ '/assets/data/locations.json' | relative_url }}" class="btn btn-outline-dark" target="_blank">{{ t.dl_locations_json | default: "Locations JSON" }}</a>
                     </div>
                 </div>
                 {%- endif -%}
@@ -63,8 +63,8 @@
                 <div class="card my-3">
                     <div class="card-body">
                         <h2 class="card-title h4">GeoJSON</h2>
-                        <p class="card-text">Metadata for all collection items that have geographic coordinates in <a href="https://en.wikipedia.org/wiki/GeoJSON">GeoJSON</a> format, useful for further exploration and analysis of this collection through a geographical lens.</p>
-                        <a href="{{ '/assets/data/geodata.json' | relative_url }}" class="btn btn-outline-dark" target="_blank">Geodata JSON</a>
+                        <p class="card-text">{% if t.dl_geo_desc %}{{ t.dl_geo_desc }}{% else %}Metadata for all collection items that have geographic coordinates in <a href="https://en.wikipedia.org/wiki/GeoJSON">GeoJSON</a> format, useful for further exploration and analysis of this collection through a geographical lens.{% endif %}</p>
+                        <a href="{{ '/assets/data/geodata.json' | relative_url }}" class="btn btn-outline-dark" target="_blank">{{ t.dl_geodata_json | default: "Geodata JSON" }}</a>
                     </div>
                 </div>
                 {%- endif -%}

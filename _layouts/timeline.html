@@ -3,6 +3,7 @@
 layout: page
 custom-foot: js/timeline-js.html
 ---
+{%- assign t = site.data.locale[site.lang] -%}
 {%- assign field = site.data.theme.timeline-field | default: page.timeline-field | default: "date" -%}
 {% if site.data.theme.timeline-child-objects == true %}
 {%- assign items = site.data[site.metadata] | where_exp: 'item','item.objectid' -%}
@@ -17,8 +18,8 @@ custom-foot: js/timeline-js.html
 {%- assign navYears = site.data.theme.year-navigation | split: ";" -%}
 {%- elsif site.data.theme.year-nav-increment -%}
 {%- capture navYears -%}
-{%- for i in uniqueYears -%}{%- assign t = i | modulo: site.data.theme.year-nav-increment -%}
-{%- if t == 0 -%}{{ i }}{% unless forloop.last %};{% endunless %}{% endif %}{% endfor %}{%- endcapture -%}
+{%- for i in uniqueYears -%}{%- assign yr_mod = i | modulo: site.data.theme.year-nav-increment -%}
+{%- if yr_mod == 0 -%}{{ i }}{% unless forloop.last %};{% endunless %}{% endif %}{% endfor %}{%- endcapture -%}
 {%- assign navYears = navYears | split: ";" -%}
 {%- endif -%}
 {%- if navYears.size > 1 -%}

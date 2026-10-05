@@ -1,3 +1,4 @@
+{%- assign t = site.data.locale[site.lang] -%}
 {% comment %}
 
     Collection content summary.
@@ -27,21 +28,21 @@
 {%- assign types = templates | uniq | compact | sort -%}
 <div class="card mb-3" >
     <div class="card-body">
-        <{{ include.heading_level | default: 'h2' | strip }} class="card-title h5">Content</{{ include.heading_level | default: 'h2' | strip }}>
+        <{{ include.heading_level | default: 'h2' | strip }} class="card-title h5">{{ t.content | default: "Content" }}</{{ include.heading_level | default: 'h2' | strip }}>
         <p class="card-text">
-        {% for t in types %}
-        {%- assign count = templates | where_exp: 'item', 'item contains t' | size -%}
+        {% for tpl in types %}
+        {%- assign count = templates | where_exp: 'item', 'item contains tpl' | size -%}
         {% if count > 0 %}
         {{ count }}
-        <a class="text-dark" href="{{ '/browse.html' | relative_url }}#display_template:{{ t }}">{{ t | upcase | replace: "_", " " }} 
-        {% include helpers/get-icon-svg.html type="hidden" template=t %}</a><br>
+        <a class="text-dark" href="{{ '/browse.html' | relative_url }}#display_template:{{ tpl }}">{{ t.template_labels[tpl] | default: tpl | upcase | replace: "_", " " }} 
+        {% include helpers/get-icon-svg.html type="hidden" template=tpl %}</a><br>
         {%- endif -%}
         {%- endfor -%}
         {% if include.others == true %}{% assign others = templates | where_exp: 'item', 'item == nil or item == ""' | size %}{% if others > 0 %}
-        {{ others }} OTHER {% include helpers/get-icon-svg.html type="hidden" %}<br>{% endif %}{% endif %}
+        {{ others }} {{ t.other | default: "OTHER" }} {% include helpers/get-icon-svg.html type="hidden" %}<br>{% endif %}{% endif %}
         {% if include.total == true %}
-        {{ templates | size }} TOTAL ITEMS<br>{% endif %}
-        <a class="btn btn-sm btn-{{ include.btn-color | default: 'outline-secondary' }} mt-2" href="{{ '/data.html' | relative_url }}">View table</a>
+        {{ templates | size }} {{ t.total_items | default: "TOTAL ITEMS" }}<br>{% endif %}
+        <a class="btn btn-sm btn-{{ include.btn-color | default: 'outline-secondary' }} mt-2" href="{{ '/data.html' | relative_url }}">{{ t.view_table | default: "View table" }}</a>
         </p>
     </div>
 </div>
