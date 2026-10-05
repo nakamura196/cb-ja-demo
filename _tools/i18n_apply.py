@@ -238,6 +238,9 @@ for _k, _v in EXTRA_RAW.items():
 # a default that contains the old text does not get replaced again on a second run.
 TPL_BADGE = '{{ t.template_labels[page.display_template] | default: page.display_template | replace: "_", " " | upcase }}'
 PLAIN = {
+    '_includes/js/lunr-js.html': [
+        ('${results.length} Results found', '${ {{ t.results_found | default: "%n Results found" | jsonify }}.replace("%n", results.length) }'),
+    ],
     '_includes/cb/jekyll-toc.html': [
         ('<a href="#technical">Technical</a>', '<a href="#technical">{{ t.technical | default: "Technical" }}</a>'),
     ],
