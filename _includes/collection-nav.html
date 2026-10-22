@@ -10,8 +10,10 @@
     The color theme options can be set in "theme.yml"
 
 {%- endcomment -%}
-<nav class="navbar navbar-expand-lg {{ site.data.theme.navbar-background | default: 'bg-black' }}" data-bs-theme="{{ site.data.theme.navbar-color | default: 'dark' }}">
+{%- assign style = site.data.theme.theme-style | default: "modern" -%}
+<nav class="navbar navbar-expand-lg {{ site.data.theme.navbar-background | default: 'bg-black' }}"{% unless site.data.theme.color-mode-toggle %} data-bs-theme="{{ site.data.theme.navbar-color | default: 'dark' }}"{% endunless %}>
     <div class="container">
+        {% if style == "modern" %}<a class="navbar-brand" href="{{ '/' | relative_url }}">{{ site.title }}</a>{% endif %}
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#page-nav" aria-controls="page-nav" aria-expanded="false" aria-label="{{ t.toggle_navigation | default: "Toggle navigation" }}">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -47,6 +49,7 @@
             
             {% include nav-search-lunr.html %}
             {% include lang-switch.html %}
+            {% if site.data.theme.color-mode-toggle %}{% include color-mode-toggle.html %}{% endif %}
             
         </div>
     </div>

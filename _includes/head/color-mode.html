@@ -1,0 +1,22 @@
+{%- comment -%}
+    Light / dark colour mode (Bootstrap 5.3 `data-bs-theme` on <html>).
+    Runs before the stylesheets so a dark page never flashes white.
+    The visitor's choice is kept in localStorage; until they pick one, the OS setting is used.
+    The switch itself is _includes/color-mode-toggle.html (`color-mode-toggle` in theme.yml).
+{%- endcomment -%}
+<script>
+(function () {
+    var key = "cb-color-mode", root = document.documentElement, query = window.matchMedia("(prefers-color-scheme: dark)");
+    function saved() { try { return localStorage.getItem(key); } catch (e) { return null; } }
+    function apply(mode) { root.setAttribute("data-bs-theme", mode || (query.matches ? "dark" : "light")); }
+    apply(saved());
+    query.addEventListener("change", function () { if (!saved()) apply(); });
+    window.cbColorMode = {
+        toggle: function () {
+            var mode = root.getAttribute("data-bs-theme") === "dark" ? "light" : "dark";
+            try { localStorage.setItem(key, mode); } catch (e) {}
+            apply(mode);
+        }
+    };
+})();
+</script>

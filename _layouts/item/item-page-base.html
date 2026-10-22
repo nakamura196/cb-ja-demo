@@ -9,8 +9,8 @@ item-meta: true
 <div class="container py-3">
 
     {% include item/breadcrumbs.html %}
-    <div class="my-0 h5 small">{{ t.template_labels[page.display_template] | default: page.display_template | replace: "_", " " | upcase }} {% if page.display_template == "compound_object" or page.display_template == "multiple" %}{% assign children = site.data[site.metadata] | where_exp: 'item','item.parentid == page.objectid' %} ({{ children | size }} {{ t.items_unit | default: "Items" }}){% endif %}</div>
-    <h2 class="mb-3">{{ page.title }} 
+    {% if site.data.theme.item-template-label != false %}<div class="my-0 h5 small">{{ t.template_labels[page.display_template] | default: page.display_template | replace: "_", " " | upcase }} {% if page.display_template == "compound_object" or page.display_template == "multiple" %}{% assign children = site.data[site.metadata] | where_exp: 'item','item.parentid == page.objectid' %} ({{ children | size }} {{ t.items_unit | default: "Items" }}){% endif %}</div>{% endif %}
+    <h2 class="mb-3 item-title">{{ page.title }}
         {% unless page.display_template == 'record' %}<a href="#metadata" class="ms-5 btn btn-sm btn-outline-dark small">{{ t.item_info | default: "Item Info" }} 
             <svg class="bi icon-sprite" role="img" aria-label="{{ t.jump_to_item_info | default: "Jump to Item Info" }}">
                 <use href="{{ '/assets/css/cb-icons.svg' | relative_url }}#arrow-down"/>
@@ -19,7 +19,8 @@ item-meta: true
     </h2>
 
     <div class="row justify-content-center">
-        <div class="col-12 col-md-10">
+        {%- comment -%} IIIF viewers use the full container width; text stays in the narrower column {%- endcomment %}
+        <div class="col-12{% unless page.display_template == 'iiif' %} col-md-10{% endunless %}">
 
         {{ content }}
 

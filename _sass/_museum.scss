@@ -32,6 +32,8 @@
     --museum-accent-rgb: 122, 74, 42;
     --museum-accent-dark: #5c3720;
     --museum-dark: #24211d;
+    --museum-field: #fff;           /* text fields */
+    --museum-line-strong: #c9bfae;  /* edges of quiet buttons */
     --museum-radius: 2px;
 
     /* Latin defaults */
@@ -114,7 +116,7 @@ dd, .field-value, #searchResults p, .card-text, .museum-intro { overflow-wrap: a
 :focus-visible { outline: 2px solid var(--museum-accent); outline-offset: 2px; box-shadow: none !important; }
 a:focus:not(:focus-visible), .btn:focus:not(:focus-visible), .nav-link:focus:not(:focus-visible) { outline: none; box-shadow: none; }
 .form-control, .form-select {
-    background-color: #fff;
+    background-color: var(--museum-field);
     border-color: var(--museum-line);
     border-radius: var(--museum-radius);
     &:focus { border-color: var(--museum-accent); box-shadow: 0 0 0 3px rgba(var(--museum-accent-rgb), 0.15); }
@@ -443,7 +445,7 @@ img.lazyloaded { opacity: 1; transition: opacity 0.4s ease; }
     font-size: 0.95rem;
     .dt-buttons { margin-bottom: 1rem; }
     .dt-buttons .btn { font-size: 0.85rem; padding: 0.3rem 0.9rem; }
-    .dataTables_filter input, .dataTables_length select { border: 1px solid var(--museum-line); border-radius: var(--museum-radius); background: #fff; padding: 0.25rem 0.5rem; }
+    .dataTables_filter input, .dataTables_length select { border: 1px solid var(--museum-line); border-radius: var(--museum-radius); background: var(--museum-field); padding: 0.25rem 0.5rem; }
     .dataTables_info { color: var(--museum-muted); font-size: 0.85rem; padding-top: 1rem !important; }
     .dataTables_paginate { padding-top: 0.75rem !important; }
 }
@@ -510,7 +512,7 @@ footer.bg-black > .row > div { padding-left: 0.75rem !important; padding-right: 
 .navbar .nav-link.active { font-weight: 500; box-shadow: inset 0 -1px 0 currentColor; }
 
 /* quiet buttons need a visible edge */
-.btn-secondary, .btn-light, .btn-outline-secondary, .btn-outline-dark, .btn-outline-primary { --bs-btn-border-color: #c9bfae; }
+.btn-secondary, .btn-light, .btn-outline-secondary, .btn-outline-dark, .btn-outline-primary { --bs-btn-border-color: var(--museum-line-strong); }
 
 /* result count reads as a heading, not body text */
 #numberOf { font-family: var(--museum-heading-font); color: var(--museum-ink); font-size: 1.05rem; }
@@ -535,8 +537,8 @@ table.dataTable thead th.dt-ordering-asc .dt-column-order, table.dataTable thead
 /* scrollable tables: edge shadows show there is more to the side */
 .table-responsive {
     background:
-        linear-gradient(to right, var(--museum-paper) 30%, rgba(247, 244, 238, 0)) left / 2.5rem 100% no-repeat local,
-        linear-gradient(to left, var(--museum-paper) 30%, rgba(247, 244, 238, 0)) right / 2.5rem 100% no-repeat local,
+        linear-gradient(to right, var(--museum-paper) 30%, transparent) left / 2.5rem 100% no-repeat local,
+        linear-gradient(to left, var(--museum-paper) 30%, transparent) right / 2.5rem 100% no-repeat local,
         linear-gradient(to right, rgba(36, 33, 29, 0.12), rgba(36, 33, 29, 0)) left / 0.9rem 100% no-repeat scroll,
         linear-gradient(to left, rgba(36, 33, 29, 0.12), rgba(36, 33, 29, 0)) right / 0.9rem 100% no-repeat scroll;
 }

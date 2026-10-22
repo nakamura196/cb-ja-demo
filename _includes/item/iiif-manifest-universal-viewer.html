@@ -21,7 +21,32 @@
 {%- assign uvLocale = site.data.uv_locale[site.lang] %}
     // UV has no built-in locale for this site language: override its UI strings
     var uvConfig = {{ uvLocale | default: nil | jsonify }} || {};
+    // the page shows the title and the rights below the viewer: drop UV's title bar and rights box
+    uvConfig.modules = uvConfig.modules || {};
+    ["centerPanel", "openSeadragonCenterPanel"].forEach(function (m) {
+        var mod = uvConfig.modules[m] = uvConfig.modules[m] || {};
+        mod.options = Object.assign(mod.options || {}, { titleEnabled: false, subtitleEnabled: false, requiredStatementEnabled: false });
+    });
     iiif_viewer.on("configure", function ({ config, cb }) {
         cb(Promise.resolve(uvConfig));
+    });
+{%- assign t = site.data.locale[site.lang] %}
+    // a button that copies the manifest URL, for pasting into another IIIF viewer
+    document.addEventListener("DOMContentLoaded", function () {
+        var links = document.getElementById("uv").closest(".iiif-item");
+        links = links && links.querySelector(".card-body");
+        if (!links || !navigator.clipboard) return;
+        var label = {{ t.copy_manifest_url | default: "Copy manifest URL" | jsonify }};
+        var btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "btn btn-outline-dark copy-manifest";
+        btn.textContent = label;
+        btn.addEventListener("click", function () {
+            navigator.clipboard.writeText(new URL(uvOptions.manifest, location.href).href).then(function () {
+                btn.textContent = {{ t.copied | default: "Copied" | jsonify }};
+                setTimeout(function () { btn.textContent = label; }, 2000);
+            });
+        });
+        links.insertBefore(btn, links.children[1] || null);
     });
 </script>

@@ -9,7 +9,7 @@
     <div class="card-body">
         <dl>
             <dt>{{ t.citation | default: "Citation:" }}</dt>
-            <dd>"{{ page.title }}", {{ site.title }}, {% if site.organization-name %}{{ site.organization-name }}, {% endif %}<a href="{{ page.url | absolute_url }}">{{ page.url | absolute_url }}</a></dd>
+            <dd>"{{ page.title }}", {% if site.data.theme.citation-fields %}{% assign citeFields = site.data.theme.citation-fields | split: ";" %}{% for f in citeFields %}{% assign v = page[f] %}{% if v and v != "" %}{{ v }}, {% endif %}{% endfor %}{% endif %}{{ site.title }}, {% if site.organization-name %}{{ site.organization-name }}, {% endif %}<a href="{{ page.url | absolute_url }}">{{ page.url | absolute_url }}</a></dd>
         </dl>
     </div>
 </div>

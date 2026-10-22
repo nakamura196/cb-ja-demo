@@ -66,7 +66,7 @@
     {% if jumboLink != '' %}
     <a class="text-white fs-6 position-absolute bottom-0 end-0 px-2 bg-dark bg-opacity-75" href="{{ jumboLink }}" title="{{ t.visit_banner_record | default: "Visit background image record" }}">{{ t.featured_image | default: "Featured Image" }}</a>{% endif %}
 </div>
-{%- else -%}
+{%- elsif site.data.theme.theme-style != "modern" and site.data.theme.theme-style -%}
 <div class="container">
     <div class="row align-items-center">
         <div id="title" class="{% if site.organization-logo-banner %}col-md-9{% else %}col-12{% endif %}">

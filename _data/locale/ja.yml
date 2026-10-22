@@ -197,3 +197,6 @@ carousel_next: 次へ
 slide: スライド
 advanced_short: 詳細
 advanced_short_suffix: 検索
+color_mode_toggle: 明るい表示と暗い表示を切り替える
+copy_manifest_url: マニフェストの URL をコピー
+copied: コピーしました

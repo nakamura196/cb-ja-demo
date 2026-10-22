@@ -45,3 +45,6 @@ config_labels:
     type: Type
 template_labels:
   iiif: IIIF image
+color_mode_toggle: Switch between light and dark
+copy_manifest_url: Copy manifest URL
+copied: Copied

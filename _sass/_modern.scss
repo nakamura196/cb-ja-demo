@@ -1,0 +1,198 @@
+/*
+    Modern look, dark mode and item-page layout
+    -------------------------------------------
+    Loaded after _museum.scss and works through the same --museum-* variables,
+    so every component styled there follows the palette chosen here.
+
+    - `theme-style: modern` in _data/theme.yml (<html data-style="modern">):
+      white and navy, sans-serif bold headings, the site name, menu, search and
+      switches on one row, wider pages, thumbnails on rounded grey tiles.
+      `theme-style: museum` keeps the warm paper look with the title banner.
+    - `color-mode-toggle: true`: <html data-bs-theme="dark"> (set by
+      _includes/head/color-mode.html) switches either style to its dark palette.
+    - Item pages (both styles): the viewer fills the window height.
+*/
+
+/* ========== modern palette ========== */
+:root[data-style="modern"] {
+    --museum-paper: #fff;
+    --museum-paper-2: #f4f4f2;      /* thumbnail tiles, panels */
+    --museum-surface: #fff;
+    --museum-ink: #1a2230;
+    --museum-muted: #5f6b7a;
+    --museum-line: #e3e6ea;
+    --museum-line-strong: #cfd5dc;
+    --museum-accent: #1f3a60;
+    --museum-accent-rgb: 31, 58, 96;
+    --museum-accent-dark: #142844;
+    --museum-dark: #0f1b2d;          /* footer, hero */
+    --museum-radius: 8px;
+    --museum-heading-font: var(--museum-sans);
+    --museum-heading-tracking: 0.01em;
+    --modern-highlight: #b3261e;     /* "you are here" underline in the menu */
+    --bs-link-hover-color-rgb: 20, 40, 68;
+}
+
+/* ========== dark palettes ========== */
+:root[data-bs-theme="dark"] {
+    --museum-paper: #1a1816;
+    --museum-paper-2: #24211d;
+    --museum-surface: #201d1a;
+    --museum-ink: #ebe5da;
+    --museum-muted: #a69e91;
+    --museum-line: #39342d;
+    --museum-line-strong: #4a443b;
+    --museum-accent: #d6a077;
+    --museum-accent-rgb: 214, 160, 119;
+    --museum-accent-dark: #e8bf9f;
+    --museum-dark: #110f0d;
+    --museum-field: #161412;
+    --museum-on-accent: #1a1816;
+    --bs-link-hover-color-rgb: 232, 191, 159;
+}
+:root[data-style="modern"][data-bs-theme="dark"] {
+    --museum-paper: #0f141b;
+    --museum-paper-2: #19212b;
+    --museum-surface: #151c25;
+    --museum-ink: #e4e8ee;
+    --museum-muted: #9aa5b4;
+    --museum-line: #2a3441;
+    --museum-line-strong: #3b4757;
+    --museum-accent: #8db4e8;
+    --museum-accent-rgb: 141, 180, 232;
+    --museum-accent-dark: #b7d0f2;
+    --museum-dark: #0a0f15;
+    --museum-field: #121922;
+    --museum-on-accent: #0f141b;
+    --modern-highlight: #f2867d;
+    --bs-link-hover-color-rgb: 183, 208, 242;
+}
+
+/* links: the base theme compiles link-color from theme.yml; follow the palette instead */
+a { color: var(--museum-accent); }
+a:hover { color: var(--museum-accent-dark); }
+
+/* solid buttons follow the accent (config-theme-colors.csv is compiled for the museum light palette) */
+[data-style="modern"], [data-bs-theme="dark"] {
+    .btn-primary, .btn-success, .btn-dark {
+        --bs-btn-color: var(--museum-on-accent, #fff);
+        --bs-btn-bg: var(--museum-accent);
+        --bs-btn-border-color: var(--museum-accent);
+        --bs-btn-hover-color: var(--museum-on-accent, #fff);
+        --bs-btn-hover-bg: var(--museum-accent-dark);
+        --bs-btn-hover-border-color: var(--museum-accent-dark);
+        --bs-btn-active-color: var(--museum-on-accent, #fff);
+        --bs-btn-active-bg: var(--museum-accent-dark);
+        --bs-btn-active-border-color: var(--museum-accent-dark);
+        /* _theme-colors.scss sets these directly, not through the variables */
+        color: var(--bs-btn-color);
+        background-color: var(--bs-btn-bg);
+        border-color: var(--bs-btn-border-color);
+        &:hover, &:focus-visible, &:active { color: var(--bs-btn-hover-color); background-color: var(--bs-btn-hover-bg); border-color: var(--bs-btn-hover-border-color); }
+    }
+    .text-primary { color: var(--museum-accent) !important; }
+    .bg-primary { background-color: var(--museum-accent) !important; }
+}
+
+/* ========== dark mode: colours fixed in templates and libraries ========== */
+[data-bs-theme="dark"] {
+    .text-dark { color: var(--museum-ink) !important; }
+    .bg-white { background-color: var(--museum-surface) !important; }
+    .dropdown-menu { --bs-dropdown-link-active-color: var(--museum-on-accent); }
+    .pagination { --bs-pagination-active-color: var(--museum-on-accent); }
+    #activeFilters .btn:not([onclick*="add"]) { color: var(--museum-on-accent); }
+    .leaflet-popup-content-wrapper, .leaflet-popup-tip { background: var(--museum-surface); color: var(--museum-ink); }
+    .leaflet-container a.leaflet-popup-close-button { color: var(--museum-muted); }
+    /* photos and scans: slightly dimmed so they do not glare on a dark page */
+    #browseItems .card-img-top, .museum-card-img img, .search-thumb img { filter: brightness(0.92); }
+}
+
+/* light / dark switch in the menu */
+.color-mode-toggle {
+    color: var(--museum-ink);
+    border: none;
+    padding: 0.4rem 0.55rem;
+    line-height: 1;
+    &:hover { color: var(--museum-accent); }
+    svg { vertical-align: -0.15em; }
+}
+.color-mode-toggle .icon-sun, [data-bs-theme="dark"] .color-mode-toggle .icon-moon { display: none; }
+[data-bs-theme="dark"] .color-mode-toggle .icon-sun { display: inline; }
+
+/* ========== modern: type ========== */
+[data-style="modern"] {
+    h1, h2, h3, h4, h5, .h1, .h2, .h3, .h4, .h5, .display-2, .card-header, .modal-title { font-weight: 700; }
+    main h2 { font-size: 1.6rem; }
+}
+
+/* ========== modern: one-row header ========== */
+[data-style="modern"] .navbar {
+    padding-top: 0;
+    padding-bottom: 0;
+    min-height: 3.5rem;
+    .navbar-brand {
+        font-weight: 700;
+        font-size: 1.15rem;
+        color: var(--museum-ink);
+        margin-right: 2rem;
+        white-space: normal;
+        line-height: 1.3;
+        padding: 0.6rem 0;
+    }
+    .nav-link { color: var(--museum-muted); letter-spacing: 0.02em; }
+    .nav-link:hover, .nav-link.active { color: var(--museum-ink) !important; }
+    .nav-link.active { font-weight: 700; }
+    #nav-search-box { border-radius: 999px; background: var(--museum-paper-2); border-color: transparent; min-width: 14rem; }
+    #nav-search-box:focus { background: var(--museum-field, #fff); border-color: var(--museum-accent); }
+}
+@media (min-width: 992px) {
+    /* menu items reach the bottom edge, where the active one is underlined */
+    /* fixed height, so the link (and its underline) ends exactly on the bar's bottom edge */
+    [data-style="modern"] .navbar .navbar-nav:not(.lang-switch) > .nav-item > .nav-link { display: flex; align-items: center; height: 3.5rem; padding: 0 0.8rem; }
+    [data-style="modern"] .navbar .nav-link.active { box-shadow: inset 0 -2px 0 var(--modern-highlight); }
+    [data-style="modern"] #nav-search { margin-left: 1rem; }
+}
+
+/* ========== modern: wider pages ========== */
+@media (min-width: 1600px) {
+    [data-style="modern"] .container { max-width: 1520px; }
+    [data-style="modern"] #home-banner, [data-style="modern"] #about-feature { --museum-container: 1520px; }
+    [data-style="modern"] footer.bg-black > .row, [data-style="modern"] footer.bg-black > div:last-child { max-width: 1520px; }
+    [data-style="modern"] #about-wrapper { max-width: 1520px; }
+}
+
+/* browse: more, smaller tiles on wide screens (the browse script writes col-lg-4) */
+@media (min-width: 1200px) { [data-style="modern"] #browseItems .item { flex: 0 0 25%; max-width: 25%; } }
+@media (min-width: 1600px) { [data-style="modern"] #browseItems .item { flex: 0 0 20%; max-width: 20%; } }
+
+/* ========== modern: hero and footer ========== */
+[data-style="modern"] #home-banner { min-height: min(56vh, 560px); }
+[data-style="modern"] #home-banner p { letter-spacing: 0.06em; }
+
+/* ========== modern: thumbnails on rounded grey tiles, whole image shown ========== */
+[data-style="modern"] {
+    .museum-card-img, #browseItems .card-img-top, .search-thumb, #timeline .timeline-thumb { border-radius: var(--museum-radius); }
+    .museum-card-img img, #browseItems .card-img-top, .search-thumb img, #timeline .timeline-thumb { object-fit: contain; }
+    .museum-card:hover .museum-card-img img { transform: scale(1.02); }
+    .museum-card-title, #browseItems .card-title { font-weight: 700; font-size: 0.95rem; }
+    .museum-chip { border-radius: var(--museum-radius); }
+    #browseFilter { border-radius: var(--museum-radius); }
+    #item-metadata { border-radius: var(--museum-radius); }
+    #metadata ~ .col-md-5 .card { border-radius: var(--museum-radius); }
+}
+
+/* ========== item pages (both styles) ========== */
+.item-title { margin-top: 0.25rem !important; margin-bottom: 0.75rem !important; }
+.breadcrumb { margin-bottom: 0.4rem; }
+/* the viewer fills the window below the header and title, never shorter than 480px */
+.iiif-item .uv { height: max(480px, calc(100svh - 12rem)) !important; }
+@media (max-width: 575.98px) { .iiif-item .uv { height: max(360px, 60svh) !important; } }
+[data-style="modern"] .iiif-item .uv { border-radius: var(--museum-radius); overflow: hidden; }
+.iiif-item .card-body .btn.copy-manifest { cursor: pointer; }
+/* UV sizes its middle panels 8px too tall for its 42px footer, so the footer stuck out below the
+   viewer (and was cut off by the rounded frame). Let the middle take whatever the header and footer
+   leave; this also covers the phone layout, where only a footer of a different kind is shown. */
+.uv .uv-iiif-extension-host { display: flex; flex-direction: column; }
+.uv .uv-iiif-extension-host > * { flex: 0 0 auto; }
+.uv .uv-iiif-extension-host > .mainPanel { flex: 1 1 0; min-height: 0; height: auto !important; }
+.uv .mainPanel > .leftPanel, .uv .mainPanel > .centerPanel, .uv .mainPanel > .rightPanel { height: 100% !important; }

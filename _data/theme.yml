@@ -4,6 +4,12 @@
 ##########
 
 ##########
+# LOOK
+#
+theme-style: modern # modern (white, navy, one-row header) / museum (warm paper, serif headings, title banner above the menu)
+color-mode-toggle: true # true / false, light/dark switch at the right end of the menu; follows the OS setting until a visitor picks one
+
+##########
 # HOME PAGE
 #
 # featured image is used in home page banner and in meta markup to represent the collection
@@ -31,6 +37,8 @@ default-sort-field: year # deterministic order (oldest first) instead of random
 #
 # see _data/metadata-config.csv to define the metadata fields that will display.
 browse-buttons: true # true / false, adds previous/next arrows to items, but increases build time
+item-template-label: false # true / false, show the display template (e.g. "IIIF image") above the item title
+citation-fields: # fields separated by ; added to the citation after the title, e.g. issue;date
 
 ##########
 # SUBJECTS PAGE

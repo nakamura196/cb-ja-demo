@@ -1,13 +1,15 @@
 {%- assign t = site.data.locale[site.lang] -%}
+{%- assign style = site.data.theme.theme-style | default: "modern" -%}
 <!doctype html>
-<html lang="{{ site.lang | default: "en" }}" class="h-100">
+<html lang="{{ site.lang | default: "en" }}" class="h-100" data-style="{{ style }}">
   <head prefix="og: http://ogp.me/ns#">
     {% include head/head.html %}
   </head>
   <body class="d-flex flex-column h-100">
     <div id="skip-to-content"><a href="#maincontent">{{ t.skip_to_content | default: "Skip to main content" }}</a></div>
-    {% include collection-banner.html %}
-    {% include collection-nav.html %}
+    {% if style == "modern" %}{% include collection-nav.html %}
+    {% include collection-banner.html %}{% else %}{% include collection-banner.html %}
+    {% include collection-nav.html %}{% endif %}
     <main id="maincontent" role="main" class="flex-shrink-0">
       {{ content }}
     </main>
