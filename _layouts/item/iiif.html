@@ -3,15 +3,12 @@
 # Shows the item's IIIF manifest in Universal Viewer, with links to open the
 # same manifest elsewhere. The manifest is the `manifest` field (an external
 # manifest) or, when that is empty, the one this site generates from the
-# item's own images (the `page_gen` entry with template 'manifest').
+# item's own images (`static_iiif: manifests:` in _config.yml).
 layout: item/item-page-base
 ---
 {%- assign t = site.data.locale[site.lang] -%}
 {%- assign manifest_url = page.manifest -%}
-{%- if manifest_url == nil or manifest_url == "" -%}
-{%- assign manifest_gen = site.page_gen | where: "template", "manifest" | first -%}
-{%- if manifest_gen.permalink -%}{%- assign manifest_url = manifest_gen.permalink | replace: ':name', page.base_filename | absolute_url -%}{%- endif -%}
-{%- endif -%}
+{%- if manifest_url == nil or manifest_url == "" -%}{%- assign manifest_url = page.objectid | iiif_manifest -%}{%- endif -%}
 <div class="card mb-4 iiif-item">
 
     {% include item/iiif-manifest-universal-viewer.html manifest=manifest_url %}

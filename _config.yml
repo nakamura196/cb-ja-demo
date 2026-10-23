@@ -56,40 +56,30 @@ metadata: utokyo-agri
 #     dir: 'items'
 #     extension: 'html' 
 #     filter: 'objectid'
-page_gen:
-  # item pages (the default)
-  - data: 'utokyo-agri'
-  # IIIF Presentation 3 manifests at /iiif/3/<objectid>/manifest.json for items whose
-  # images are in objects/ (items with an external `manifest` already have one, so they
-  # are skipped). The version is part of the URL, as in Omeka S IIIF Server, so a v2
-  # (or later v4) output can be served alongside without changing these links.
-  # Run `rake generate_iiif` to add level 0 image services (sizes, tiles for large images).
-  - data: 'utokyo-agri'
-    template: 'manifest'
-    template_override: true
-    dir: 'iiif/3'
-    extension: 'json'
-    permalink: '/iiif/3/:name/manifest.json'
-    filter_condition: '!record["parentid"] && record["manifest"].to_s.strip.empty?'
-  # The same manifests in Presentation 2 at /iiif/2/<objectid>/manifest.json, for
-  # viewers and tools that read only version 2 (images from objects/iiif/2/).
-  - data: 'utokyo-agri'
-    template: 'manifest-v2'
-    template_override: true
-    dir: 'iiif/2'
-    extension: 'json'
-    permalink: '/iiif/2/:name/manifest.json'
-    filter_condition: '!record["parentid"] && record["manifest"].to_s.strip.empty?'
 
-# How viewers lay out an item's images, in the manifests generated above
-# (`behavior` in Presentation 3, `viewingHint` in 2):
-#   individuals  one image at a time. Use this when each image is already a whole
-#                opening, as in the University of Tokyo Digital Archives
-#   paged        two images side by side, as a book. Only when each image is one page
-#   continuous   one long strip (scrolls)
-# An item can differ from this with an `iiif_behavior` column in the metadata CSV.
-# Items with an external `manifest` keep that manifest's own setting.
-iiif-behavior: individuals
+# IIIF manifests for items whose images are in objects/ (static_iiif gem), at
+# /iiif/3/<objectid>/manifest.json and /iiif/2/<objectid>/manifest.json. An item is
+# one image (object_location) or a compound object (its child rows, by parentid).
+# Items with an external `manifest` keep theirs. Run `rake generate_iiif` to add
+# level 0 image services (fixed sizes, tiles for large images).
+static_iiif:
+  manifests:
+    v2: iiif/2/%{id}/manifest.json
+    language: ja                 # of the field names; the records' own text is "none"
+    summary: description
+    rights: rightsstatement
+    homepage: items/%{objectid}.html
+    provider: true
+    required_statement: [利用条件, rights]
+    metadata_skip: [title, description, manifest]
+    # How viewers lay out an item's images (`behavior` in Presentation 3, `viewingHint` in 2):
+    #   individuals  one image at a time. Use this when each image is already a whole
+    #                opening, as in the University of Tokyo Digital Archives
+    #   paged        two images side by side, as a book. Only when each image is one page
+    #   continuous   one long strip (scrolls)
+    # To set it per item instead, add a column (e.g. iiif_behavior) to the metadata CSV
+    # and write its name here.
+    behavior: individuals
 
 ##########
 # ORGANIZATION SETTINGS

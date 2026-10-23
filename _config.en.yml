@@ -11,3 +11,10 @@ tagline: A CJK-ready CollectionBuilder demo
 description: "58 items (IIIF) from the University of Tokyo Digital Archives Portal: rare books from the Agricultural Library, the Annals of the Joseon Dynasty and the Ogura Collection, published with a CollectionBuilder adapted for Japanese, Chinese and Korean search and IIIF display."
 keywords: agriculture; botanical illustration; Annals of the Joseon Dynasty; Ogura Collection; hangul; IIIF; University of Tokyo
 organization-name: "University of Tokyo Library for Agricultural and Life Sciences (images and records)"
+
+# The English item pages open the manifests of the Japanese build, so that each
+# manifest keeps one URL: this build writes none
+static_iiif:
+  manifests:
+    base_url: /cb-ja-demo
+    write: false
