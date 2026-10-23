@@ -200,3 +200,7 @@ advanced_short_suffix: 検索
 color_mode_toggle: 明るい表示と暗い表示を切り替える
 copy_manifest_url: マニフェストの URL をコピー
 copied: コピーしました
+facet_heading: 絞り込み
+facet_year: 西暦
+facet_clear: 絞り込みを解除
+facet_done: 結果を見る

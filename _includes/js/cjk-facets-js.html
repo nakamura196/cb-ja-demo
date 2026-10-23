@@ -1,0 +1,143 @@
+{%- comment -%}
+Facet buttons with counts, from the filters stored in the cjk_index search
+index (cjk_index 0.2: by default metadata-facets-fields and a year from date).
+Included inside the <script> of the search page (lunr-js.html) and the browse
+page (browse-js.html). Values chosen in one field are alternatives; different
+fields must all match.
+{%- endcomment -%}
+{%- assign t = site.data.locale[site.lang] -%}
+var cjkFacets = (function () {
+    /* labels of the filters, from the metadata config */
+    var labels = { {% for m in site.data.config-metadata %}{% if m.display_name %}{{ m.field | jsonify }}: {{ m.display_name | jsonify }}{% unless forloop.last %}, {% endunless %}{% endif %}{% endfor %} };
+    var idx = null, div = null, onChange = function () {};
+    var selected = {};
+    var year = { min: null, max: null };
+
+    function esc (s) {
+        return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+    function valueFields () {
+        return Object.keys(idx.filters).filter(function (f) { return idx.filters[f].kind !== 'year'; });
+    }
+    function yearField () {
+        return Object.keys(idx.filters).filter(function (f) { return idx.filters[f].kind === 'year'; })[0];
+    }
+
+    /* the filter option of search; except leaves one field out (for that field's own counts) */
+    function filter (except) {
+        var out = {};
+        Object.keys(selected).forEach(function (f) { if (f !== except && selected[f].length) out[f] = selected[f]; });
+        var y = yearField();
+        if (y && except !== y && (year.min !== null || year.max !== null)) out[y] = year;
+        return out;
+    }
+
+    /* the year inputs and the clear button are made once; only the value lists
+       are redrawn, so a year being typed is not lost. Below the md breakpoint
+       the block is folded behind a button (it is 600-700px tall on a phone and
+       would push the results off the first screen) */
+    function frame () {
+        if (div.firstChild) return;
+        var heading = esc({{ t.facet_heading | default: "Refine" | jsonify }});
+        var yearLabel = {{ t.facet_year | default: "Year" | jsonify }};
+        var html = '<h3 class="h6 mb-2 d-none d-md-block">' + heading + '</h3>' +
+            '<button type="button" class="btn btn-sm btn-outline-secondary d-md-none mb-2" id="facetToggle" aria-expanded="false" aria-controls="' + div.id + 'Body">' +
+            heading + ' <span class="badge text-bg-primary d-none" id="facetCount"></span></button>' +
+            '<div class="d-none d-md-block" id="' + div.id + 'Body">' +
+            '<div class="d-flex flex-wrap gap-3"><div class="cjk-facet-values d-flex flex-wrap gap-3"></div>';
+        if (yearField()) {
+            html += '<div role="group" aria-label="' + esc(yearLabel) + '"><div class="small text-body-secondary">' + esc(yearLabel) + '</div>' +
+                '<input type="number" class="form-control form-control-sm d-inline-block" style="width:6em" id="facetYearMin" aria-label="' + esc(yearLabel) + ' min"> ' +
+                esc({{ t.to | default: "to" | jsonify }}) +
+                ' <input type="number" class="form-control form-control-sm d-inline-block" style="width:6em" id="facetYearMax" aria-label="' + esc(yearLabel) + ' max"></div>';
+        }
+        html += '<div class="align-self-end"><button type="button" class="btn btn-sm btn-link d-none" id="facetClear">' + esc({{ t.facet_clear | default: "Clear filters" | jsonify }}) + '</button></div></div>' +
+            '<button type="button" class="btn btn-sm btn-primary d-md-none mt-2" id="facetDone">' + esc({{ t.facet_done | default: "Show results" | jsonify }}) + '</button></div>';
+        div.innerHTML = html;
+    }
+
+    function fold (open) {
+        div.querySelector('#' + div.id + 'Body').classList.toggle('d-none', !open);
+        div.querySelector('#facetToggle').setAttribute('aria-expanded', open);
+    }
+
+    /* countsOver(filter) gives the results (or refs) to count over, or
+       undefined for the whole index; counts for a field are taken as if
+       nothing were chosen in it, so its other values stay selectable */
+    function render (countsOver) {
+        frame();
+        var html = '';
+        valueFields().forEach(function (field) {
+            var label = labels[field] || field;
+            var counts = idx.facets(field, countsOver(filter(field)));
+            var chosen = (selected[field] || []).map(CJKIndex.filterKey);
+            (selected[field] || []).forEach(function (v) {
+                if (!counts.some(function (c) { return CJKIndex.filterKey(c.value) === CJKIndex.filterKey(v); })) counts.push({ value: v, count: 0 });
+            });
+            html += '<div role="group" aria-label="' + esc(label) + '"><div class="small text-body-secondary">' + esc(label) + '</div>';
+            counts.forEach(function (c) {
+                var on = chosen.indexOf(CJKIndex.filterKey(c.value)) >= 0;
+                html += '<button type="button" class="btn btn-sm me-1 mb-1 ' + (on ? 'btn-primary' : 'btn-outline-secondary') + '" aria-pressed="' + on +
+                    '" data-field="' + esc(field) + '" data-value="' + esc(c.value) + '">' + esc(c.value) + ' <span class="opacity-75">' + c.count + '</span></button>';
+            });
+            html += '</div>';
+        });
+        div.querySelector('.cjk-facet-values').innerHTML = html;
+        div.querySelector('#facetClear').classList.toggle('d-none', !Object.keys(filter()).length);
+        /* how many filters are on, shown on the folded button */
+        var f = filter(), n = 0;
+        Object.keys(f).forEach(function (k) { n += Array.isArray(f[k]) ? f[k].length : 1; });
+        var badge = div.querySelector('#facetCount');
+        badge.textContent = n;
+        badge.classList.toggle('d-none', !n);
+    }
+
+    function clear () {
+        selected = {};
+        year = { min: null, max: null };
+        if (div) div.querySelectorAll('#facetYearMin, #facetYearMax').forEach(function (i) { i.value = ''; });
+    }
+
+    function toggle (field, value) {
+        var list = selected[field] = selected[field] || [];
+        var at = list.map(CJKIndex.filterKey).indexOf(CJKIndex.filterKey(value));
+        if (at >= 0) list.splice(at, 1); else list.push(value);
+    }
+
+    function attach (id, cjkIdx, callback) {
+        idx = cjkIdx;
+        div = document.getElementById(id);
+        onChange = callback;
+        div.addEventListener('click', function (e) {
+            var b = e.target.closest('button[data-field]');
+            if (b) { toggle(b.dataset.field, b.dataset.value); onChange(); }
+            else if (e.target.id === 'facetClear') { clear(); onChange(); }
+            else if (e.target.closest('#facetToggle')) fold(div.querySelector('#facetToggle').getAttribute('aria-expanded') !== 'true');
+            else if (e.target.id === 'facetDone') {
+                fold(false);
+                var list = document.getElementById('numberOf') || document.getElementById('searchResults');
+                if (list) list.scrollIntoView({ block: 'start' });
+            }
+        });
+        div.addEventListener('change', function (e) {
+            if (e.target.id !== 'facetYearMin' && e.target.id !== 'facetYearMax') return;
+            var v = e.target.value === '' ? null : parseInt(e.target.value, 10);
+            year[e.target.id === 'facetYearMin' ? 'min' : 'max'] = isNaN(v) ? null : v;
+            onChange();
+        });
+    }
+
+    return {
+        attach: attach, render: render, filter: filter, clear: clear,
+        /* is name a value filter of the index (so a link like #era:明治 can choose it) */
+        has: function (name) { return !!idx && valueFields().indexOf(name) >= 0; },
+        /* choose this one value only */
+        only: function (field, value) { clear(); selected[field] = [value]; },
+        /* [field, value] when exactly one value and no year is chosen */
+        single: function () {
+            var f = filter();
+            var names = Object.keys(f);
+            return names.length === 1 && Array.isArray(f[names[0]]) && f[names[0]].length === 1 ? [names[0], f[names[0]][0]] : null;
+        }
+    };
+})();
