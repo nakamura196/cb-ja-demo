@@ -231,3 +231,19 @@ a:hover { color: var(--museum-accent-dark); }
 .uv .uv-iiif-extension-host > * { flex: 0 0 auto; }
 .uv .uv-iiif-extension-host > .mainPanel { flex: 1 1 0; min-height: 0; height: auto !important; }
 .uv .mainPanel > .leftPanel, .uv .mainPanel > .centerPanel, .uv .mainPanel > .rightPanel { height: 100% !important; }
+
+/* ========== map ========== */
+/* clusters in the site's accent colour instead of Leaflet.markercluster's green / yellow / orange */
+[data-style="modern"] .marker-cluster-small,
+[data-style="modern"] .marker-cluster-medium,
+[data-style="modern"] .marker-cluster-large { background-color: rgba(var(--museum-accent-rgb), 0.3); }
+[data-style="modern"] .marker-cluster div {
+    background-color: var(--museum-accent);
+    color: var(--museum-on-accent, #fff);
+    font-family: var(--museum-sans);
+    font-weight: 600;
+}
+/* the pale GSI map stays white in dark mode; turn it dark (only that map, not aerial photos) */
+[data-style="modern"][data-bs-theme="dark"] .leaflet-tile[src*="cyberjapandata.gsi.go.jp/xyz/pale/"] {
+    filter: invert(1) hue-rotate(180deg) brightness(0.9) contrast(0.85);
+}

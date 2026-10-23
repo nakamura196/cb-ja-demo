@@ -57,8 +57,14 @@
         maxZoom: 19,
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     });
+    /* pale map of the Geospatial Information Authority of Japan: quiet enough for the markers to stand out (Japan only in detail) */
+    var GSI_Pale = L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/pale/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+        attribution: '<a href="https://maps.gsi.go.jp/development/ichiran.html">地理院タイル</a>'
+    });
     /* add base map switcher */
     var baseMaps = {
+        "地理院 淡色地図": GSI_Pale,
         "Esri World StreetMap": Esri_WorldStreetMap,
         "Esri National Geo": Esri_NatGeoWorldMap,
         "Esri Imagery": Esri_WorldImagery,
