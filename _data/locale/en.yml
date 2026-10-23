@@ -36,6 +36,7 @@ config_labels:
     type: { facet_name: Type }
     title_kana: { display_name: Reading, sort_name: Reading (gojūon order) }
     description: Description
+    collection: Collection
   config-table:
     title: Title
     creator: Creator
