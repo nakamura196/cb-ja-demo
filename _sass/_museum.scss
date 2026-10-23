@@ -10,8 +10,8 @@
     CSS variables (--bs-*). This file points those variables at the museum
     palette first, so every Bootstrap component (buttons, dropdowns, modals,
     tables, pagination) inherits the theme; component rules below only handle
-    shape and spacing. Pair it with _data/config-theme-colors.csv
-    (primary = accent, secondary = muted, success = ink, dark, light).
+    shape and spacing. Solid buttons take the accent here, so
+    _data/config-theme-colors.csv can stay as CollectionBuilder ships it.
 
     Use: add `@use "museum";` to _sass/_custom.scss.
     Customise by overriding the variables in _custom.scss, e.g.
@@ -143,10 +143,30 @@ a:focus:not(:focus-visible), .btn:focus:not(:focus-visible), .nav-link:focus:not
     --bs-btn-active-bg: var(--museum-surface);
     --bs-btn-active-border-color: var(--museum-accent);
 }
+/* solid buttons: accent (dark: near-black), whatever config-theme-colors.csv says,
+   so the theme works on a site that has left that file empty */
 .btn-dark, .btn-success, .btn-primary {
+    --bs-btn-color: #fff;
+    --bs-btn-bg: var(--museum-accent);
+    --bs-btn-border-color: var(--museum-accent);
+    --bs-btn-hover-color: #fff;
     --bs-btn-hover-bg: var(--museum-accent-dark);
     --bs-btn-hover-border-color: var(--museum-accent-dark);
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: var(--museum-accent-dark);
+    --bs-btn-active-border-color: var(--museum-accent-dark);
+    /* _theme-colors.scss sets these directly, not through the variables */
+    color: var(--bs-btn-color);
+    background-color: var(--bs-btn-bg);
+    border-color: var(--bs-btn-border-color);
+    &:hover, &:focus-visible, &:active { color: var(--bs-btn-hover-color); background-color: var(--bs-btn-hover-bg); border-color: var(--bs-btn-hover-border-color); }
 }
+.btn-dark {
+    --bs-btn-bg: var(--museum-dark);
+    --bs-btn-border-color: var(--museum-dark);
+}
+.text-primary { color: var(--museum-accent) !important; }
+.bg-primary { background-color: var(--museum-accent) !important; }
 .btn-outline-danger {
     --bs-btn-color: var(--museum-muted);
     --bs-btn-border-color: var(--museum-line);

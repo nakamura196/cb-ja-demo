@@ -72,7 +72,7 @@
 a { color: var(--museum-accent); }
 a:hover { color: var(--museum-accent-dark); }
 
-/* solid buttons follow the accent (config-theme-colors.csv is compiled for the museum light palette) */
+/* solid buttons follow the accent (dark buttons too, unlike museum light) */
 [data-style="modern"], [data-bs-theme="dark"] {
     .btn-primary, .btn-success, .btn-dark {
         --bs-btn-color: var(--museum-on-accent, #fff);

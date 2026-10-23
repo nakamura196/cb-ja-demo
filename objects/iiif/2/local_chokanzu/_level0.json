@@ -3,6 +3,14 @@
   "height": 4207,
   "sizes": [
     {
+      "width": 90,
+      "height": 63
+    },
+    {
+      "width": 200,
+      "height": 140
+    },
+    {
       "width": 256,
       "height": 179
     },
