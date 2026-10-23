@@ -22,7 +22,8 @@ end
 # Japanese/Chinese/Korean search index, built at build time (see cjk_index in _config.yml)
 group :jekyll_plugins do
   # Gemfile.lock is not committed in this repo, so allow patch releases only
-  gem 'cjk_index', '~> 0.1.0', require: 'cjk_index/jekyll'
+  # 0.2 is not on RubyGems yet: pinned to the merged commit until 0.2.0 is released, then '~> 0.2.0'
+  gem 'cjk_index', git: 'https://github.com/nakamura196/cjk_index.git', ref: '183b4b5c33b10c277a4af5765ad53d084d91b6a7', require: 'cjk_index/jekyll'
   # static IIIF: info.json and the item manifests at build time (see static_iiif: in _config.yml)
   gem 'static_iiif', git: 'https://github.com/nakamura196/static_iiif.git', ref: '1389e2bb44b8841f4a725fb3ceeb9e3b382bf9ca', require: 'static_iiif/jekyll'
 end
