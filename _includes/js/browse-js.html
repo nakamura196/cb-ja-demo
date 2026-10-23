@@ -45,6 +45,28 @@ const dateFields = ['date', 'created', 'published', 'modified', 'issued', 'date_
 // Cache DOM elements
 var loadingIcon, filterTextBox, browseItemsDiv;
 
+{% if site.data.theme.search-cjk == true %}
+/* with search-cjk, the facets come from the filters stored in the search index
+   (cjk_index 0.2): values are matched whole (a link to 明治 does not also find
+   明治以前), and counts come from the index instead of a scan of the items.
+   The text box and the advanced search still scan the items as before; the
+   facets narrow what they give. If the index fails to load, the page works
+   as without it. */
+{% include js/cjk-facets-js.html %}
+var cjkIdx = null;
+var cjkReady = CJKIndex.load({{ '/assets/cjk-index/search.json' | relative_url | jsonify }})
+    .then(function (i) { cjkIdx = i; }, function (e) { console.warn(e); });
+/* the list before the facets narrow it, kept so a facet click can redraw without searching again */
+var browseBase = [];
+/* the ref of an item in the index (the collectionbuilder preset of cjk_index) */
+function cjkRef(item) {
+    return item.parent ? item.parent + ".html#" + item.id : item.id + ".html";
+}
+function cjkPass(filter) {
+    return new Set(cjkIdx.search("", { filter: filter }).map(r => r.ref));
+}
+{% endif %}
+
 {% include helpers/get-icon.js %}
 
 // =============================================================================
@@ -350,9 +372,25 @@ function advancedFilterItems(arr, searchCriteria) {
 }
 
 /**
- * Update the display with filtered results
+ * Draw the cards and the count; with search-cjk, the chosen facets narrow the list first
  */
-function updateDisplay(filteredItems, query = "", field = "", startDate = "", endDate = "") {
+function renderCards(filteredItems) {
+    {% if site.data.theme.search-cjk == true %}
+    if (cjkIdx) {
+        browseBase = filteredItems;
+        const filter = cjkFacets.filter();
+        if (Object.keys(filter).length) {
+            const pass = cjkPass(filter);
+            filteredItems = filteredItems.filter(item => pass.has(cjkRef(item)));
+        }
+        const baseRefs = browseBase.map(cjkRef);
+        cjkFacets.render(f => {
+            if (!Object.keys(f).length) return baseRefs;
+            const pass = cjkPass(f);
+            return baseRefs.filter(r => pass.has(r));
+        });
+    }
+    {% endif %}
     // Use DocumentFragment for better performance when adding many cards
     const fragment = document.createDocumentFragment();
     const tempDiv = document.createElement('div');
@@ -379,6 +417,13 @@ function updateDisplay(filteredItems, query = "", field = "", startDate = "", en
         // only for lists long enough to scroll; a short result is already summed up by the count above
         browseEnd.classList.toggle("d-none", filteredItems.length <= 6);
     }
+}
+
+/**
+ * Update the display with filtered results
+ */
+function updateDisplay(filteredItems, query = "", field = "", startDate = "", endDate = "") {
+    renderCards(filteredItems);
     
     // Focus active input (only if needed)
     if (query || startDate || endDate) {
@@ -479,6 +524,7 @@ function resetFilter() {
         for (let i = 0; i < 3; i++) addSearchRow();
     }
     
+    {% if site.data.theme.search-cjk == true %}if (cjkIdx) cjkFacets.clear();{% endif %}
     filterItems(items, "", "all");
     displayActiveFilters([]);
     return false;
@@ -507,6 +553,7 @@ function handleHashChange() {
     
     // No hash - show all items
     if (!hash) {
+        {% if site.data.theme.search-cjk == true %}if (cjkIdx) cjkFacets.clear();{% endif %}
         filterTextBox.value = "";
         {% unless site.data.theme.faceted-search == false %}document.querySelector("#fieldSelect").value = "all";{% endunless%}
         filterItems(items, "", "all");
@@ -530,6 +577,17 @@ function handleHashChange() {
         }
     }
     
+    {% if site.data.theme.search-cjk == true %}
+    // A link to a value of a facet (era:明治 from an item page) chooses that value in the index
+    if (cjkFacets.has(field) && query) {
+        cjkFacets.only(field, query);
+        filterTextBox.value = "";
+        {% unless site.data.theme.faceted-search == false %}document.querySelector("#fieldSelect").value = "all";{% endunless %}
+        filterItems(items, "", "all");
+        updateAdvancedSearchModal([]);
+        return;
+    }
+    {% endif %}
     // Update UI and filter
     filterTextBox.value = query;
     {% unless site.data.theme.faceted-search == false %}
@@ -833,6 +891,13 @@ function sorting(jsonObject, keyToSortBy) {
  * Initialize page on load
  */
 window.addEventListener('load', function() {
+    {% if site.data.theme.search-cjk == true %}cjkReady.then(initBrowse);{% else %}initBrowse();{% endif %}
+});
+
+function initBrowse() {
+    {% if site.data.theme.search-cjk == true %}
+    if (cjkIdx) cjkFacets.attach('browseFacets', cjkIdx, onFacetChange);
+    {% endif %}
     // Cache DOM elements
     loadingIcon = document.querySelector("#loadingIcon");
     filterTextBox = document.querySelector('#filterTextBox');
@@ -912,7 +977,22 @@ window.addEventListener('load', function() {
     
     // Set up event handlers
     setupEventHandlers();
-});
+}
+
+{% if site.data.theme.search-cjk == true %}
+/**
+ * A facet was chosen or cleared: redraw from the kept list, and keep a
+ * single choice in the hash (#era:明治) so the page can be linked to
+ */
+function onFacetChange() {
+    renderCards(browseBase);
+    if (window.location.search) return; // advanced search: leave its URL alone
+    const hash = decodeURIComponent(location.hash.substr(1));
+    if (hash && !(hash.includes(":") && cjkFacets.has(hash.split(":")[0]))) return; // a text filter: leave it
+    const one = cjkFacets.single();
+    history.replaceState(null, "", location.pathname + (one ? "#" + encodeURIComponent(one[0] + ":" + one[1]) : ""));
+}
+{% endif %}
 
 /**
  * Set up all event handlers

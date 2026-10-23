@@ -64,6 +64,7 @@ custom-foot: js/browse-js.html
         </form>
         <!-- Active filter indicators -->
         <div id="activeFilters" class="mt-2 text-start"></div>
+        {% if site.data.theme.search-cjk == true %}<div id="browseFacets" class="my-3 text-start"></div>{% endif %}
         <div class="h2" id="numberOf" role="status" aria-atomic="true"></div>
     </div>
     <div class="col-lg-2">
