@@ -144,13 +144,48 @@ a:hover { color: var(--museum-accent-dark); }
     .nav-link.active { font-weight: 700; }
     #nav-search-box { border-radius: 999px; background: var(--museum-paper-2); border-color: transparent; min-width: 14rem; }
     #nav-search-box:focus { background: var(--museum-field, #fff); border-color: var(--museum-accent); }
+    /* a long site name breaks into even lines; menu labels never break */
+    /* (not word-break: auto-phrase: it took a Japanese site name as one phrase and stopped it wrapping) */
+    .navbar-brand { text-wrap: balance; }
+    .nav-link { white-space: nowrap; }
 }
-@media (min-width: 992px) {
+/* body is a full-height flex column: without this the bar is squeezed to its min-height,
+   and the opened phone menu runs over the page instead of pushing it down */
+.navbar { flex-shrink: 0; }
+
+/* below 1200px the menu folds into the button (collection-nav.html uses navbar-expand-xl for this style) */
+@media (max-width: 1199.98px) {
+    /* site name and button share the first row, however long the name */
+    [data-style="modern"] .navbar .navbar-brand { flex: 1 1 0; min-width: 0; margin-right: 0.75rem; }
+    [data-style="modern"] .navbar .navbar-toggler { flex: none; }
+    [data-style="modern"] .navbar .lang-switch, [data-style="modern"] .navbar .color-mode-toggle { margin-left: 0 !important; }
+    [data-style="modern"] .navbar .color-mode-toggle { padding-left: 0; margin-bottom: 0.5rem; }
+}
+/* _museum.scss does these below 992px, where its own bar folds */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+    [data-style="modern"] #page-nav .navbar-nav:not(.lang-switch) .nav-link[href$="/search/"], [data-style="modern"] #page-nav .navbar-nav:not(.lang-switch) .nav-link[href$="/search.html"] { display: none; }
+    [data-style="modern"] #nav-search { margin: 0.5rem 0 0.75rem; }
+    [data-style="modern"] .navbar .navbar-collapse .nav-link.active { box-shadow: none; }
+}
+@media (max-width: 575.98px) {
+    [data-style="modern"] .navbar .navbar-brand { font-size: 1rem; }
+}
+@media (min-width: 1200px) {
     /* menu items reach the bottom edge, where the active one is underlined */
     /* fixed height, so the link (and its underline) ends exactly on the bar's bottom edge */
     [data-style="modern"] .navbar .navbar-nav:not(.lang-switch) > .nav-item > .nav-link { display: flex; align-items: center; height: 3.5rem; padding: 0 0.8rem; }
     [data-style="modern"] .navbar .nav-link.active { box-shadow: inset 0 -2px 0 var(--modern-highlight); }
     [data-style="modern"] #nav-search { margin-left: 1rem; }
+    /* the menu, search and switches keep their width; only the site name gives way (wraps) */
+    [data-style="modern"] #page-nav { flex-shrink: 0; }
+}
+/* 1200-1599px: the page is 1140-1320px wide; tighten the row so a two-line site name fits */
+@media (min-width: 1200px) and (max-width: 1599.98px) {
+    [data-style="modern"] .navbar .navbar-brand { margin-right: 1.25rem; }
+    [data-style="modern"] .navbar .navbar-nav:not(.lang-switch) > .nav-item > .nav-link { padding: 0 0.6rem; }
+    [data-style="modern"] .navbar .navbar-brand { font-size: 1.05rem; }
+    [data-style="modern"] #nav-search { width: 11rem; }
+    [data-style="modern"] .navbar #nav-search-box { min-width: 0; }
 }
 
 /* ========== modern: wider pages ========== */

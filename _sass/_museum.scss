@@ -475,6 +475,12 @@ table.dataTable thead > tr > th.sorting_asc::before, table.dataTable thead > tr 
     .museum-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem 0.9rem; }
     .museum-card-title { font-size: 0.9rem; }
     #browseFilter { padding: 0.6rem; }
+    /* the field button (with its label) takes its own row, so the text box keeps its width */
+    #browseFilter .input-group > .dropdown { flex: 1 0 100%; margin-bottom: 0.4rem; }
+    #browseFilter #mobileFilterButton { width: 100%; text-align: start; padding-top: 0.5rem !important; padding-bottom: 0.5rem !important; border-radius: var(--bs-border-radius-lg) !important; }
+    #browseFilter #filterTextBox { border-top-left-radius: var(--bs-border-radius-lg) !important; border-bottom-left-radius: var(--bs-border-radius-lg) !important; }
+    /* reset sits level with the sort button */
+    #browseSortButton ~ .filter { margin-top: 0.25rem; }
     #browseItems .item { width: 50%; padding-left: 0.45rem; padding-right: 0.45rem; margin-bottom: 1.75rem !important; }
     #browseItems .card-title { font-size: 0.95rem; }
     #browseItems .card-text strong { display: none; }
@@ -585,9 +591,10 @@ h2 > a.btn-outline-dark[href="#metadata"] {
 #nav-search { position: relative; }
 #nav-search .nav-search-icon { position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%); color: var(--museum-muted); pointer-events: none; }
 #nav-search-box { padding-left: 2.25rem; }
-/* phone menu: the search box already leads to the search page, so drop the duplicate link */
+/* phone menu: the search box already leads to the search page, so drop the duplicate link
+   (not the language link, which on the search page also ends in /search/) */
 @media (max-width: 991.98px) {
-    #page-nav .nav-link[href$="/search/"], #page-nav .nav-link[href$="/search.html"] { display: none; }
+    #page-nav .navbar-nav:not(.lang-switch) .nav-link[href$="/search/"], #page-nav .navbar-nav:not(.lang-switch) .nav-link[href$="/search.html"] { display: none; }
     #nav-search { margin: 0.5rem 0 0.75rem; }
 }
 
