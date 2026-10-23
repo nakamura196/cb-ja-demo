@@ -135,7 +135,7 @@
             thumbImg = getIcon(feature.properties.template,feature.properties.format,"thumb")
         }
         // set up popup content
-        var popupTemplate = '<h2 class="h4"><a class="text-dark" href="' + itemHref + '">' +
+        var popupTemplate = '<h2 class="h5"><a class="text-dark" href="' + itemHref + '">' +
             feature.properties.title + '</a></h2><div class="text-center"><a href="' + itemHref + 
             '" >' + thumbImg + '</a></div><p>';
         {% for f in fields %}{% if f.display_name %}
@@ -144,7 +144,8 @@
         }
         {% endif %}{% endfor %}
         popupTemplate += '</p><div class="text-center"><a class="btn btn-light" href="' + itemHref + '" >' + {{ t.view_item | default: "View Item" | jsonify }} + '</a></div>';
-        layer.bindPopup(popupTemplate);
+        // Leaflet sizes the popup to its content, which squeezed the title to a few characters per line; give it room
+        layer.bindPopup(popupTemplate, { minWidth: 240, maxWidth: 300 });
     }
     function objectMarkers(feature,latlng) {
         var marker = L.marker(latlng, {alt: feature.properties.title});
