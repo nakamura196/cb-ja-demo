@@ -18,7 +18,10 @@ if (new URLSearchParams(window.location.search).get('engine') === 'lunr') { sear
 /* cjk_index returns the store "id" of each hit; map it back to the store position */
 var storePosition = {};
 store.forEach(function (s, i) { storePosition[s.id] = i; });
-var cjkReady = searchEngine === "cjk" ? CJKIndex.load({{ '/assets/cjk-index/search.json' | relative_url | jsonify }}) : null;
+var cjkReady = searchEngine === "cjk" ? CJKIndex.load({{ '/assets/cjk-index/search.json' | relative_url | jsonify }}).then(function (cjkIdx) {
+    cjkFacets.attach('searchFacets', cjkIdx, lunr_search);
+    return cjkIdx;
+}) : null;
 var idx = searchEngine === "cjk" ? null : lunr(function () {
     /* uncomment the line below to turn off the default Lunr stopword list */
     //this.pipeline.remove(lunr.stopWordFilter)
@@ -37,9 +40,26 @@ var idx = searchEngine === "cjk" ? null : lunr(function () {
     }
 });
 
+{% if site.data.theme.search-cjk == true %}
+/* facets (cjk engine only) */
+{% include js/cjk-facets-js.html %}
+{% endif %}
+/* a blank query with no filter lists nothing; a blank query with a filter lists what passes it */
+function cjkResults (cjkIdx, filter) {
+    if (!searchbox.value.trim() && !Object.keys(filter).length) return null;
+    return cjkIdx.search(searchbox.value, { filter: filter });
+}
+
 /* search function */
 function lunr_search () {
-    if (cjkReady) { cjkReady.then(function (cjkIdx) { show_results(cjkIdx.search(searchbox.value).map(function (r) { return { ref: storePosition[r.ref] }; })); }); }
+    if (cjkReady) {
+        cjkReady.then(function (cjkIdx) {
+            var results = cjkResults(cjkIdx, cjkFacets.filter());
+            if (results) { show_results(results.map(function (r) { return { ref: storePosition[r.ref] }; })); }
+            else { resultsdiv.innerHTML = ""; }
+            cjkFacets.render(function (filter) { return cjkResults(cjkIdx, filter) || undefined; });
+        });
+    }
     /* basic search that supports operators */
     else { show_results(idx.search(searchbox.value)); }
 }
@@ -79,6 +99,9 @@ document.addEventListener('DOMContentLoaded', function(event) {
     var queryString = new URLSearchParams(window.location.search).get('q');
     if (queryString) {
         searchbox.value = queryString;
+        lunr_search();
+    } else if (cjkReady) {
+        /* show the facets before any query, so a list can start from them */
         lunr_search();
     }
 });
