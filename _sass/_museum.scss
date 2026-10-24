@@ -19,6 +19,9 @@
         :root { --museum-heading-font: var(--museum-sans); }   // sans headings
     Load the web fonts you need with `font-cdn` in _data/theme.yml
     (fonts not loaded fall back to the system fonts in each stack).
+    No font files ship with the theme. For the Latin defaults:
+        font-cdn: '<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400..700;1,400..700&family=Source+Serif+4:wght@400..700&display=swap" rel="stylesheet">'
+    For Japanese, Noto Serif JP and Noto Sans JP in the same way.
 */
 
 :root {
