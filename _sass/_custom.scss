@@ -3,7 +3,7 @@
     This allows you to override any CollectionBuilder or Bootstrap CSS without modifying the base theme files directly.
 */
 
-/* Museum theme (see _sass/_museum.scss for the variables you can override) */
+/* Museum theme (see _sass/_museum.scss in the cb-museum-theme gem for the variables you can override) */
 @use "museum";
-/* Modern look, dark mode and item-page layout on top of it (see _sass/_modern.scss) */
+/* Modern look, dark mode and item-page layout on top of it (see _sass/_modern.scss in the cb-museum-theme gem) */
 @use "modern";

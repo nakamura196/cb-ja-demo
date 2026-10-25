@@ -126,3 +126,6 @@ cjk_index:
   indexes:
     - name: search
       preset: collectionbuilder
+
+# modern / museum looks (cb-museum-theme gem; see its README)
+theme: cb-museum-theme
