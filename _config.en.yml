@@ -6,7 +6,7 @@
 # replace their default version (see _plugins/cb_i18n.rb).
 lang: en
 baseurl: /cb-ja-demo/en
-title: East Asian Materials at the University of Tokyo
+title: "CB Demo: East Asian Materials at the University of Tokyo"
 tagline: A CJK-ready CollectionBuilder demo
 description: "58 items (IIIF) from the University of Tokyo Digital Archives Portal: rare books from the Agricultural Library, the Annals of the Joseon Dynasty and the Ogura Collection, published with a CollectionBuilder adapted for Japanese, Chinese and Korean search and IIIF display."
 keywords: agriculture; botanical illustration; Annals of the Joseon Dynasty; Ogura Collection; hangul; IIIF; University of Tokyo
