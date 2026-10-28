@@ -30,7 +30,7 @@ languages:
     label: English
     baseurl: /cb-ja-demo/en
 # title of site appears in banner
-title: 東京大学の東アジア資料
+title: CB デモ：東京大学の東アジア資料
 # tagline, a short phrase that will appear throughout the site in the top banner
 tagline: CollectionBuilder 日中韓対応デモ
 # description appears in meta tags and other locations
